@@ -4,9 +4,12 @@ const express = require('express')
 const path = require('path')
 const fs = require('fs')
 const logger = require('morgan')
+const cors = require('cors')
 
 // 创建服务器
 const app = express()
+
+app.use(cors())
 
 // 初始化mongo数据库
 require('./db/mongo')(app)

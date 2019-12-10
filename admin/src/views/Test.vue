@@ -1,10 +1,10 @@
 <template>
-  <div>我是首页</div>
+  <div>测试{{$route.path}}</div>
 </template>
 
 <script>
 export default {
-  name: 'home'
+
 }
 </script>
 

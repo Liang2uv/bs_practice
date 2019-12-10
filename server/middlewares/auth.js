@@ -7,16 +7,16 @@ const { JWT_SECRECT } = require('../conf/secrect')
 const middlewareAuth = () => {
   return async (req, res, next) => {
     const token = String(req.headers.authorization || '').split(' ')[1]
-    assert(token, 401, { message: '请先登录' })
+    assert(token, 401, '请先登录')
     try {
       const { id } = jwt.verify(token, JWT_SECRECT)
-      assert(id, 401, { message: '请先登录' })
+      assert(id, 401, '请先登录')
       req.user = await AdminUser.findById(id)
-      assert(req.user, 401, { message: '请先登录' })
+      assert(req.user, 401, '请先登录')
+      await next()
     } catch (error) {
-      assert(false, 401, { message: error.message })
+      assert(false, 401, `请先登录(${error.message})`)
     }
-    next()
   }
 }
 
