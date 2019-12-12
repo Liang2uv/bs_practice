@@ -19,6 +19,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // 路由配置
+require('./routes/public/index')(app)
 require('./routes/admin/index')(app)
 require('./routes/web/index')(app)
 

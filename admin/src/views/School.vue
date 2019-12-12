@@ -1,8 +1,17 @@
 <template>
   <el-container>
-    <el-header class="d-flex ai-center jc-between border-bottom">
-      <h3>学校管理</h3>
-      <el-button @click="onAdd" type="primary">新增</el-button>
+    <el-header class="d-flex ai-center jc-between border-bottom" height="40px">
+      <div>
+        <el-input
+          size="mini"
+          placeholder="学校名称..."
+          suffix-icon="el-icon-search"
+          style="width: 200px;margin-right:20px;"
+          v-model="query.search"
+        ></el-input>
+        <el-button @click="onSearch" type="primary" size="mini">搜索</el-button>
+      </div>
+      <el-button @click="onAdd" type="primary" size="mini">新增</el-button>
     </el-header>
     <el-main>
       <!-- 表格 -->
@@ -17,9 +26,18 @@
           </template>
         </el-table-column>
       </el-table>
+      <div style="text-align:center;padding-top: 10px;">
+        <el-pagination small background layout="prev, pager, next, total" @current-change="pageChange" :total="total" :page-size="query.size" :current-page="query.page"></el-pagination>
+      </div>
     </el-main>
     <!-- 对话框 -->
-    <el-dialog title="详细信息" :visible.sync="dialogVisible" center :close-on-click-modal="false" @close="dialogClose">
+    <el-dialog
+      title="详细信息"
+      :visible.sync="dialogVisible"
+      center
+      :close-on-click-modal="false"
+      @close="dialogClose"
+    >
       <el-form :model="model" :rules="rules" ref="el-form" label-width="80px">
         <el-form-item prop="name" label="学校名称">
           <el-input v-model="model.name" />
@@ -53,14 +71,24 @@ export default {
         code: [
           {required: true, message: '请输入学校代码', trigger: 'blur'}
         ]
-      }
+      },
+      query: {
+        search: '',
+        page: 1,
+        size: 30,
+        key: 'name'
+      },
+      total: 0
     }
   },
   methods: {
     // 获取列表
     async getList(){
-      const [err, res] = await this.$store.dispatch('CrudList', { resource: this.resource })
-      if (!err) this.tableData = res
+      const [err, res] = await this.$store.dispatch('CrudList', { resource: this.resource, ...this.query })
+      if (!err) {
+        this.tableData = res.list
+        this.total = res.total
+      }
     },
     // 获取详情
     async getDetail(id) {
@@ -78,6 +106,9 @@ export default {
         const [err, res] = await this.$store.dispatch('CrudDelete', { resource: this.resource, id })
         if (!err) {
           this.$message.success('删除成功')
+          if (this.tableData.length === 1) {
+            this.query.page = this.query.page === 1 ? 1 : this.query.page - 1
+          }
           this.getList()
         }
       } catch (error) {
@@ -98,23 +129,31 @@ export default {
     },
     // 保存
     onSave() {
-      this.$refs['el-form'].validate((valid) => {
-        if (valid) {
-          this.$store.dispatch(this.model._id ? 'CrudUpdate' : 'CrudAdd', { resource: this.resource, data: this.model })
-            .then(res => {
-              this.$message.success('保存成功')
-              this.getList()
-              this.dialogVisible = false
-            })
-            .catch(() => {})
-        } else {
+      this.$refs['el-form'].validate(async (valid) => {
+        if (!valid) {
           return false
+        }
+        const [err, res] = await this.$store.dispatch(this.model._id ? 'CrudUpdate' : 'CrudAdd', { resource: this.resource, data: this.model })
+        if (!err) {
+          this.$message.success('保存成功')
+          this.getList()
+          this.dialogVisible = false
         }
       })
     },
     // 对话框关闭
     dialogClose() {
       this.$refs['el-form'].clearValidate()
+    },
+    // 页码改变
+    pageChange(val) {
+      this.query.page = val
+      this.getList()
+    },
+    // 搜索
+    onSearch() {
+      this.query.page=1
+      this.getList()
     }
   },
   created() {
@@ -122,7 +161,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.tableHeight = document.body.clientHeight - 60 - 60 - 40
+      this.tableHeight = document.body.clientHeight - 180
     })
   }
 }

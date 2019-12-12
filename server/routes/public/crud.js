@@ -16,15 +16,12 @@ router.put('/:id', async (req, res) => {
 })
 // 列表
 router.get('/', async (req, res) => {
-  // // populate()方法表示取出关联字段的文档
-  // const queryOptions = {}
-  // // 判断获取列表的时候是否需要关联查询
-  // if (req.Model.modelName === 'Category') {
-  //   queryOptions.populate = 'parent'
-  // }
-  // const models = await req.Model.find().setOptions(queryOptions).limit(100)
-  const models = await req.Model.find().limit(40)
-  res.send(models)
+  let { page = 1, size = 30, search = '', key = 'name' } = req.query
+  const total = await req.Model.find({ [key]: { $regex: search } }).countDocuments()
+  size = parseInt(size)
+  page = parseInt(page)
+  const list = await req.Model.find({ [key]: { $regex: search } }).skip(size * (page - 1)).limit(size)
+  res.send({ list, total })
 })
 // 获取单个
 router.get('/:id', async (req, res) => {
@@ -35,7 +32,7 @@ router.get('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   await req.Model.findByIdAndRemove(req.params.id)
   res.send({
-    status: true
+    message: '删除成功'
   })
 })
 

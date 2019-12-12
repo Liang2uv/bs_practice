@@ -6,11 +6,11 @@ import { Menu, Submenu, MenuItemGroup, MenuItem, Dropdown, DropdownItem, Dropdow
 // 表单
 import { Button, Input, Form, FormItem, Radio, RadioGroup, Select, Option } from 'element-ui'
 // 数据展示
-import { Table, TableColumn } from 'element-ui'
+import { Table, TableColumn, Pagination, Tree } from 'element-ui'
 // 交互
 import { Dialog, Message, Popconfirm, MessageBox } from 'element-ui'
 // 其他
-import { Icon, Avatar, Card } from 'element-ui'
+import { Icon, Avatar, Card, Tag } from 'element-ui'
 
 // 布局
 Vue.use(Container)
@@ -30,6 +30,8 @@ Vue.use(DropdownItem)
 // 数据展示
 Vue.use(Table)
 Vue.use(TableColumn)
+Vue.use(Pagination)
+Vue.use(Tree)
 
 // 表单
 Vue.use(Button)
@@ -51,3 +53,4 @@ Vue.prototype.$confirm = MessageBox.confirm
 Vue.use(Icon)
 Vue.use(Avatar)
 Vue.use(Card)
+Vue.use(Tag)

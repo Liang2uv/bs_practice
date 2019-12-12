@@ -11,16 +11,17 @@
         active-text-color="#13cc9e"
       >
         <el-menu-item index="/home">
-          <i class="el-icon-setting"></i>
+          <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>
         </el-menu-item>
         <el-submenu index="1">
           <template slot="title">
-            <i class="el-icon-message"></i>用户管理
+            <i class="el-icon-setting"></i>基础配置
           </template>
           <el-menu-item-group>
             <el-menu-item index="/adminUser">管理员</el-menu-item>
             <el-menu-item index="/school">学校管理</el-menu-item>
+            <el-menu-item index="/organization">组织架构</el-menu-item>
             <el-menu-item index="/test">学生管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -29,12 +30,6 @@
     <el-main>
       <div class="main-header d-flex jc-between bg-white-2 border-bottom ai-center px-4">
         <div class="flex-1">
-          <el-input
-            size="mini"
-            placeholder="输入你要搜索的内容"
-            suffix-icon="el-icon-search"
-            style="width: 200px;"
-          ></el-input>
         </div>
         <div class="d-flex ai-center">
           <el-avatar
@@ -43,7 +38,7 @@
           ></el-avatar>
           <el-dropdown trigger="click">
             <span class="el-dropdown-link">
-              欢迎您，梁冰
+              欢迎您，{{ userInfo.username }}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -66,8 +61,13 @@
 
 <script>
 import { clearToken } from '@/utils/auth.js'
+import { mapGetters } from 'vuex'
+
 export default {
   name: "layout",
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   methods: {
     onLoginOut() {
       clearToken()
