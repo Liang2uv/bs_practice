@@ -30,7 +30,7 @@ const login = async (phone, password) => {
  * @param {*} data 
  */
 const addUser = async data => {
-  if (AdminUser.find({ phone: data.phone }).countDocuments() > 0) {
+  if (await AdminUser.find({ phone: data.phone }).countDocuments() > 0) {
     assert(false, 422, '用户已被注册')
   }
   try {
@@ -62,7 +62,23 @@ const getUserInfo = async id => {
     },
     {
       $lookup: {
-        from: 'majors',
+        from: 'organizations',
+        localField: 'college',
+        foreignField: '_id',
+        as: 'collegeInfo'
+      }
+    },
+    {
+      $lookup: {
+        from: 'organizations',
+        localField: 'grade',
+        foreignField: '_id',
+        as: 'gradeInfo'
+      }
+    },
+    {
+      $lookup: {
+        from: 'organizations',
         localField: 'major',
         foreignField: '_id',
         as: 'majorInfo'
@@ -70,10 +86,10 @@ const getUserInfo = async id => {
     },
     {
       $lookup: {
-        from: 'stuclasses',
-        localField: 'stuClass',
+        from: 'organizations',
+        localField: 'class',
         foreignField: '_id',
-        as: 'stuClassInfo'
+        as: 'classInfo'
       }
     },
     {
@@ -88,10 +104,10 @@ const getUserInfo = async id => {
  */
 
 const getUserList = async query => {
-  let { page = 1, size = 30, search = '', key = 'username', role = '' } = query
+  let { page = 1, size = 30, search = '', key = 'username', role = '', school = '' } = query
   size = parseInt(size)
   page = parseInt(page)
-  const result = await AdminUser.aggregate([
+  const arr = [
     { $match: { [key]: { $regex: search }, role: { $regex: role } } },
     {
       $lookup: {
@@ -99,6 +115,38 @@ const getUserList = async query => {
         localField: 'school',
         foreignField: '_id',
         as: 'schoolInfo'
+      }
+    },
+    {
+      $lookup: {
+        from: 'organizations',
+        localField: 'college',
+        foreignField: '_id',
+        as: 'collegeInfo'
+      }
+    },
+    {
+      $lookup: {
+        from: 'organizations',
+        localField: 'grade',
+        foreignField: '_id',
+        as: 'gradeInfo'
+      }
+    },
+    {
+      $lookup: {
+        from: 'organizations',
+        localField: 'major',
+        foreignField: '_id',
+        as: 'majorInfo'
+      }
+    },
+    {
+      $lookup: {
+        from: 'organizations',
+        localField: 'class',
+        foreignField: '_id',
+        as: 'classInfo'
       }
     },
     {
@@ -116,7 +164,11 @@ const getUserList = async query => {
     {
       $project: { _id: 0 }
     }
-  ])
+  ]
+  if (school !== '') {
+    arr.splice(1, 0, {$match: { school: mongoose.Types.ObjectId(school) }})
+  }
+  const result = await AdminUser.aggregate(arr)
   return result[0] || { list: [], total: 0 }
 }
 

@@ -6,9 +6,9 @@ const assert = require('http-assert')
  * 获取学校的组织机构的树级列表
  */
 
-const getTreeList = async (school) => {
+const getTreeList = async (school, startLayer, endLayer) => {
   assert(school, 400, '请求参数错误')
-  return await getTree([], 1, 4, school, Organization)
+  return await getTree([], startLayer, endLayer, school, Organization)
 }
 
 /**

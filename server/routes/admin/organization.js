@@ -8,7 +8,8 @@ const router = express.Router()
 router.get('/', middlewareAuth(), async (req, res) => {
   // 获取树级列表
   if (req.query.type && req.query.type === 'tree') {
-    const result = await getTreeList(req.query.school)
+    const { school, startLayer = 1, endLayer = 4 } = req.query
+    const result = await getTreeList(school, startLayer, endLayer)
     res.send(result)
   } else {
     res.send([])

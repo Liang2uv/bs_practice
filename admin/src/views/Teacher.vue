@@ -19,10 +19,13 @@
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
         <el-table-column prop="username" label="姓名" align="center"></el-table-column>
         <el-table-column prop="role" label="角色" align="center"></el-table-column>
-        <el-table-column prop="schoolInfo.name" label="所属学校" align="center"></el-table-column>
+        <el-table-column prop="collegeInfo.name" label="所属学院" align="center"></el-table-column>
         <el-table-column prop="status" label="状态" align="center">
           <template slot-scope="scope">
-            <el-tag size="mini" :type="scope.row.status? 'success' : 'danger'">{{ scope.row.status?'正常':'停用' }}</el-tag>
+            <el-tag
+              size="mini"
+              :type="scope.row.status? 'success' : 'danger'"
+            >{{ scope.row.status?'正常':'停用' }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="150" align="center">
@@ -57,36 +60,23 @@
         <el-form-item prop="username" label="姓名">
           <el-input v-model="model.username" />
         </el-form-item>
+        <el-form-item prop="number" label="工号">
+          <el-input v-model="model.number" />
+        </el-form-item>
         <el-form-item prop="phone" label="手机号">
           <el-input v-model="model.phone" />
         </el-form-item>
         <el-form-item v-if="!model._id" prop="password" label="密码">
           <el-input type="password" v-model="model.password" />
         </el-form-item>
-        <el-form-item label="角色" prop="role">
-          <el-select v-model="model.role" placeholder="请选择角色">
-            <el-option label="学校管理员" value="admin"></el-option>
-            <el-option label="超级管理员" value="superadmin"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="所属学校" prop="school">
-          <el-select
-            v-model="model.school"
-            filterable
-            remote
-            :remote-method="getSchoolList"
-            :loading="selectLoading"
-            placeholder="请输入关键词搜索"
-          >
+        <el-form-item label="所属学院" prop="college">
+          <el-select v-model="model.college" filterable placeholder="请输入关键词搜索">
             <el-option
-              v-for="item in schoolList"
+              v-for="item in collegeList"
               :key="item._id"
               :label="item.name"
               :value="item._id"
-            >
-              <span style="float: left">{{ item.name }}</span>
-              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.code }}</span>
-            </el-option>
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item prop="status" label="状态">
@@ -106,26 +96,32 @@
 
 <script>
 export default {
-  name: 'adminUser',
+  name: 'teacher',
   data() {
     return {
       tableData: [],
       model: {},
       dialogVisible: false,
       tableHeight: 0,
-      schoolList: [],
+      collegeList: [],
       rules: {
         username: [
-          { required: true, message: '请输入管理员姓名', trigger: 'blur' }
+          { required: true, message: '请输入教师姓名', trigger: 'blur' }
         ],
         phone: [
           { required: true, message: '请输入手机号', trigger: 'blur' }
+        ],
+        number: [
+          { required: true, message: '请输入工号', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' }
         ],
         role: [
           { required: true, message: '请选择角色', trigger: 'blur' }
+        ],
+        college: [
+          { required: true, message: '请选择学院', trigger: 'blur' }
         ],
         status: [
           { required: true, message: '请选择状态', trigger: 'blur' }
@@ -135,19 +131,23 @@ export default {
         search: '',
         page: 1,
         size: 30,
-        role: 'admin'
+        role: 'teacher'
       },
-      total: 0,
-      selectLoading: false
+      total: 0
+    }
+  },
+  computed: {
+    school() {
+      return this.$store.getters.userInfo.school
     }
   },
   methods: {
     // 获取列表
     async getList(){
-      const [err, res] = await this.$store.dispatch('GetUserList', this.query)
+      const [err, res] = await this.$store.dispatch('GetUserList', { school: this.school, ...this.query })
       if (!err) {
         this.tableData = res.list.map(item => {
-          item.schoolInfo=item.schoolInfo[0]?item.schoolInfo[0]:{}
+          item.collegeInfo=item.collegeInfo[0]?item.collegeInfo[0]:{}
           return item
         })
         this.total = res.total
@@ -182,7 +182,6 @@ export default {
       const res = await this.getDetail(id)
       if (res) {
         this.model = Object.assign({}, this.model, res)
-        this.schoolList = res.schoolInfo
         this.dialogVisible = true
       }
     },
@@ -197,6 +196,8 @@ export default {
         if (!valid) {
           return false
         }
+        this.model.role = 'teacher'
+        this.model.school = this.school
         const [err, res] = await this.$store.dispatch(this.model._id ? 'UpdateUser' : 'AddUser', this.model)
         if (!err) {
           this.$message.success('保存成功')
@@ -209,15 +210,13 @@ export default {
     dialogClose() {
       this.$refs['el-form'].clearValidate()
     },
-    // 获取学校列表
-    async getSchoolList(search) {
+    // 获取学院列表
+    async getCollegeList(search) {
       if (search !== '') {
-        this.selectLoading = true
-        const [err, res] = await this.$store.dispatch('CrudList', { resource: 'schools', search })
-        if (!err) this.schoolList = res.list
-        this.selectLoading = false
+        const [err, res] = await this.$store.dispatch('GetOrganList', { school: this.school, startLayer: 1, endLayer: 1, type: "tree" })
+        if (!err) this.collegeList = res
       } else {
-        this.schoolList = []
+        this.collegeList = []
       }
     },
     // 页码改变
@@ -249,6 +248,7 @@ export default {
   },
   created() {
     this.getList()
+    this.getCollegeList()
   },
   mounted() {
     this.$nextTick(() => {

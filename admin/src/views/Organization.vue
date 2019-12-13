@@ -65,7 +65,7 @@ export default {
   methods: {
     // 获取树级列表
     async getTreeList() {
-      const [err, res] = await this.$store.dispatch("GetOrganList", { school: this.schoolId })
+      const [err, res] = await this.$store.dispatch("GetOrganList", { school: this.schoolId, type: "tree" })
       if (!err) {
         this.treeData = res
       }

@@ -22,7 +22,9 @@
             <el-menu-item index="/adminUser">管理员</el-menu-item>
             <el-menu-item index="/school">学校管理</el-menu-item>
             <el-menu-item index="/organization">组织架构</el-menu-item>
-            <el-menu-item index="/test">学生管理</el-menu-item>
+            <el-menu-item index="/teacher">教师管理</el-menu-item>
+            <el-menu-item index="/student">学生管理</el-menu-item>
+            <el-menu-item index="/test">测试</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>

@@ -6,8 +6,8 @@ export function loginByPhone(data) {
 }
 
 // 获取用户列表
-export function getUserList({ page = 1, size = 30, search = '', role }) {
-  return request.get(`/admin/adminUsers?page=${page}&size=${size}&search=${search}&role=${role}`)
+export function getUserList(data) {
+  return request.get('/admin/adminUsers', { params: data})
 }
 
 // 根据token获取用户信息

@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
 // 获取树级列表
-export function getTreeList({ school }) {
-  return request.get(`/admin/organizations?type=tree&school=${school}`)
+export function getTreeList(data) {
+  return request.get(`/admin/organizations`, {params: data})
 }
 
 // 获取单个

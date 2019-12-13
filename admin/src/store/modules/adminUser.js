@@ -48,8 +48,8 @@ const adminUser = {
       })
     },
     // 获取用户列表
-    GetUserList({ commit }, data) {
-      return getUserList(data).then(res => {
+    GetUserList({ commit }, { page = 1, size = 30, search = '', role, key = 'username', school = ''}) {
+      return getUserList({page, size, search, role, key, school}).then(res => {
         return [null, res]
       }).catch(err => {
         return [err]

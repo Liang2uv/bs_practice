@@ -42,7 +42,7 @@ const schema = new mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'Organization'
   },
-  college: { // 年级
+  grade: { // 年级
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'Organization'
   },
@@ -50,7 +50,7 @@ const schema = new mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'Organization'
   },
-  stuClass: { // 班级
+  class: { // 班级
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'Organization'
   }
