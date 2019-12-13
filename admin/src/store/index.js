@@ -5,13 +5,15 @@ import getters from './getters'
 // 引入store模块
 import adminUser from './modules/adminUser'
 import crud from './modules/crud'
+import organization from './modules/organization'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
     adminUser,
-    crud
+    crud,
+    organization
   },
   getters
 })

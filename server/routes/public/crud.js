@@ -17,11 +17,27 @@ router.put('/:id', async (req, res) => {
 // 列表
 router.get('/', async (req, res) => {
   let { page = 1, size = 30, search = '', key = 'name' } = req.query
-  const total = await req.Model.find({ [key]: { $regex: search } }).countDocuments()
   size = parseInt(size)
   page = parseInt(page)
-  const list = await req.Model.find({ [key]: { $regex: search } }).skip(size * (page - 1)).limit(size)
-  res.send({ list, total })
+  const result = await req.Model.aggregate([
+    { $match: { [key]: { $regex: search } } },
+    {
+      $group: {
+        _id: null,
+        list: { $push: "$$ROOT" },
+        total: { $sum: 1 }
+      }
+    },
+    {
+      $addFields: {
+        list: { $slice: ['$list', size * (page - 1), size] }
+      }
+    },
+    {
+      $project: { _id: 0 }
+    }
+  ])
+  res.send(result[0] || { list: [], total: 0 })
 })
 // 获取单个
 router.get('/:id', async (req, res) => {

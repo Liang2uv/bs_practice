@@ -40,15 +40,19 @@ const schema = new mongoose.Schema({
   },
   college: { // 学院
     type: mongoose.SchemaTypes.ObjectId,
-    ref: 'College'
+    ref: 'Organization'
+  },
+  college: { // 年级
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Organization'
   },
   major: { // 专业
     type: mongoose.SchemaTypes.ObjectId,
-    ref: 'Major'
+    ref: 'Organization'
   },
   stuClass: { // 班级
     type: mongoose.SchemaTypes.ObjectId,
-    ref: 'StuClass'
+    ref: 'Organization'
   }
 })
 

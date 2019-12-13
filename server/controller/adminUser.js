@@ -30,6 +30,9 @@ const login = async (phone, password) => {
  * @param {*} data 
  */
 const addUser = async data => {
+  if (AdminUser.find({ phone: data.phone }).countDocuments() > 0) {
+    assert(false, 422, '用户已被注册')
+  }
   try {
     const user = await AdminUser.create(data)
     return await getUserInfo(user._id)
@@ -85,22 +88,36 @@ const getUserInfo = async id => {
  */
 
 const getUserList = async query => {
-  let { page = 1, size = 30, search = '', role } = query
-  const queryOptions = {}
-  if (role === 'admin' || role === 'superadmin') {
-    queryOptions.populate = 'school'
-  } else if (role === 'teacher') {
-    queryOptions.populate = 'school college'
-  } else if (role === 'student') {
-    queryOptions.populate = 'school college stuClass'
-  } else {
-    assert(false, 400, `请求参数错误`)
-  }
-  const total = await AdminUser.find({ username: { $regex: search } }).countDocuments()
+  let { page = 1, size = 30, search = '', key = 'username', role = '' } = query
   size = parseInt(size)
   page = parseInt(page)
-  const list = await AdminUser.find({ username: { $regex: search }, role }).setOptions(queryOptions).skip(size * (page - 1)).limit(size)
-  return { list, total }
+  const result = await AdminUser.aggregate([
+    { $match: { [key]: { $regex: search }, role: { $regex: role } } },
+    {
+      $lookup: {
+        from: 'schools',
+        localField: 'school',
+        foreignField: '_id',
+        as: 'schoolInfo'
+      }
+    },
+    {
+      $group: {
+        _id: null,
+        list: { $push: "$$ROOT" },
+        total: { $sum: 1 }
+      }
+    },
+    {
+      $addFields: {
+        list: { $slice: ['$list', size * (page - 1), size] }
+      }
+    },
+    {
+      $project: { _id: 0 }
+    }
+  ])
+  return result[0] || { list: [], total: 0 }
 }
 
 /**

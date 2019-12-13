@@ -1,10 +1,21 @@
 <template>
   <el-container>
     <el-header class="d-flex ai-center jc-between border-bottom" height="40px">
-      <el-button @click="onAdd('college')" type="primary" size="mini">添加学院</el-button>
+      <el-button @click="onAdd('college', 1, null, '添加院（系）')" type="primary" size="mini">添加院（系）</el-button>
     </el-header>
     <el-main>
-      <el-tree ref="eltree" node-key="_id" :props="props" :load="loadNode" lazy></el-tree>
+      <el-tree node-key="_id" :props="props" :data="treeData" :expand-on-click-node="false" default-expand-all>
+        <span class="custom-tree-node" slot-scope="{ node, data }">
+          <span>{{ node.label }}</span>
+          <span>
+            <el-button v-if="data.type === 'college'" type="text" size="mini" @click="onAdd('grade', 2, node, '添加年级')">添加年级</el-button>
+            <el-button v-if="data.type === 'grade'" type="text" size="mini" @click="onAdd('major', 3, node, '添加专业')">添加专业</el-button>
+            <el-button v-if="data.type === 'major'" type="text" size="mini" @click="onAdd('class', 4, node, '添加班级')">添加班级</el-button>
+            <el-button type="text" size="mini" @click="onEdit(data)">修改</el-button>
+            <el-button type="text" size="mini" @click="onDelete(data._id)">删除</el-button>
+          </span>
+        </span>
+      </el-tree>
     </el-main>
     <el-dialog
       :title="dialogTitle"
@@ -33,9 +44,9 @@ export default {
     return {
       props: {
         label: 'name',
-        children: 'zones',
-        isLeaf: 'leaf'
+        children: 'children'
       },
+      treeData: [],
       dialogTitle: '',
       dialogVisible: false,
       model: {},
@@ -52,41 +63,53 @@ export default {
     }
   },
   methods: {
-    async loadNode(node, resolve) {
-      if (node.level === 0) {
-        const list = await this.getNodeList(this.schoolId)
-        return resolve(list);
-      }
-      if (node.data.type === 'class') return resolve([])
-      const list = await this.getNodeList(node.data._id)
-      resolve(list)
-    },
-    // 获取某个节点的列表
-    async getNodeList(pid) {
-      const [err, res] = await this.$store.dispatch('CrudList', { resource: 'organizations', key: 'pid', search: pid })
+    // 获取树级列表
+    async getTreeList() {
+      const [err, res] = await this.$store.dispatch("GetOrganList", { school: this.schoolId })
       if (!err) {
-        return res.list
-      } else {
-        return []
+        this.treeData = res
       }
     },
     // 添加
-    onAdd(type) {
+    onAdd(type, layer, node, title) {
       this.model = {}
       this.model.type = type
+      this.model.layer = layer
+      this.dialogTitle = title
+      if (this.model.type === 'college') {
+        this.model.pid = this.schoolId
+        this.model.path = `,${this.schoolId},`
+      } else {
+        this.model.pid = node.data._id
+        this.model.path = node.data.path + node.data._id + ','
+      }
       this.dialogVisible = true
+    },
+    // 删除
+    async onDelete(id) {
+      try {
+        await this.$confirm('将会删除这条数据和它的下级, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+        const [err, res] = await this.$store.dispatch('DeleteOrgan', { id })
+        if (!err) {
+          this.$message.success('删除成功')
+          this.getTreeList()
+        }
+      } catch (error) {
+      }
     },
     // 对话框关闭
     dialogClose() {
       this.$refs['el-form'].clearValidate()
     },
     // 编辑
-    async onEdit(id) {
-      const res = await this.getDetail(id)
-      if (res) {
-        this.model = Object.assign({}, this.model, res)
-        this.dialogVisible = true
-      }
+    async onEdit(data) {
+      this.dialogTitle = '修改信息'
+      this.model = Object.assign({}, this.model, data)
+      this.dialogVisible = true
     },
     // 保存
     onSave() {
@@ -94,26 +117,29 @@ export default {
         if (!valid) {
           return false
         }
-        if (this.model.type === 'college') {
-          this.model.pid = this.schoolId
+        delete this.model.children
+        const [err, res] = await this.$store.dispatch(this.model._id ? 'UpdateOrgan' : 'AddOrgan', this.model)
+        if (!err) {
+          this.$message.success('保存成功')
+          this.dialogVisible = false
+          this.getTreeList()
         }
-        const node = this.$refs.eltree.getNode('5df219b2aa21830f23a9a434')
-        // this.$refs.eltree.insertAfter({name: '呵呵'}, null)
-        // console.log(node);
-        // console.log(this.$refs.eltree);
-        // node.insertAfter({name: '呵呵', _id: '421477773', type: 'college'})
-        // this.$refs.eltree.insertAfter({name: '呵呵', _id: '421477773', type: 'college'}, node)
-        // this.dialogVisible = false
-        // const [err, res] = await this.$store.dispatch(this.model._id ? 'CrudUpdate' : 'CrudAdd', { resource: this.resource, data: this.model })
-        // if (!err) {
-        //   this.$message.success('保存成功')
-        //   this.dialogVisible = false
-        // }
       })
     }
+  },
+  created() {
+    this.getTreeList()
   }
 }
 </script>
 
 <style>
+.custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
+}
 </style>

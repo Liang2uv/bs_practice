@@ -19,7 +19,7 @@
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
         <el-table-column prop="username" label="姓名" align="center"></el-table-column>
         <el-table-column prop="role" label="角色" align="center"></el-table-column>
-        <el-table-column prop="school.name" label="所属学校" align="center"></el-table-column>
+        <el-table-column prop="schoolInfo.name" label="所属学校" align="center"></el-table-column>
         <el-table-column prop="status" label="状态" align="center">
           <template slot-scope="scope">
             <el-tag size="mini" :type="scope.row.status? 'success' : 'danger'">{{ scope.row.status?'正常':'停用' }}</el-tag>
@@ -146,7 +146,10 @@ export default {
     async getList(){
       const [err, res] = await this.$store.dispatch('GetUserList', this.query)
       if (!err) {
-        this.tableData = res.list
+        this.tableData = res.list.map(item => {
+          item.schoolInfo=item.schoolInfo[0]?item.schoolInfo[0]:{}
+          return item
+        })
         this.total = res.total
       }
     },
