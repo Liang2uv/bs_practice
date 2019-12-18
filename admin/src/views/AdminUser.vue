@@ -135,7 +135,8 @@ export default {
         search: '',
         page: 1,
         size: 30,
-        role: 'admin'
+        role: 'admin',
+        key: 'username'
       },
       total: 0,
       selectLoading: false

@@ -8,9 +8,13 @@ const router = express.Router()
 router.get('/', middlewareAuth(), async (req, res) => {
   // 获取树级列表
   if (req.query.type && req.query.type === 'tree') {
-    const { school, startLayer = 1, endLayer = 4 } = req.query
-    const result = await getTreeList(school, startLayer, endLayer)
-    res.send(result)
+    if (req.user.role !== 'superadmin') {
+      const { startLayer = 1, endLayer = 4 } = req.query
+      const result = await getTreeList(req.user.school.toString(), startLayer, endLayer)
+      res.send(result)
+    } else {
+      res.send([])
+    }
   } else {
     res.send([])
   }
@@ -18,7 +22,8 @@ router.get('/', middlewareAuth(), async (req, res) => {
 
 // 获取详情
 router.get('/:id', middlewareAuth(), async (req, res) => {
-  return await getOrgan(req.params.id)
+  const model = await getOrgan(req.params.id)
+  res.send(model)
 })
 
 // 添加

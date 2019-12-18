@@ -15,7 +15,11 @@ router.post('/login', async (req, res) => {
 
 // 获取用户列表（管理员、教师、学生）
 router.get('/', middlewareAuth(), async (req, res) => {
-  const result = await getUserList(req.query)
+  const params = {}
+  if (req.user.role !== 'superadmin') {
+    params.school = req.user.school.toString()
+  }
+  const result = await getUserList({ ...params ,...req.query })
   if (result) {
     res.send(result)
   }
@@ -24,7 +28,7 @@ router.get('/', middlewareAuth(), async (req, res) => {
 // 获取用户信息
 router.get('/:id', middlewareAuth(), async (req, res) => {
   let user = {}
-  if (req.query.self) { // 根据token获取信息（用户获取自身详细信息）
+  if (req.params.id === 'undefined') { // 根据token获取信息（用户获取自身详细信息）
     user = await getUserInfo(req.user._id)
   }else { // 根据id获取用户信息（用于获取别人的详细信息）
     user = await getUserInfo(req.params.id)

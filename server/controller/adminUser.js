@@ -31,7 +31,7 @@ const login = async (phone, password) => {
  */
 const addUser = async data => {
   if (await AdminUser.find({ phone: data.phone }).countDocuments() > 0) {
-    assert(false, 422, '用户已被注册')
+    assert(false, 422, '手机号已被注册')
   }
   try {
     const user = await AdminUser.create(data)
@@ -104,7 +104,7 @@ const getUserInfo = async id => {
  */
 
 const getUserList = async query => {
-  let { page = 1, size = 30, search = '', key = 'username', role = '', school = '' } = query
+  let { page = 1, size = 30, search = '', key = 'username', role = '', school } = query
   size = parseInt(size)
   page = parseInt(page)
   const arr = [
@@ -150,6 +150,9 @@ const getUserList = async query => {
       }
     },
     {
+      $project: { password: 0 }
+    },
+    {
       $group: {
         _id: null,
         list: { $push: "$$ROOT" },
@@ -165,8 +168,8 @@ const getUserList = async query => {
       $project: { _id: 0 }
     }
   ]
-  if (school !== '') {
-    arr.splice(1, 0, {$match: { school: mongoose.Types.ObjectId(school) }})
+  if (school) {
+    arr.splice(1, 0, { $match: { school: mongoose.Types.ObjectId(school) } })
   }
   const result = await AdminUser.aggregate(arr)
   return result[0] || { list: [], total: 0 }
@@ -176,15 +179,27 @@ const getUserList = async query => {
  * 更新用户信息
  */
 const updateUser = async (id, data) => {
-  return await AdminUser.findByIdAndUpdate(id, data)
+  if (await AdminUser.find({ phone: data.phone }).countDocuments() > 0) {
+    assert(false, 422, '手机号已被注册')
+  }
+  try {
+    const user = await AdminUser.findByIdAndUpdate(id, data)
+    return await getUserInfo(user._id)
+  } catch (ex) {
+    assert(false, 422, `请求出错`)
+  }
 }
 
 /**
  * 删除用户
  */
 const deleteUser = async id => {
-  await AdminUser.findByIdAndRemove(id)
-  return true
+  try {
+    await AdminUser.findByIdAndRemove(id)
+    return true
+  } catch (error) {
+    assert(false, 422, '删除失败')
+  }
 }
 
 module.exports = {

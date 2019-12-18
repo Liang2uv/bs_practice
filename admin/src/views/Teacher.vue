@@ -131,7 +131,8 @@ export default {
         search: '',
         page: 1,
         size: 30,
-        role: 'teacher'
+        role: 'teacher',
+        key: 'username'
       },
       total: 0
     }
@@ -144,7 +145,7 @@ export default {
   methods: {
     // 获取列表
     async getList(){
-      const [err, res] = await this.$store.dispatch('GetUserList', { school: this.school, ...this.query })
+      const [err, res] = await this.$store.dispatch('GetUserList', this.query)
       if (!err) {
         this.tableData = res.list.map(item => {
           item.collegeInfo=item.collegeInfo[0]?item.collegeInfo[0]:{}
@@ -213,7 +214,7 @@ export default {
     // 获取学院列表
     async getCollegeList(search) {
       if (search !== '') {
-        const [err, res] = await this.$store.dispatch('GetOrganList', { school: this.school, startLayer: 1, endLayer: 1, type: "tree" })
+        const [err, res] = await this.$store.dispatch('GetOrganList', { startLayer: 1, endLayer: 1, type: "tree" })
         if (!err) this.collegeList = res
       } else {
         this.collegeList = []

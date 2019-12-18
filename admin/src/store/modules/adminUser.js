@@ -1,5 +1,5 @@
 import { getToken, setToken } from '../../utils/auth'
-import { loginByPhone, getUserInfoByToken, getUserList, getUserInfoById, addUser, updateUser, deleteUser } from 'api/adminUser'
+import { loginByPhone, getUserList, getUserInfo, addUser, updateUser, deleteUser } from 'api/adminUser'
 
 const adminUser = {
   state: {
@@ -32,7 +32,7 @@ const adminUser = {
     },
     // 根据token获取用户信息
     GetUserInfoByToken({ commit }) {
-      return getUserInfoByToken().then(res => {
+      return getUserInfo({}).then(res => {
         commit('SET_USERINFO', res)
         return [null, res]
       }).catch(err => {
@@ -41,15 +41,15 @@ const adminUser = {
     },
     // 根据id获取用户信息
     GetUserInfoById({ commit }, data) {
-      return getUserInfoById(data).then(res => {
+      return getUserInfo(data).then(res => {
         return [null, res]
       }).catch(err => {
         return [err]
       })
     },
     // 获取用户列表
-    GetUserList({ commit }, { page = 1, size = 30, search = '', role, key = 'username', school = ''}) {
-      return getUserList({page, size, search, role, key, school}).then(res => {
+    GetUserList({ commit }, { page = 1, size = 30, search = '', role, key = 'username'}) {
+      return getUserList({page, size, search, role, key}).then(res => {
         return [null, res]
       }).catch(err => {
         return [err]

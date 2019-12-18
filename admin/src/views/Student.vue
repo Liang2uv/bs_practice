@@ -127,7 +127,8 @@ export default {
         search: '',
         page: 1,
         size: 30,
-        role: 'student'
+        role: 'student',
+        key: 'username'
       },
       total: 0,
       selectProps: {
@@ -144,7 +145,7 @@ export default {
   methods: {
     // 获取列表
     async getList(){
-      const [err, res] = await this.$store.dispatch('GetUserList', { school: this.school, ...this.query })
+      const [err, res] = await this.$store.dispatch('GetUserList', this.query)
       if (!err) {
         this.tableData = res.list.map(item => {
           item.collegeInfo=item.collegeInfo[0]?item.collegeInfo[0]:{}
@@ -238,7 +239,7 @@ export default {
     // 获取班级列表
     async getSelectList(search) {
       if (search !== '') {
-        const [err, res] = await this.$store.dispatch('GetOrganList', { school: this.school, type: "tree" })
+        const [err, res] = await this.$store.dispatch('GetOrganList', { type: "tree" })
         if (!err) this.selectList = res
       } else {
         this.selectList = []
