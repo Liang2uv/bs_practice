@@ -46,57 +46,28 @@ const addUser = async data => {
  */
 
 const getUserInfo = async id => {
-  const result = await AdminUser.aggregate([
-    {
-      $match: {
-        _id: mongoose.Types.ObjectId(id)
-      }
-    },
-    {
-      $lookup: {
-        from: 'schools',
-        localField: 'school',
-        foreignField: '_id',
-        as: 'schoolInfo'
-      }
-    },
-    {
-      $lookup: {
-        from: 'organizations',
-        localField: 'college',
-        foreignField: '_id',
-        as: 'collegeInfo'
-      }
-    },
-    {
-      $lookup: {
-        from: 'organizations',
-        localField: 'grade',
-        foreignField: '_id',
-        as: 'gradeInfo'
-      }
-    },
-    {
-      $lookup: {
-        from: 'organizations',
-        localField: 'major',
-        foreignField: '_id',
-        as: 'majorInfo'
-      }
-    },
-    {
-      $lookup: {
-        from: 'organizations',
-        localField: 'class',
-        foreignField: '_id',
-        as: 'classInfo'
-      }
-    },
-    {
-      $project: { password: 0 }
-    }
-  ])
-  return result[0] || {}
+  const result = await AdminUser.findById(id).populate('school college grade major class').lean()
+  if (result.school) {
+    result.schoolInfo = result.school
+    result.school = result.schoolInfo._id
+  }
+  if (result.college) {
+    result.collegeInfo = result.college
+    result.college = result.collegeInfo._id
+  }
+  if (result.grade) {
+    result.gradeInfo = result.grade
+    result.grade = result.gradeInfo._id
+  }
+  if (result.major) {
+    result.majorInfo = result.major
+    result.major = result.majorInfo._id
+  }
+  if (result.class) {
+    result.classInfo = result.class
+    result.class = result.classInfo._id
+  }
+  return result
 }
 
 /**
@@ -107,79 +78,43 @@ const getUserList = async query => {
   let { page = 1, size = 30, search = '', key = 'username', role = '', school } = query
   size = parseInt(size)
   page = parseInt(page)
-  const arr = [
-    { $match: { [key]: { $regex: search }, role: { $regex: role } } },
-    {
-      $lookup: {
-        from: 'schools',
-        localField: 'school',
-        foreignField: '_id',
-        as: 'schoolInfo'
-      }
-    },
-    {
-      $lookup: {
-        from: 'organizations',
-        localField: 'college',
-        foreignField: '_id',
-        as: 'collegeInfo'
-      }
-    },
-    {
-      $lookup: {
-        from: 'organizations',
-        localField: 'grade',
-        foreignField: '_id',
-        as: 'gradeInfo'
-      }
-    },
-    {
-      $lookup: {
-        from: 'organizations',
-        localField: 'major',
-        foreignField: '_id',
-        as: 'majorInfo'
-      }
-    },
-    {
-      $lookup: {
-        from: 'organizations',
-        localField: 'class',
-        foreignField: '_id',
-        as: 'classInfo'
-      }
-    },
-    {
-      $project: { password: 0 }
-    },
-    {
-      $group: {
-        _id: null,
-        list: { $push: "$$ROOT" },
-        total: { $sum: 1 }
-      }
-    },
-    {
-      $addFields: {
-        list: { $slice: ['$list', size * (page - 1), size] }
-      }
-    },
-    {
-      $project: { _id: 0 }
-    }
-  ]
+  const whereOptions = { [key]: { $regex: search }, role: { $regex: role } }
   if (school) {
-    arr.splice(1, 0, { $match: { school: mongoose.Types.ObjectId(school) } })
+    whereOptions.school = mongoose.Types.ObjectId(school)
   }
-  const result = await AdminUser.aggregate(arr)
-  return result[0] || { list: [], total: 0 }
+  const total = await AdminUser.find().where(whereOptions).countDocuments()
+  const list = await AdminUser.find().where(whereOptions).populate('school college grade major class').skip(size * (page - 1)).limit(size).lean()
+  list.forEach(item => {
+    if (item.school) {
+      item.schoolInfo = item.school
+      item.school = item.schoolInfo._id
+    }
+    if (item.college) {
+      item.collegeInfo = item.college
+      item.college = item.collegeInfo._id
+    }
+    if (item.grade) {
+      item.gradeInfo = item.grade
+      item.grade = item.gradeInfo._id
+    }
+    if (item.major) {
+      item.majorInfo = item.major
+      item.major = item.majorInfo._id
+    }
+    if (item.class) {
+      item.classInfo = item.class
+      item.class = item.classInfo._id
+    }
+  })
+  const result = { total, list }
+  return { total, list }
 }
 
 /**
  * 更新用户信息
  */
 const updateUser = async (id, data) => {
-  if (await AdminUser.find({ phone: data.phone }).countDocuments() > 0) {
+  if (await AdminUser.find({ phone: data.phone, _id: { $ne: mongoose.Types.ObjectId(id) } }).countDocuments() > 0) {
     assert(false, 422, '手机号已被注册')
   }
   try {

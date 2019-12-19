@@ -106,7 +106,7 @@
 
 <script>
 export default {
-  name: 'adminUser',
+  name: 'admin-user',
   data() {
     return {
       tableData: [],
@@ -147,10 +147,7 @@ export default {
     async getList(){
       const [err, res] = await this.$store.dispatch('GetUserList', this.query)
       if (!err) {
-        this.tableData = res.list.map(item => {
-          item.schoolInfo=item.schoolInfo[0]?item.schoolInfo[0]:{}
-          return item
-        })
+        this.tableData = res.list
         this.total = res.total
       }
     },

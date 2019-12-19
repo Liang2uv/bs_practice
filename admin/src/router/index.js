@@ -28,8 +28,8 @@ const routes = [
         component: () => import('views/Home.vue')
       },
       {
-        path: '/adminUser',
-        name: 'adminUser',
+        path: '/admin-user',
+        name: 'admin-user',
         component: () => import('views/AdminUser.vue')
       },
       {
@@ -51,6 +51,26 @@ const routes = [
         path: '/organization',
         name: 'organization',
         component: () => import('views/Organization.vue')
+      },
+      {
+        path: '/main-plan',
+        name: 'main-plan',
+        component: () => import('views/MainPlan.vue')
+      },
+      {
+        path: '/practice-files',
+        name: 'practice-files',
+        component: () => import('views/PracticeFiles.vue')
+      },
+      {
+        path: '/profile',
+        name: 'profile',
+        component: () => import('views/Profile.vue')
+      },
+      {
+        path: '/update-pwd',
+        name: 'update-pwd',
+        component: () => import('views/UpdatePwd.vue')
       },
       {
         path: '/test',

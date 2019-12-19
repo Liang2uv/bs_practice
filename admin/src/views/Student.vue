@@ -147,13 +147,7 @@ export default {
     async getList(){
       const [err, res] = await this.$store.dispatch('GetUserList', this.query)
       if (!err) {
-        this.tableData = res.list.map(item => {
-          item.collegeInfo=item.collegeInfo[0]?item.collegeInfo[0]:{}
-          item.gradeInfo=item.gradeInfo[0]?item.gradeInfo[0]:{}
-          item.majorInfo=item.majorInfo[0]?item.majorInfo[0]:{}
-          item.classInfo=item.classInfo[0]?item.classInfo[0]:{}
-          return item
-        })
+        this.tableData = res.list
         this.total = res.total
       }
     },

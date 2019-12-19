@@ -4,7 +4,7 @@ import { Container, Aside, Main, Header } from 'element-ui'
 // 导航
 import { Menu, Submenu, MenuItemGroup, MenuItem, Dropdown, DropdownItem, DropdownMenu } from 'element-ui'
 // 表单
-import { Button, Input, Form, FormItem, Radio, RadioGroup, Select, Option, Cascader } from 'element-ui'
+import { Button, Input, Form, FormItem, Radio, RadioGroup, Select, Option, Cascader, Upload, DatePicker, InputNumber } from 'element-ui'
 // 数据展示
 import { Table, TableColumn, Pagination, Tree } from 'element-ui'
 // 交互
@@ -43,6 +43,9 @@ Vue.use(RadioGroup)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Cascader)
+Vue.use(Upload)
+Vue.use(DatePicker)
+Vue.use(InputNumber)
 
 // 交互
 Vue.use(Dialog)

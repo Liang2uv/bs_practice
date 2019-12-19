@@ -16,15 +16,33 @@
         </el-menu-item>
         <el-submenu index="1">
           <template slot="title">
+            <i class="el-icon-eleme"></i>实习配置
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="/practice-files">实习材料</el-menu-item>
+            <el-menu-item index="/main-plan">实习计划</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="2">
+          <template slot="title">
             <i class="el-icon-setting"></i>基础配置
           </template>
           <el-menu-item-group>
-            <el-menu-item index="/adminUser">管理员</el-menu-item>
+            <el-menu-item index="/admin-user">管理员</el-menu-item>
             <el-menu-item index="/school">学校管理</el-menu-item>
             <el-menu-item index="/organization">组织架构</el-menu-item>
             <el-menu-item index="/teacher">教师管理</el-menu-item>
             <el-menu-item index="/student">学生管理</el-menu-item>
             <el-menu-item index="/test">测试</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="3">
+          <template slot="title">
+            <i class="el-icon-user"></i>个人中心
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="/profile">修改信息</el-menu-item>
+            <el-menu-item index="/update-pwd">修改密码</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -48,7 +66,7 @@
                 <span style="display:block;" @click="onLoginOut">退出登录</span>
               </el-dropdown-item>
               <el-dropdown-item>
-                <span style="display:block;">修改资料</span>
+                <router-link tag="span" to="/profile" style="display:block;">修改资料</router-link>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>

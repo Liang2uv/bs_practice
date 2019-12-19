@@ -1,9 +1,9 @@
 const expresss = require('express')
+const mongoose = require('mongoose')
 
 const router = expresss.Router({
   mergeParams: true // 合并参数
 })
-
 // 添加
 router.post('/', async (req, res) => {
   const model = await req.Model.create(req.body)
@@ -19,7 +19,8 @@ router.get('/', async (req, res) => {
   let { page = 1, size = 30, search = '', key = 'name' } = req.query
   size = parseInt(size)
   page = parseInt(page)
-  const result = await req.Model.aggregate([
+  // 查询聚合管道
+  const queryArr = [
     { $match: { [key]: { $regex: search } } },
     {
       $group: {
@@ -36,7 +37,14 @@ router.get('/', async (req, res) => {
     {
       $project: { _id: 0 }
     }
-  ])
+  ]
+  // 特列，按学校筛选
+  const white = ['MainPlan']
+  if (req.user.role !== 'superadmin' && white.includes(req.Model.modelName)) {
+    queryArr.splice(1, 0, { $match: { school: mongoose.Types.ObjectId(req.user.school) } })
+  }
+  // 查询
+  const result = await req.Model.aggregate(queryArr)
   res.send(result[0] || { list: [], total: 0 })
 })
 // 获取单个

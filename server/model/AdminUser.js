@@ -56,5 +56,9 @@ const schema = new mongoose.Schema({
   }
 })
 
+schema.virtual('schoolInfo').get(function () {
+  return this.school
+})
+
 module.exports = mongoose.model('AdminUser', schema)
 
