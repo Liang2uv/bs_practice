@@ -1,5 +1,6 @@
 #test
 .http
+uploads/
 
 # Logs
 logs

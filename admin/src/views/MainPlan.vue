@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container class="con-mainplan">
     <el-header class="d-flex ai-center jc-between border-bottom" height="40px">
       <div>
         <el-input
@@ -61,31 +61,69 @@
       @close="dialogClose"
     >
       <el-form :model="model" :rules="rules" ref="el-form" label-width="100px">
-        <el-form-item prop="name" label="计划名称：">
-          <el-input v-model="model.name" />
-        </el-form-item>
-        <el-form-item prop="datespan" label="起始日期：">
-          <el-date-picker
-            v-model="model.datespan"
-            type="datetimerange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item prop="times" label="实习天数：">
-          至少<el-input-number v-model="model.times" controls-position="right" :min="1" style="width:100px;margin: 0 10px;"></el-input-number>天
-        </el-form-item>
-        <el-form-item prop="teacher" label="指导老师：">
-          <el-select v-model="model.teacher" multiple>
-            <el-option
-              v-for="item in teacherList"
-              :key="item._id"
-              :label="item.username"
-              :value="item._id"
-            ></el-option>
-          </el-select>
-        </el-form-item>
+        <el-tabs type="border-card" value="basic">
+          <el-tab-pane label="基础信息" name="basic">
+            <el-form-item prop="name" label="计划名称：">
+              <el-input v-model="model.name" />
+            </el-form-item>
+            <el-form-item prop="datespan" label="起始日期：">
+              <el-date-picker
+                v-model="model.datespan"
+                type="datetimerange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+              ></el-date-picker>
+            </el-form-item>
+            <el-form-item prop="times" label="实习天数：">
+              至少
+              <el-input-number
+                v-model="model.times"
+                controls-position="right"
+                :min="1"
+                style="width:100px;margin: 0 10px;"
+              ></el-input-number>天
+            </el-form-item>
+            <el-form-item prop="teacher" label="指导老师：">
+              <el-select v-model="model.teacher" multiple>
+                <el-option
+                  v-for="item in teacherList"
+                  :key="item._id"
+                  :label="item.username"
+                  :value="item._id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-tab-pane>
+          <el-tab-pane label="实习材料" name="files">
+            <el-button size="small" @click="model.files.push({})">
+              <i class="el-icon-plus"></i>添加材料
+            </el-button>
+            <el-row type="flex" style="flex-wrap: wrap;">
+              <el-col :span="24" v-for="(item,index) in model.files" :key="index" class="file-item">
+                <el-form-item :prop="`files[${index}].name`" :rules="[{ required: true, message: '材料名不能为空'}]" label="名称：">
+                  <el-input v-model="item.name" />
+                </el-form-item>
+                <el-form-item label="文件：">
+                  <el-upload
+                    class="upload-demo"
+                    :action="uploadUrl"
+                    :headers="getAuthHeaders()"
+                    :show-file-list="false"
+                    :disabled="item.filename !== undefined"
+                    :on-success="res => {$set(item, 'fileurl',res.url);$set(item, 'filename',res.originalname)}"
+                  >
+                    <el-button size="mini" v-if="!item.filename">点击上传</el-button>
+                    <span @click="onDownload(item.fileurl, item.filename)">{{ item.filename }}</span>
+                  </el-upload>
+                </el-form-item>
+                <el-form-item>
+                  <el-button size="mini" type="danger" @click="model.files.splice(index, 1)">删除</el-button>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+        </el-tabs>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false" style="margin-right:20px;">取 消</el-button>
@@ -98,13 +136,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import { getDateDiff } from 'utils/index.js'
+import { download } from 'utils/download.js'
 export default {
   name: 'main-plan',
   data() {
     return {
       resource: 'main_plans',
       tableData: [],
-      model: {},
+      model: { files: [] },
       dialogVisible: false,
       tableHeight: 0,
       rules: {
@@ -192,7 +231,7 @@ export default {
     },
     // 添加
     onAdd() {
-      this.model = {}
+      this.model = { files: [] }
       this.dialogVisible = true
     },
     // 保存
@@ -234,6 +273,10 @@ export default {
     onSearch() {
       this.query.page=1
       this.getList()
+    },
+    // 下载文件
+    onDownload(url, name) {
+      download(url, name)
     }
   },
   created() {
@@ -247,3 +290,14 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.con-mainplan {
+  .file-item{
+    padding-top: 15px;
+    &:nth-of-type(n + 2) {
+      border-top: 1px dashed #ccc;
+    }
+  }
+}
+</style>

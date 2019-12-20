@@ -19,7 +19,6 @@
             <i class="el-icon-eleme"></i>实习配置
           </template>
           <el-menu-item-group>
-            <el-menu-item index="/practice-files">实习材料</el-menu-item>
             <el-menu-item index="/main-plan">实习计划</el-menu-item>
           </el-menu-item-group>
         </el-submenu>

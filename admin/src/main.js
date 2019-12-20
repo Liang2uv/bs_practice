@@ -5,6 +5,7 @@ import store from './store'
 import './plugins/element.js'
 import './assets/scss/style.scss'
 import * as filters from './filters'
+import mixin from './mixin'
 
 Vue.config.productionTip = false
 
@@ -12,6 +13,9 @@ Vue.config.productionTip = false
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+
+// 全局mixin
+Vue.mixin(mixin)
 
 new Vue({
   router,

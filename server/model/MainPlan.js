@@ -30,6 +30,11 @@ const schema = new mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'AdminUser',
     required: true
+  }],
+  files: [{ // 实习材料
+    name: { type: String, required: true },
+    filename: { type: String },
+    fileurl: { type: String }
   }]
 }, {
   timestamps: true

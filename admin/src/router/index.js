@@ -58,11 +58,6 @@ const routes = [
         component: () => import('views/MainPlan.vue')
       },
       {
-        path: '/practice-files',
-        name: 'practice-files',
-        component: () => import('views/PracticeFiles.vue')
-      },
-      {
         path: '/profile',
         name: 'profile',
         component: () => import('views/Profile.vue')

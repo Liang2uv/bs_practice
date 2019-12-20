@@ -1,6 +1,6 @@
 import Vue from 'vue'
 // 布局
-import { Container, Aside, Main, Header } from 'element-ui'
+import { Container, Aside, Main, Header, Row, Col } from 'element-ui'
 // 导航
 import { Menu, Submenu, MenuItemGroup, MenuItem, Dropdown, DropdownItem, DropdownMenu } from 'element-ui'
 // 表单
@@ -10,13 +10,15 @@ import { Table, TableColumn, Pagination, Tree } from 'element-ui'
 // 交互
 import { Dialog, Message, Popconfirm, MessageBox } from 'element-ui'
 // 其他
-import { Icon, Avatar, Card, Tag } from 'element-ui'
+import { Icon, Avatar, Card, Tag, TabPane, Tabs } from 'element-ui'
 
 // 布局
 Vue.use(Container)
 Vue.use(Aside)
 Vue.use(Main)
 Vue.use(Header)
+Vue.use(Row)
+Vue.use(Col)
 
 // 导航
 Vue.use(Menu)
@@ -58,3 +60,5 @@ Vue.use(Icon)
 Vue.use(Avatar)
 Vue.use(Card)
 Vue.use(Tag)
+Vue.use(TabPane)
+Vue.use(Tabs)
