@@ -112,6 +112,7 @@
                     :show-file-list="false"
                     :disabled="item.filename !== undefined"
                     :on-success="res => {$set(item, 'fileurl',res.url);$set(item, 'filename',res.originalname)}"
+                    :on-error="err => $message.error(err.message)"
                   >
                     <el-button size="mini" v-if="!item.filename">点击上传</el-button>
                     <span @click="onDownload(item.fileurl, item.filename)">{{ item.filename }}</span>

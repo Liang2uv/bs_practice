@@ -18,9 +18,6 @@ require('./db/mongo')(app)
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-// 静态托管
-app.use('/uploads', express.static(__dirname + '/uploads'));
-
 // 路由配置
 require('./routes/public/index')(app)
 require('./routes/admin/index')(app)
