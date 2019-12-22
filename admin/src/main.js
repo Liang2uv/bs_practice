@@ -6,6 +6,7 @@ import './plugins/element.js'
 import './assets/scss/style.scss'
 import * as filters from './filters'
 import mixin from './mixin'
+import './utils/permission'
 
 Vue.config.productionTip = false
 

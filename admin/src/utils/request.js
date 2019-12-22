@@ -1,7 +1,8 @@
 import axios from 'axios'
 import router from '../router'
 import { Message } from 'element-ui'
-import { getToken, clearToken } from './auth'
+import { getToken } from './auth'
+import store from '../store';
 
 const request = axios.create({
   baseURL: process.env.VUE_APP_API_URL || '/api'
@@ -22,7 +23,7 @@ request.interceptors.response.use(res => {
   if (err.response.data) {
     Message.error(err.response.data.message)
     if (err.response.status === 401) {
-      clearToken()
+      store.commit('CLEAR_LOGIN')
       router.replace('/login')
     }
     err.response.data.status = err.response.status
