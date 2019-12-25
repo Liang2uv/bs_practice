@@ -1,12 +1,14 @@
 const express = require('express')
 const { login, addUser, getUserInfo, getUserList, updateUser, deleteUser } = require('../../controller/adminUser')
 const middlewareAuth = require('../../middlewares/auth')
+const assert = require('http-assert')
 
 const router = express.Router()
 
 // 登录
 router.post('/login', async (req, res) => {
-  const { phone = '', password = '' } = req.body
+  const { phone, password } = req.body
+  assert(phone && password, 400, '请求参数错误')
   const result = await login(phone, password)
   if (result) {
     res.status(200).send(result)
@@ -19,7 +21,7 @@ router.get('/', middlewareAuth(), async (req, res) => {
   if (req.user.role !== 'superadmin') {
     params.school = req.user.school.toString()
   }
-  const result = await getUserList({ ...params ,...req.query })
+  const result = await getUserList({ ...params, ...req.query })
   if (result) {
     res.send(result)
   }
@@ -30,7 +32,7 @@ router.get('/:id', middlewareAuth(), async (req, res) => {
   let user = {}
   if (req.params.id === 'undefined') { // 根据token获取信息（用户获取自身详细信息）
     user = await getUserInfo(req.user._id)
-  }else { // 根据id获取用户信息（用于获取别人的详细信息）
+  } else { // 根据id获取用户信息（用于获取别人的详细信息）
     user = await getUserInfo(req.params.id)
   }
   res.send(user)
@@ -38,26 +40,18 @@ router.get('/:id', middlewareAuth(), async (req, res) => {
 
 // 添加用户
 router.post('/', async (req, res) => {
-  const result = await addUser(req.body)
-  if (result) {
-    res.send(result)
-  }
+  res.send(await addUser(req.body))
 })
 
 // 修改用户信息
 router.put('/:id', middlewareAuth(), async (req, res) => {
-  const result = await updateUser(req.params.id, req.body)
-  if (result) {
-    res.send(result)
-  }
+  res.send(await updateUser(req.params.id, req.body))
 })
 
 // 删除用户
 router.delete('/:id', middlewareAuth(), async (req, res) => {
   const result = await deleteUser(req.params.id)
-  if (result) {
-    res.send({ message: '删除成功' })
-  }
+  res.send({ message: '删除成功' })
 })
 
 module.exports = router

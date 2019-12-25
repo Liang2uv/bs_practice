@@ -11,7 +11,7 @@ const schema = new mongoose.Schema({
   },
   school: { // 所属学校
     type: mongoose.SchemaTypes.ObjectId,
-    ref: 'School',
+    ref: 'Organization',
     required: true
   },
   startAt: {  // 开始时间

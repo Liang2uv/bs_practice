@@ -147,10 +147,7 @@ export default {
     async getList(){
       const [err, res] = await this.$store.dispatch('GetUserList', this.query)
       if (!err) {
-        this.tableData = res.list.map(item => {
-          item.collegeInfo=item.collegeInfo[0]?item.collegeInfo[0]:{}
-          return item
-        })
+        this.tableData = res.list
         this.total = res.total
       }
     },
@@ -212,13 +209,9 @@ export default {
       this.$refs['el-form'].clearValidate()
     },
     // 获取学院列表
-    async getCollegeList(search) {
-      if (search !== '') {
-        const [err, res] = await this.$store.dispatch('GetOrganList', { startLayer: 1, endLayer: 1, type: "tree" })
-        if (!err) this.collegeList = res
-      } else {
-        this.collegeList = []
-      }
+    async getCollegeList() {
+      const [err, res] = await this.$store.dispatch('GetOrgList', { startLayer: 1, endLayer: 1, type: "tree" })
+      if (!err) this.collegeList = res
     },
     // 页码改变
     pageChange(val) {

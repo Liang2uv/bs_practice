@@ -211,7 +211,7 @@ export default {
     async getSchoolList(search) {
       if (search !== '') {
         this.selectLoading = true
-        const [err, res] = await this.$store.dispatch('CrudList', { resource: 'schools', search })
+        const [err, res] = await this.$store.dispatch('GetOrgList', { type: 'notree', layer: 0, search })
         if (!err) this.schoolList = res.list
         this.selectLoading = false
       } else {

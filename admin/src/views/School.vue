@@ -18,7 +18,6 @@
       <el-table :data="tableData" :height="tableHeight">
         <el-table-column prop="_id" label="ID" width="220px" align="center"></el-table-column>
         <el-table-column prop="name" label="学校名称" align="center"></el-table-column>
-        <el-table-column prop="code" label="学校代码" align="center"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100" align="center">
           <template slot-scope="scope">
             <el-button @click="onDelete(scope.row._id)" type="text" size="small">删除</el-button>
@@ -42,9 +41,6 @@
         <el-form-item prop="name" label="学校名称">
           <el-input v-model="model.name" />
         </el-form-item>
-        <el-form-item prop="code" label="学校代码">
-          <el-input v-model="model.code" />
-        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false" style="margin-right:20px;">取 消</el-button>
@@ -59,7 +55,6 @@ export default {
   name: 'school',
   data() {
     return {
-      resource: 'schools',
       tableData: [],
       model: {},
       dialogVisible: false,
@@ -67,12 +62,11 @@ export default {
       rules: {
         name: [
           {required: true, message: '请输入学校名称', trigger: 'blur'}
-        ],
-        code: [
-          {required: true, message: '请输入学校代码', trigger: 'blur'}
         ]
       },
       query: {
+        type: 'notree',
+        layer: 0,
         search: '',
         page: 1,
         size: 30,
@@ -84,7 +78,7 @@ export default {
   methods: {
     // 获取列表
     async getList(){
-      const [err, res] = await this.$store.dispatch('CrudList', { resource: this.resource, ...this.query })
+      const [err, res] = await this.$store.dispatch('GetOrgList', this.query)
       if (!err) {
         this.tableData = res.list
         this.total = res.total
@@ -92,7 +86,7 @@ export default {
     },
     // 获取详情
     async getDetail(id) {
-      const [err, res] = await this.$store.dispatch('CrudDetail', { resource: this.resource, id })
+      const [err, res] = await this.$store.dispatch('GetOrg', { id })
       if (!err) return res
     },
     // 删除
@@ -103,7 +97,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         })
-        const [err, res] = await this.$store.dispatch('CrudDelete', { resource: this.resource, id })
+        const [err, res] = await this.$store.dispatch('DeleteOrg', { id })
         if (!err) {
           this.$message.success('删除成功')
           if (this.tableData.length === 1) {
@@ -133,7 +127,13 @@ export default {
         if (!valid) {
           return false
         }
-        const [err, res] = await this.$store.dispatch(this.model._id ? 'CrudUpdate' : 'CrudAdd', { resource: this.resource, data: this.model })
+        const params = { name: this.model.name }
+        if (this.model._id) {
+          params._id = this.model._id
+        } else {
+          params.pid = '0'
+        }
+        const [err, res] = await this.$store.dispatch(this.model._id ? 'UpdateOrg' : 'AddOrg', params )
         if (!err) {
           this.$message.success('保存成功')
           this.getList()

@@ -231,13 +231,9 @@ export default {
       this.$refs['el-form'].clearValidate()
     },
     // 获取班级列表
-    async getSelectList(search) {
-      if (search !== '') {
-        const [err, res] = await this.$store.dispatch('GetOrganList', { type: "tree" })
-        if (!err) this.selectList = res
-      } else {
-        this.selectList = []
-      }
+    async getSelectList() {
+      const [err, res] = await this.$store.dispatch('GetOrgList', { type: 'tree' })
+      if (!err) this.selectList = res
     },
     // 页码改变
     pageChange(val) {

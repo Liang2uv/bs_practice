@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
 })
 // 修改
 router.put('/:id', async (req, res) => {
-  const model = await req.Model.findByIdAndUpdate(req.params.id, req.body)
+  const model = await req.Model.findByIdAndUpdate(req.params.id, req.body, { new: true })
   res.send(model)
 })
 // 列表

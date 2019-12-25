@@ -106,7 +106,6 @@ const getUserList = async query => {
       item.class = item.classInfo._id
     }
   })
-  const result = { total, list }
   return { total, list }
 }
 
@@ -118,7 +117,7 @@ const updateUser = async (id, data) => {
     assert(false, 422, '手机号已被注册')
   }
   try {
-    const user = await AdminUser.findByIdAndUpdate(id, data)
+    const user = await AdminUser.findByIdAndUpdate(id, data, { new: true })
     return await getUserInfo(user._id)
   } catch (ex) {
     assert(false, 422, `请求出错`)
@@ -131,7 +130,6 @@ const updateUser = async (id, data) => {
 const deleteUser = async id => {
   try {
     await AdminUser.findByIdAndRemove(id)
-    return true
   } catch (error) {
     assert(false, 422, '删除失败')
   }

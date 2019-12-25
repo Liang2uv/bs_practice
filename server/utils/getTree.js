@@ -10,9 +10,9 @@ const getTree = async (clist, startLayer, endLayer, pathId, Model) => {
   if (endLayer < startLayer) {
     return []
   }
-  let plist = await Model.find({ layer: endLayer, path: {$regex: `^,${pathId},`} }).lean()
+  let plist = await Model.find({ layer: endLayer, path: {$regex: `,${pathId},`} }).lean()
   plist = plist.map(p => {
-    p.children = clist.filter(c => p._id.toString() === c.pid)
+    p.children = clist.filter(c => p._id.toString() === c.pid.toString())
     if (p.children.length === 0) {
       delete p.children
     }

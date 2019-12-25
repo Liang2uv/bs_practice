@@ -36,7 +36,7 @@ const schema = new mongoose.Schema({
   },
   school: { // 学校
     type: mongoose.SchemaTypes.ObjectId,
-    ref: 'School'
+    ref: 'Organization'
   },
   college: { // 学院
     type: mongoose.SchemaTypes.ObjectId,

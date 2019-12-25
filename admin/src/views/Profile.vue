@@ -17,7 +17,7 @@
       >
         <div>{{ model.number }}</div>
       </el-form-item>
-      <el-form-item prop="school" label="学校：">
+      <el-form-item v-if="model.role !== 'superadmin'" prop="school" label="学校：">
         <div>{{ model.schoolInfo.name }}</div>
       </el-form-item>
       <el-form-item

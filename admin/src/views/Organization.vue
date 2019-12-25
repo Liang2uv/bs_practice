@@ -1,16 +1,16 @@
 <template>
   <el-container>
     <el-header class="d-flex ai-center jc-between border-bottom" height="40px">
-      <el-button @click="onAdd('college', 1, null, '添加院（系）')" type="primary" size="mini">添加院（系）</el-button>
+      <el-button @click="onAdd('college', null, '添加院（系）')" type="primary" size="mini">添加院（系）</el-button>
     </el-header>
     <el-main>
       <el-tree node-key="_id" :props="props" :data="treeData" :expand-on-click-node="false" default-expand-all>
         <span class="custom-tree-node" slot-scope="{ node, data }">
           <span>{{ node.label }}</span>
           <span>
-            <el-button v-if="data.type === 'college'" type="text" size="mini" @click="onAdd('grade', 2, node, '添加年级')">添加年级</el-button>
-            <el-button v-if="data.type === 'grade'" type="text" size="mini" @click="onAdd('major', 3, node, '添加专业')">添加专业</el-button>
-            <el-button v-if="data.type === 'major'" type="text" size="mini" @click="onAdd('class', 4, node, '添加班级')">添加班级</el-button>
+            <el-button v-if="data.type === 'college'" type="text" size="mini" @click="onAdd('grade', node, '添加年级')">添加年级</el-button>
+            <el-button v-if="data.type === 'grade'" type="text" size="mini" @click="onAdd('major', node, '添加专业')">添加专业</el-button>
+            <el-button v-if="data.type === 'major'" type="text" size="mini" @click="onAdd('class', node, '添加班级')">添加班级</el-button>
             <el-button type="text" size="mini" @click="onEdit(data)">修改</el-button>
             <el-button type="text" size="mini" @click="onDelete(data._id)">删除</el-button>
           </span>
@@ -65,23 +65,19 @@ export default {
   methods: {
     // 获取树级列表
     async getTreeList() {
-      const [err, res] = await this.$store.dispatch("GetOrganList", { type: "tree" })
+      const [err, res] = await this.$store.dispatch("GetOrgList", { type: "tree" })
       if (!err) {
         this.treeData = res
       }
     },
     // 添加
-    onAdd(type, layer, node, title) {
+    onAdd(type, node, title) {
       this.model = {}
-      this.model.type = type
-      this.model.layer = layer
       this.dialogTitle = title
-      if (this.model.type === 'college') {
+      if (type === 'college') {
         this.model.pid = this.schoolId
-        this.model.path = `,${this.schoolId},`
       } else {
         this.model.pid = node.data._id
-        this.model.path = node.data.path + node.data._id + ','
       }
       this.dialogVisible = true
     },
@@ -93,7 +89,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         })
-        const [err, res] = await this.$store.dispatch('DeleteOrgan', { id })
+        const [err, res] = await this.$store.dispatch('DeleteOrg', { id })
         if (!err) {
           this.$message.success('删除成功')
           this.getTreeList()
@@ -117,8 +113,13 @@ export default {
         if (!valid) {
           return false
         }
-        delete this.model.children
-        const [err, res] = await this.$store.dispatch(this.model._id ? 'UpdateOrgan' : 'AddOrgan', this.model)
+        const params = { name: this.model.name }
+        if (this.model._id) {
+          params._id = this.model._id
+        } else {
+          params.pid = this.model.pid
+        }
+        const [err, res] = await this.$store.dispatch(this.model._id ? 'UpdateOrg' : 'AddOrg', params)
         if (!err) {
           this.$message.success('保存成功')
           this.dialogVisible = false
