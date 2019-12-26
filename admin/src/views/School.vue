@@ -15,8 +15,8 @@
     </el-header>
     <el-main>
       <!-- 表格 -->
-      <el-table :data="tableData" :height="tableHeight">
-        <el-table-column prop="_id" label="ID" width="220px" align="center"></el-table-column>
+      <el-table :data="tableData" :height="tableHeight" border>
+        <el-table-column label="序号" type="index" align="center" width="70"/>
         <el-table-column prop="name" label="学校名称" align="center"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100" align="center">
           <template slot-scope="scope">
@@ -26,7 +26,15 @@
         </el-table-column>
       </el-table>
       <div style="text-align:center;padding-top: 10px;">
-        <el-pagination small background layout="prev, pager, next, total" @current-change="pageChange" :total="total" :page-size="query.size" :current-page="query.page"></el-pagination>
+        <el-pagination
+          small
+          background
+          layout="prev, pager, next, total"
+          @current-change="pageChange"
+          :total="total"
+          :page-size="query.size"
+          :current-page="query.page"
+        ></el-pagination>
       </div>
     </el-main>
     <!-- 对话框 -->
@@ -37,8 +45,8 @@
       :close-on-click-modal="false"
       @close="dialogClose"
     >
-      <el-form :model="model" :rules="rules" ref="el-form" label-width="80px">
-        <el-form-item prop="name" label="学校名称">
+      <el-form :model="model" :rules="rules" ref="el-form" label-width="100px">
+        <el-form-item prop="name" label="学校名称：">
           <el-input v-model="model.name" />
         </el-form-item>
       </el-form>

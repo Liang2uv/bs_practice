@@ -15,7 +15,8 @@
     </el-header>
     <el-main>
       <!-- 表格 -->
-      <el-table :data="tableData" :height="tableHeight">
+      <el-table :data="tableData" :height="tableHeight" border>
+        <el-table-column label="序号" type="index" align="center" width="70"/>
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
         <el-table-column prop="username" label="姓名" align="center"></el-table-column>
         <el-table-column prop="role" label="角色" align="center"></el-table-column>
@@ -56,20 +57,20 @@
       :close-on-click-modal="false"
       @close="dialogClose"
     >
-      <el-form :model="model" :rules="rules" ref="el-form" label-width="80px">
-        <el-form-item prop="username" label="姓名">
+      <el-form :model="model" :rules="rules" ref="el-form" label-width="100px">
+        <el-form-item prop="username" label="姓名：">
           <el-input v-model="model.username" />
         </el-form-item>
-        <el-form-item prop="number" label="工号">
+        <el-form-item prop="number" label="工号：">
           <el-input v-model="model.number" />
         </el-form-item>
-        <el-form-item prop="phone" label="手机号">
+        <el-form-item prop="phone" label="手机号：">
           <el-input v-model="model.phone" />
         </el-form-item>
-        <el-form-item v-if="!model._id" prop="password" label="密码">
+        <el-form-item v-if="!model._id" prop="password" label="密码：">
           <el-input type="password" v-model="model.password" />
         </el-form-item>
-        <el-form-item label="所属学院" prop="college">
+        <el-form-item label="所属学院：" prop="college">
           <el-select v-model="model.college" filterable placeholder="请输入关键词搜索">
             <el-option
               v-for="item in collegeList"
@@ -79,7 +80,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="status" label="状态">
+        <el-form-item prop="status" label="状态：">
           <el-radio-group v-model="model.status">
             <el-radio :label="1">启用</el-radio>
             <el-radio :label="0">停用</el-radio>
@@ -210,8 +211,8 @@ export default {
     },
     // 获取学院列表
     async getCollegeList() {
-      const [err, res] = await this.$store.dispatch('GetOrgList', { startLayer: 1, endLayer: 1, type: "tree" })
-      if (!err) this.collegeList = res
+      const [err, res] = await this.$store.dispatch('GetOrgList', { layer: 1, pid: this.school, type: "notree" })
+      if (!err) this.collegeList = res.list
     },
     // 页码改变
     pageChange(val) {

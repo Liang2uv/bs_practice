@@ -17,11 +17,14 @@ router.post('/login', async (req, res) => {
 
 // 获取用户列表（管理员、教师、学生）
 router.get('/', middlewareAuth(), async (req, res) => {
-  const params = {}
+  let { page = 1, size = 30, search = '', key = 'username', role = '', school } = req.query
+  size = parseInt(size)
+  page = parseInt(page)
+  assert(role !== '', 400, '请求参数错误')
   if (req.user.role !== 'superadmin') {
-    params.school = req.user.school.toString()
+    school = req.user.school.toString()
   }
-  const result = await getUserList({ ...params, ...req.query })
+  const result = await getUserList(page, size, search, key, role, school)
   if (result) {
     res.send(result)
   }

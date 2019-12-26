@@ -15,7 +15,8 @@
     </el-header>
     <el-main>
       <!-- 表格 -->
-      <el-table :data="tableData" :height="tableHeight">
+      <el-table :data="tableData" :height="tableHeight" border>
+        <el-table-column label="序号" type="index" align="center" width="70"/>
         <el-table-column prop="name" label="名称" align="center"></el-table-column>
         <el-table-column prop="startAt" label="开始时间" align="center">
           <template slot-scope="scope">

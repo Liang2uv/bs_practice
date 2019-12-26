@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 /**
- * 组织架构表：0级-学校-学院-年级-专业-班级
+ * 组织架构表：学校-学院-年级-专业-班级
  */
 
 const schema = new mongoose.Schema({
@@ -9,7 +9,7 @@ const schema = new mongoose.Schema({
     type: String,
     required: true
   },
-  pid: { // 上一级（顶级pid=0）
+  pid: { // 上一级（学校无pid属性）
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'Organization'
   },

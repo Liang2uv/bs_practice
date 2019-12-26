@@ -28,6 +28,8 @@ router.get('/', middlewareAuth(), async (req, res) => {
   } else {  // 获取某一层级列表
     let { pid, layer, page = 1, size = 30, search = '', key = 'name' } = req.query
     layer = parseInt(layer)
+    page = parseInt(page)
+    size = parseInt(size)
     assert(layer >= 0, 400, '请求参数错误')
     assert(pid || layer === 0, 400, '请求参数错误')
     res.send(await getList(pid, layer, page, size, search, key))

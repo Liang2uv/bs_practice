@@ -74,10 +74,7 @@ const getUserInfo = async id => {
  * 获取用户列表
  */
 
-const getUserList = async query => {
-  let { page = 1, size = 30, search = '', key = 'username', role = '', school } = query
-  size = parseInt(size)
-  page = parseInt(page)
+const getUserList = async (page, size, search, key, role, school) => {
   const whereOptions = { [key]: { $regex: search }, role: { $regex: role } }
   if (school) {
     whereOptions.school = mongoose.Types.ObjectId(school)

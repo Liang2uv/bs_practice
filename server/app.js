@@ -30,8 +30,10 @@ app.use(function (req, res, next) {
 
 // 全局错误处理
 app.use(function (err, req, res, next) {
-  res.status(err.statusCode || 500).send({
-    message: err.message
+  const statusCode = err.statusCode || 500
+  console.log(err.message);
+  res.status(statusCode).send({
+    message: statusCode === 500 ? '服务器错误' : err.message
   })
 })
 

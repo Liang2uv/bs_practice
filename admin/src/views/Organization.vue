@@ -24,8 +24,8 @@
       :close-on-click-modal="false"
       @close="dialogClose"
     >
-      <el-form :model="model" :rules="rules" ref="el-form" label-width="80px">
-        <el-form-item prop="name" label="名称">
+      <el-form :model="model" :rules="rules" ref="el-form" label-width="100px">
+        <el-form-item prop="name" label="名称：">
           <el-input v-model="model.name" />
         </el-form-item>
       </el-form>

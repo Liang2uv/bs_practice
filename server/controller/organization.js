@@ -15,8 +15,6 @@ const getTreeList = async (pid, startLayer, endLayer) => {
  * 获取列表（非树级）
  */
 const getList = async (pid, layer, page, size, search, key) => {
-  page = parseInt(page)
-  size = parseInt(size)
   const query = { layer, [key]: { $regex: search } }
   if (layer > 0) {
     query.pid = mongoose.Types.ObjectId(pid)

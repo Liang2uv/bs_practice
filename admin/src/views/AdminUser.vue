@@ -15,7 +15,8 @@
     </el-header>
     <el-main>
       <!-- 表格 -->
-      <el-table :data="tableData" :height="tableHeight">
+      <el-table :data="tableData" :height="tableHeight" border>
+        <el-table-column label="序号" type="index" align="center" width="70"/>
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
         <el-table-column prop="username" label="姓名" align="center"></el-table-column>
         <el-table-column prop="role" label="角色" align="center"></el-table-column>
@@ -53,23 +54,23 @@
       :close-on-click-modal="false"
       @close="dialogClose"
     >
-      <el-form :model="model" :rules="rules" ref="el-form" label-width="80px">
-        <el-form-item prop="username" label="姓名">
+      <el-form :model="model" :rules="rules" ref="el-form" label-width="100px">
+        <el-form-item prop="username" label="姓名：">
           <el-input v-model="model.username" />
         </el-form-item>
-        <el-form-item prop="phone" label="手机号">
+        <el-form-item prop="phone" label="手机号：">
           <el-input v-model="model.phone" />
         </el-form-item>
-        <el-form-item v-if="!model._id" prop="password" label="密码">
+        <el-form-item v-if="!model._id" prop="password" label="密码：">
           <el-input type="password" v-model="model.password" />
         </el-form-item>
-        <el-form-item label="角色" prop="role">
+        <el-form-item label="角色：" prop="role">
           <el-select v-model="model.role" placeholder="请选择角色">
             <el-option label="学校管理员" value="admin"></el-option>
             <el-option label="超级管理员" value="superadmin"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="所属学校" prop="school">
+        <el-form-item label="所属学校：" prop="school">
           <el-select
             v-model="model.school"
             filterable
@@ -89,7 +90,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="status" label="状态">
+        <el-form-item prop="status" label="状态：">
           <el-radio-group v-model="model.status">
             <el-radio :label="1">启用</el-radio>
             <el-radio :label="0">停用</el-radio>
