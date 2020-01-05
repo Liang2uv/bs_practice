@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "cp-tabbar-page": "/components/tabbar-page/index",
+    "cp-student-home": "/components/student-home/index",
+    "cp-student-circle": "/components/student-circle/index",
+    "cp-student-message": "/components/student-message/index",
+    "cp-student-profile": "/components/student-profile/index",
+    "cp-teacher-home": "/components/teacher-home/index",
+    "cp-teacher-circle": "/components/teacher-circle/index",
+    "cp-teacher-message": "/components/teacher-message/index",
+    "cp-teacher-profile": "/components/teacher-profile/index"
+  }
+}

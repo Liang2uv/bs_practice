@@ -1,0 +1,44 @@
+<!-- 导航页面 -->
+<cp-tabbar-page name="1" active="{{curTab}}">
+  <cp-student-home wx:if="{{role==='student'}}"></cp-student-home>
+  <cp-teacher-home wx:elif="{{role==='teacher'}}"></cp-teacher-home>
+</cp-tabbar-page>
+<cp-tabbar-page name="2" active="{{curTab}}">
+  <cp-student-circle wx:if="{{role==='student'}}"></cp-student-circle>
+  <cp-teacher-circle wx:if="{{role==='teacher'}}"></cp-teacher-circle>
+</cp-tabbar-page>
+<cp-tabbar-page name="3" active="{{curTab}}">
+  <cp-student-message wx:if="{{role==='student'}}"></cp-student-message>
+  <cp-teacher-message wx:if="{{role==='teacher'}}"></cp-teacher-message>
+</cp-tabbar-page>
+<cp-tabbar-page name="4" active="{{curTab}}">
+  <cp-student-profile wx:if="{{role==='student'}}"></cp-student-profile>
+  <cp-teacher-profile wx:if="{{role==='teacher'}}"></cp-teacher-profile>
+</cp-tabbar-page>
+<!-- 底部导航栏 -->
+<view class="cu-bar tabbar bg-white shadow foot">
+  <view class="action" bindtap="tabChange" data-tab="1">
+    <view class='cuIcon-cu-image'>
+      <image src="/assets/images/tabbar/home{{curTab=='1'?'_cur':''}}.png"></image>
+    </view>
+    <view class="{{curTab=='1'?'text-red':'text-gray'}}">首页</view>
+  </view>
+  <view class="action" bindtap="tabChange" data-tab="2">
+    <view class='cuIcon-cu-image'>
+      <image src="/assets/images/tabbar/circle{{curTab=='2'?'_cur':''}}.png"></image>
+    </view>
+    <view class="{{curTab=='2'?'text-red':'text-gray'}}">实习圈</view>
+  </view>
+  <view class="action" bindtap="tabChange" data-tab="3">
+    <view class='cuIcon-cu-image'>
+      <image src="/assets/images/tabbar/message{{curTab=='3'?'_cur':''}}.png"></image>
+    </view>
+    <view class="{{curTab=='3'?'text-red':'text-gray'}}">消息</view>
+  </view>
+  <view class="action" bindtap="tabChange" data-tab="4">
+    <view class='cuIcon-cu-image'>
+      <image src="/assets/images/tabbar/profile{{curTab=='4'?'_cur':''}}.png"></image>
+    </view>
+    <view class="{{curTab=='4'?'text-red':'text-gray'}}">我的</view>
+  </view>
+</view>
