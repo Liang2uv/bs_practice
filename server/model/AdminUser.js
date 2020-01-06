@@ -31,6 +31,9 @@ const schema = new mongoose.Schema({
     type: Number,
     default: 1
   },
+  openid: { // 小程序openid
+    type: String
+  },
   number: { // 学号/工号
     type: String
   },

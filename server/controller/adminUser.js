@@ -1,15 +1,16 @@
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { JWT_SECRECT } = require('../conf/secrect.js')
+const { JWT_SECRECT, EXPIRESIN } = require('../conf/secrect')
 const assert = require('http-assert')
 const AdminUser = require('../model/AdminUser')
 const mongoose = require('mongoose')
-
+const https = require('https')
+const { WX_APPID, WX_SECRECT } = require('../conf/secrect')
 
 /**
- * 登录
- * @param {*} phone 
- * @param {*} password 
+ * 服务端登录
+ * @param {*} phone 手机号
+ * @param {*} password 密码
  */
 const login = async (phone, password) => {
   // 1. 根据用户名找用户
@@ -19,10 +20,64 @@ const login = async (phone, password) => {
   const isValid = bcryptjs.compareSync(password, user.password)
   assert(isValid, 422, '密码错误')
   // 3. 生成token
-  const token = jwt.sign({ id: user._id }, JWT_SECRECT, { expiresIn: '2 days' })
+  const token = jwt.sign({ id: user._id }, JWT_SECRECT, { expiresIn: EXPIRESIN + ' days' })
   // 4. 获取用户信息
   const userInfo = await getUserInfo(user.id)
   return { token, userInfo }
+}
+
+/**
+ * 小程序服务端登录
+ * @param {*} phone 手机号
+ * @param {*} password 密码
+ * @param {*} code code
+ */
+const wxLogin = async (req, res) => {
+  const { phone, password, code } = req.body
+  // 1. 根据用户名找用户
+  const user = await AdminUser.findOne({ phone }).select('+password').lean()
+  assert(user, 422, '用户不存在')
+  // 2. 校验密码
+  const isValid = bcryptjs.compareSync(password, user.password)
+  assert(isValid, 422, '密码错误')
+  // 3. 使用code登录微信服务，换取openid
+  https.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${WX_APPID}&secret=${WX_SECRECT}&js_code=${code}&grant_type=authorization_code`, wxres => {
+    let data = '';
+    wxres.on('data', chunk => {
+      data += chunk;//监听数据响应，拼接数据片段
+    })
+    wxres.on('end', async () => {
+      data = data.toString()
+      console.log(data);
+      if (!data.openid) {
+        console.log('return 了');
+        // return [{ code: 422, message: data.errmsg }, null]
+        return res.status(422).end(data.errmsg)
+      }
+      console.log('检验openid');
+      // 4. 检验openid
+      if (!user.openid) {  // 第一次使用微信登录
+        try {
+          console.log(data.openid);
+          await updateUser(user._id, { openid: data.openid })
+        } catch (ex) {
+          // return [{ code: 422, message: '服务端登录失败' }, null]
+          return res.status(422).end('服务端登录失败')
+        }
+      } else {  // 已登录过，比较openid是否一样
+        if (user.openid !== data.openid) {
+          // return [{ code: 422, message: '该账号已绑定其他微信' }, null]
+          return res.status(422).end('该账号已绑定其他微信')
+        }
+      }
+      // 3. 生成token
+      const token = jwt.sign({ id: user._id }, JWT_SECRECT, { expiresIn: EXPIRESIN + ' days' })
+      // 4. 获取用户信息
+      const userInfo = await getUserInfo(user.id)
+      // return [null, { token, userInfo }]
+      res.send({ token, userInfo })
+    })
+  })
 }
 
 /**
@@ -138,5 +193,6 @@ module.exports = {
   getUserInfo,
   getUserList,
   updateUser,
-  deleteUser
+  deleteUser,
+  wxLogin
 }

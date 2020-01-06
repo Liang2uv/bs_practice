@@ -37,7 +37,7 @@ export default function (method, url, data = {}, options = {}) {
           title: err.errMsg,
           icon: 'none'
         })
-        return reject({ status: request.wxReqErr, message: err.errMsg })
+        return reject({ status: statusCode.wxReqErr, message: err.errMsg })
       }
     })
   })
