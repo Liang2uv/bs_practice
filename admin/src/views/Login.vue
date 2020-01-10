@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     async login() {
-      const [err, res] = await this.$store.dispatch('LoginByPhone', this.model)
+      const [err, res] = await this.$store.dispatch('LoginByPhone', { data: this.model })
       if (res) this.$router.push('/', () => {})
     }
   }

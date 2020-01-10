@@ -2,24 +2,14 @@ import request from '@/utils/request'
 
 const uri = '/admin/organizations'
 
-// 获取列表
-export function getList(data) {
-  return request.get(`${uri}`, { params: data })
-}
-
-// 获取单个
-export function getOrg({ id }) {
-  return request.get(`${uri}/${id}`)
+// 获取树级列表
+export function getOrgTreeList({ data }) {
+  return request.get(`${uri}/tree`, { params: data })
 }
 
 // 添加
-export function addOrg(data) {
+export function addOrg({ data }) {
   return request.post(`${uri}`, data)
-}
-
-// 更新
-export function updateOrg(data) {
-  return request.put(`${uri}/${data._id}`, data)
 }
 
 // 删除

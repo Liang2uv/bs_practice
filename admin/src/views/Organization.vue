@@ -4,13 +4,34 @@
       <el-button @click="onAdd('college', null, '添加院（系）')" type="primary" size="mini">添加院（系）</el-button>
     </el-header>
     <el-main>
-      <el-tree node-key="_id" :props="props" :data="treeData" :expand-on-click-node="false" default-expand-all>
+      <el-tree
+        node-key="_id"
+        :props="props"
+        :data="treeData"
+        :expand-on-click-node="false"
+        default-expand-all
+      >
         <span class="custom-tree-node" slot-scope="{ node, data }">
           <span>{{ node.label }}</span>
           <span>
-            <el-button v-if="data.type === 'college'" type="text" size="mini" @click="onAdd('grade', node, '添加年级')">添加年级</el-button>
-            <el-button v-if="data.type === 'grade'" type="text" size="mini" @click="onAdd('major', node, '添加专业')">添加专业</el-button>
-            <el-button v-if="data.type === 'major'" type="text" size="mini" @click="onAdd('class', node, '添加班级')">添加班级</el-button>
+            <el-button
+              v-if="data.type === 'college'"
+              type="text"
+              size="mini"
+              @click="onAdd('grade', node, '添加年级')"
+            >添加年级</el-button>
+            <el-button
+              v-if="data.type === 'grade'"
+              type="text"
+              size="mini"
+              @click="onAdd('major', node, '添加专业')"
+            >添加专业</el-button>
+            <el-button
+              v-if="data.type === 'major'"
+              type="text"
+              size="mini"
+              @click="onAdd('class', node, '添加班级')"
+            >添加班级</el-button>
             <el-button type="text" size="mini" @click="onEdit(data)">修改</el-button>
             <el-button type="text" size="mini" @click="onDelete(data._id)">删除</el-button>
           </span>
@@ -38,6 +59,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'organization',
   data() {
@@ -58,14 +80,12 @@ export default {
     }
   },
   computed: {
-    schoolId() {
-      return this.$store.getters.userInfo.school
-    }
+    ...mapGetters(['userInfo'])
   },
   methods: {
     // 获取树级列表
     async getTreeList() {
-      const [err, res] = await this.$store.dispatch("GetOrgList", { type: "tree" })
+      const [err, res] = await this.$store.dispatch("GetOrgTreeList", { data: { startLayer: 1, endLayer: 4, pid:this.userInfo.school } })
       if (!err) {
         this.treeData = res
       }
@@ -75,7 +95,7 @@ export default {
       this.model = {}
       this.dialogTitle = title
       if (type === 'college') {
-        this.model.pid = this.schoolId
+        this.model.pid = this.userInfo.school
       } else {
         this.model.pid = node.data._id
       }
@@ -113,13 +133,7 @@ export default {
         if (!valid) {
           return false
         }
-        const params = { name: this.model.name }
-        if (this.model._id) {
-          params._id = this.model._id
-        } else {
-          params.pid = this.model.pid
-        }
-        const [err, res] = await this.$store.dispatch(this.model._id ? 'UpdateOrg' : 'AddOrg', params)
+        const [err, res] = await this.$store.dispatch(this.model._id ? 'CrudUpdate' : 'AddOrg', { resource: 'organizations', id: this.model._id, data: { name: this.model.name, pid: this.model.pid } })
         if (!err) {
           this.$message.success('保存成功')
           this.dialogVisible = false

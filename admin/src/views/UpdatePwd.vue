@@ -67,7 +67,7 @@ export default {
         if (!valid) {
           return false
         }
-        const [err, res] = await this.$store.dispatch('UpdateUser', { _id: this.userInfo._id, password: this.model.pass })
+        const [err, res] = await this.$store.dispatch('UpdateUser', { id: this.userInfo._id, data: { password: this.model.pass } })
         if (!err) {
           this.$message.success('修改密码成功')
         }

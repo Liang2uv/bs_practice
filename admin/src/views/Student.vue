@@ -7,7 +7,7 @@
           placeholder="姓名..."
           suffix-icon="el-icon-search"
           style="width: 200px;margin-right:20px;"
-          v-model="query.search"
+          v-model="query.username"
         ></el-input>
         <el-button @click="onSearch" type="primary" size="mini">搜索</el-button>
       </div>
@@ -15,8 +15,8 @@
     </el-header>
     <el-main>
       <!-- 表格 -->
-      <el-table :data="tableData" :height="tableHeight" border>
-        <el-table-column label="序号" type="index" align="center" width="70"/>
+      <el-table :data="tableData.list" :height="tableHeight" border>
+        <el-table-column label="序号" type="index" align="center" width="70" />
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
         <el-table-column prop="username" label="姓名" align="center"></el-table-column>
         <el-table-column prop="role" label="角色" align="center"></el-table-column>
@@ -46,7 +46,7 @@
           background
           layout="prev, pager, next, total"
           @current-change="pageChange"
-          :total="total"
+          :total="tableData.total"
           :page-size="query.size"
           :current-page="query.page"
         ></el-pagination>
@@ -74,7 +74,12 @@
           <el-input type="password" v-model="model.password" />
         </el-form-item>
         <el-form-item label="所在组织：" prop="orgna">
-          <el-cascader v-model="model.orgna" :options="selectList" :props="selectProps" style="width:500px;"></el-cascader>
+          <el-cascader
+            v-model="model.orgna"
+            :options="selectList"
+            :props="selectProps"
+            style="width:450px;"
+          ></el-cascader>
         </el-form-item>
         <el-form-item prop="status" label="状态：">
           <el-radio-group v-model="model.status">
@@ -92,11 +97,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'student',
   data() {
     return {
-      tableData: [],
+      resource: 'admin_users',
+      tableData: { total: 0, list: [] },
       model: {},
       dialogVisible: false,
       tableHeight: 0,
@@ -125,13 +132,13 @@ export default {
         ]
       },
       query: {
-        search: '',
+        username: '',
+        school: null,
+        role: '^student$',
         page: 1,
         size: 30,
-        role: 'student',
-        key: 'username'
+        refs: 'schoolInfo|collegeInfo|gradeInfo|majorInfo|classInfo'
       },
-      total: 0,
       selectProps: {
         value: "_id",
         label: "name"
@@ -139,22 +146,20 @@ export default {
     }
   },
   computed: {
-    school() {
-      return this.$store.getters.userInfo.school
-    }
+    ...mapGetters(['userInfo'])
   },
   methods: {
     // 获取列表
     async getList(){
-      const [err, res] = await this.$store.dispatch('GetUserList', this.query)
+      this.query.school = `^${this.userInfo.school}$`
+      const [err, res] = await this.$store.dispatch('CrudListByFilterAndRefsPaging', { resource: this.resource, data: this.query })
       if (!err) {
-        this.tableData = res.list
-        this.total = res.total
+        this.tableData = res
       }
     },
     // 获取详情
     async getDetail(id) {
-      const [err, res] = await this.$store.dispatch('GetUserInfoById', { id })
+      const [err, res] = await this.$store.dispatch('CrudOneByIdAndRefs', { resource: this.resource, id })
       if (!err) return res
     },
     // 删除
@@ -165,10 +170,10 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         })
-        const [err, res] = await this.$store.dispatch('DeleteUser', { id })
+        const [err, res] = await this.$store.dispatch('CrudDelete', { resource: this.resource, id })
         if (!err) {
           this.$message.success('删除成功')
-          if (this.tableData.length === 1) {
+          if (this.tableData.list.length === 1) {
             this.query.page = this.query.page === 1 ? 1 : this.query.page - 1
           }
           this.getList()
@@ -193,33 +198,23 @@ export default {
     // 保存
     onSave() {
       this.$refs['el-form'].validate(async (valid) => {
-        if (!valid) {
+        if (!valid || !this.formValidate()) {
           return false
         }
-        if (!this.model.orgna[0]) {
-          this.$message.error('请具体到学院')
-          return 
+        const params = {
+          phone: this.model.phone,
+          password: this.model.password,
+          username: this.model.username,
+          role: 'student',
+          status: this.model.status,
+          school: this.userInfo.school,
+          number: this.model.number,
+          college: this.model.orgna[0],
+          grade: this.model.orgna[1],
+          major: this.model.orgna[2],
+          class: this.model.orgna[3]
         }
-        if (!this.model.orgna[1]) {
-          this.$message.error('请具体到年级')
-          return 
-        }
-        if (!this.model.orgna[2]) {
-          this.$message.error('请具体到专业')
-          return 
-        }
-        if (!this.model.orgna[3]) {
-          this.$message.error('请具体到班级')
-          return 
-        }
-        this.model.role = 'student'
-        this.model.school = this.school
-        this.model.college = this.model.orgna[0]
-        this.model.grade = this.model.orgna[1]
-        this.model.major = this.model.orgna[2]
-        this.model.class = this.model.orgna[3]
-        delete this.model.orgna
-        const [err, res] = await this.$store.dispatch(this.model._id ? 'UpdateUser' : 'AddUser', this.model)
+        const [err, res] = await this.$store.dispatch(this.model._id ? 'UpdateUser' : 'AddUser', { id: this.model._id, data: params })
         if (!err) {
           this.$message.success('保存成功')
           this.getList()
@@ -227,13 +222,33 @@ export default {
         }
       })
     },
+    // 表单验证
+    formValidate() {
+      if (!this.model.orgna[0]) {
+        this.$message.error('请具体到学院')
+        return false
+      }
+      if (!this.model.orgna[1]) {
+        this.$message.error('请具体到年级')
+        return false 
+      }
+      if (!this.model.orgna[2]) {
+        this.$message.error('请具体到专业')
+        return false 
+      }
+      if (!this.model.orgna[3]) {
+        this.$message.error('请具体到班级')
+        return false 
+      }
+      return true
+    },
     // 对话框关闭
     dialogClose() {
       this.$refs['el-form'].clearValidate()
     },
-    // 获取班级列表
+    // 获取组织树级列表
     async getSelectList() {
-      const [err, res] = await this.$store.dispatch('GetOrgList', { type: 'tree' })
+      const [err, res] = await this.$store.dispatch('GetOrgTreeList', { data: { startLayer: 1, endLayer: 4, pid: this.userInfo.school } })
       if (!err) this.selectList = res
     },
     // 页码改变
@@ -255,7 +270,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         })
-        const [err, res] = await this.$store.dispatch( 'UpdateUser', { _id: id, password: initPwd })
+        const [err, res] = await this.$store.dispatch( 'UpdateUser', { id, data: { password: initPwd } })
         if (!err) {
           this.$message.success('重置成功')
         }

@@ -7,7 +7,7 @@
           placeholder="姓名..."
           suffix-icon="el-icon-search"
           style="width: 200px;margin-right:20px;"
-          v-model="query.search"
+          v-model="query.username"
         ></el-input>
         <el-button @click="onSearch" type="primary" size="mini">搜索</el-button>
       </div>
@@ -15,7 +15,7 @@
     </el-header>
     <el-main>
       <!-- 表格 -->
-      <el-table :data="tableData" :height="tableHeight" border>
+      <el-table :data="tableData.list" :height="tableHeight" border>
         <el-table-column label="序号" type="index" align="center" width="70"/>
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
         <el-table-column prop="username" label="姓名" align="center"></el-table-column>
@@ -43,7 +43,7 @@
           background
           layout="prev, pager, next, total"
           @current-change="pageChange"
-          :total="total"
+          :total="tableData.total"
           :page-size="query.size"
           :current-page="query.page"
         ></el-pagination>
@@ -96,11 +96,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'teacher',
   data() {
     return {
-      tableData: [],
+      resource: 'admin_users',
+      tableData: { total: 0, list: [] },
       model: {},
       dialogVisible: false,
       tableHeight: 0,
@@ -129,32 +131,30 @@ export default {
         ]
       },
       query: {
-        search: '',
+        username: '',
+        school: null,
+        role: '^teacher$',
         page: 1,
         size: 30,
-        role: 'teacher',
-        key: 'username'
-      },
-      total: 0
+        refs: 'schoolInfo|collegeInfo'
+      }
     }
   },
   computed: {
-    school() {
-      return this.$store.getters.userInfo.school
-    }
+    ...mapGetters(['userInfo'])
   },
   methods: {
     // 获取列表
     async getList(){
-      const [err, res] = await this.$store.dispatch('GetUserList', this.query)
+      this.query.school = `^${this.userInfo.school}$`
+      const [err, res] = await this.$store.dispatch('CrudListByFilterAndRefsPaging', { resource: this.resource, data: this.query })
       if (!err) {
-        this.tableData = res.list
-        this.total = res.total
+        this.tableData = res
       }
     },
     // 获取详情
     async getDetail(id) {
-      const [err, res] = await this.$store.dispatch('GetUserInfoById', { id })
+      const [err, res] = await this.$store.dispatch('CrudOneByIdAndRefs', { resource: this.resource, id })
       if (!err) return res
     },
     // 删除
@@ -165,10 +165,10 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         })
-        const [err, res] = await this.$store.dispatch('DeleteUser', { id })
+        const [err, res] = await this.$store.dispatch('CrudDelete', { resource: this.resource, id })
         if (!err) {
           this.$message.success('删除成功')
-          if (this.tableData.length === 1) {
+          if (this.tableData.list.length === 1) {
             this.query.page = this.query.page === 1 ? 1 : this.query.page - 1
           }
           this.getList()
@@ -195,9 +195,17 @@ export default {
         if (!valid) {
           return false
         }
-        this.model.role = 'teacher'
-        this.model.school = this.school
-        const [err, res] = await this.$store.dispatch(this.model._id ? 'UpdateUser' : 'AddUser', this.model)
+        const params = {
+          phone: this.model.phone,
+          password: this.model.password,
+          username: this.model.username,
+          role: 'teacher',
+          status: this.model.status,
+          school: this.userInfo.school,
+          number: this.model.number,
+          college: this.model.college
+        }
+        const [err, res] = await this.$store.dispatch(this.model._id ? 'UpdateUser' : 'AddUser', { id: this.model._id, data: params })
         if (!err) {
           this.$message.success('保存成功')
           this.getList()
@@ -211,8 +219,8 @@ export default {
     },
     // 获取学院列表
     async getCollegeList() {
-      const [err, res] = await this.$store.dispatch('GetOrgList', { layer: 1, pid: this.school, type: "notree" })
-      if (!err) this.collegeList = res.list
+      const [err, res] = await this.$store.dispatch('CrudListByFilter', { resource: 'organizations', data: { type: 'college', path: this.userInfo.school } })
+      if (!err) this.collegeList = res
     },
     // 页码改变
     pageChange(val) {
@@ -233,7 +241,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         })
-        const [err, res] = await this.$store.dispatch( 'UpdateUser', { _id: id, password: initPwd })
+        const [err, res] = await this.$store.dispatch( 'UpdateUser', { id, data: { password: initPwd } })
         if (!err) {
           this.$message.success('重置成功')
         }

@@ -1,4 +1,4 @@
-import { getList, getOrg, addOrg, updateOrg, deleteOrg } from '../../api/organization'
+import { getOrgTreeList, addOrg, deleteOrg } from '../../api/organization'
 
 const organization = {
   state: {
@@ -6,9 +6,9 @@ const organization = {
   mutations: {
   },
   actions: {
-    // 获取列表
-    GetOrgList({}, params) {
-      return getList(params).then(res => {
+    // 获取树级列表
+    GetOrgTreeList({}, params) {
+      return getOrgTreeList(params).then(res => {
         return [null, res]
       }).catch(err => {
         return [err]
@@ -22,25 +22,9 @@ const organization = {
         return [err]
       })
     },
-    // 修改
-    UpdateOrg({}, params) {
-      return updateOrg(params).then(res => {
-        return [null, res]
-      }).catch(err => {
-        return [err]
-      })
-    },
     // 删除
     DeleteOrg({}, params) {
       return deleteOrg(params).then(res => {
-        return [null, res]
-      }).catch(err => {
-        return [err]
-      })
-    },
-    // 获取单个
-    GetOrg({}, params) {
-      return getOrg(params).then(res => {
         return [null, res]
       }).catch(err => {
         return [err]

@@ -1,5 +1,5 @@
 import { getToken, setToken, clearToken } from '../../utils/auth'
-import { loginByPhone, getUserList, getUserInfo, addUser, updateUser, deleteUser } from 'api/adminUser'
+import { loginByPhone, getUserInfoByToken, addUser, updateUser } from 'api/adminUser'
 import router from '../../router'
 
 const adminUser = {
@@ -53,8 +53,7 @@ const adminUser = {
     },
     // 手机号登录
     LoginByPhone({ commit }, params) {
-      const { phone = '', password = '' } = params
-      return loginByPhone({ phone, password }).then(res => {
+      return loginByPhone(params).then(res => {
         commit('SET_TOKEN', res.token)
         setToken(res.token)
         return [null, res]
@@ -64,24 +63,8 @@ const adminUser = {
     },
     // 根据token获取用户信息
     GetUserInfoByToken({ commit }) {
-      return getUserInfo({}).then(res => {
+      return getUserInfoByToken().then(res => {
         commit('SET_USERINFO', res)
-        return [null, res]
-      }).catch(err => {
-        return [err]
-      })
-    },
-    // 根据id获取用户信息
-    GetUserInfoById({ commit }, data) {
-      return getUserInfo(data).then(res => {
-        return [null, res]
-      }).catch(err => {
-        return [err]
-      })
-    },
-    // 获取用户列表
-    GetUserList({ commit }, data) {
-      return getUserList(data).then(res => {
         return [null, res]
       }).catch(err => {
         return [err]
@@ -98,14 +81,6 @@ const adminUser = {
     // 更新用户
     UpdateUser({ commit }, data) {
       return updateUser(data).then(res => {
-        return [null, res]
-      }).catch(err => {
-        return [err]
-      })
-    },
-    // 删除用户
-    DeleteUser({ commit }, data) {
-      return deleteUser(data).then(res => {
         return [null, res]
       }).catch(err => {
         return [err]

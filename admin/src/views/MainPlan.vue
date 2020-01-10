@@ -7,7 +7,7 @@
           placeholder="实习计划名称..."
           suffix-icon="el-icon-search"
           style="width: 200px;margin-right:20px;"
-          v-model="query.search"
+          v-model="query.name"
         ></el-input>
         <el-button @click="onSearch" type="primary" size="mini">搜索</el-button>
       </div>
@@ -15,8 +15,8 @@
     </el-header>
     <el-main>
       <!-- 表格 -->
-      <el-table :data="tableData" :height="tableHeight" border>
-        <el-table-column label="序号" type="index" align="center" width="70"/>
+      <el-table :data="tableData.list" :height="tableHeight" border>
+        <el-table-column label="序号" type="index" align="center" width="70" />
         <el-table-column prop="name" label="名称" align="center"></el-table-column>
         <el-table-column prop="startAt" label="开始时间" align="center">
           <template slot-scope="scope">
@@ -47,7 +47,7 @@
           background
           layout="prev, pager, next, total"
           @current-change="pageChange"
-          :total="total"
+          :total="tableData.total"
           :page-size="query.size"
           :current-page="query.page"
         ></el-pagination>
@@ -92,7 +92,10 @@
                   :key="item._id"
                   :label="item.username"
                   :value="item._id"
-                ></el-option>
+                >
+                  <span style="float: left">{{ item.username }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">{{ item.collegeInfo.name }}</span>
+                </el-option>
               </el-select>
             </el-form-item>
           </el-tab-pane>
@@ -102,7 +105,11 @@
             </el-button>
             <el-row type="flex" style="flex-wrap: wrap;">
               <el-col :span="24" v-for="(item,index) in model.files" :key="index" class="file-item">
-                <el-form-item :prop="`files[${index}].name`" :rules="[{ required: true, message: '材料名不能为空'}]" label="名称：">
+                <el-form-item
+                  :prop="`files[${index}].name`"
+                  :rules="[{ required: true, message: '材料名不能为空'}]"
+                  label="名称："
+                >
                   <el-input v-model="item.name" />
                 </el-form-item>
                 <el-form-item label="文件：">
@@ -144,7 +151,7 @@ export default {
   data() {
     return {
       resource: 'main_plans',
-      tableData: [],
+      tableData: { total: 0, list: [] },
       model: { files: [] },
       dialogVisible: false,
       tableHeight: 0,
@@ -163,20 +170,11 @@ export default {
         ],
       },
       query: {
-        search: '',
+        name: '',
         page: 1,
-        size: 30,
-        key: 'name'
+        size: 30
       },
-      total: 0,
-      teacherList: [],
-      queryTeacher: {
-        search: '',
-        page: 1,
-        size: 30,
-        role: 'teacher',
-        key: 'username'
-      }
+      teacherList: []
     }
   },
   computed: {
@@ -185,22 +183,22 @@ export default {
   methods: {
     // 获取指导老师列表
     async getTeacherList() {
-      const [err, res] = await this.$store.dispatch('GetUserList', this.queryTeacher)
+      const params = { school: `^${this.userInfo.school}$`, role: '^teacher$', refs: 'collegeInfo' }
+      const [err, res] = await this.$store.dispatch('CrudListByFilterAndRefs', { resource: 'admin_users', data: params })
       if (!err) {
-        this.teacherList = res.list
+        this.teacherList = res
       }
     },
     // 获取列表
     async getList(){
-      const [err, res] = await this.$store.dispatch('CrudList', { resource: this.resource, ...this.query })
+      const [err, res] = await this.$store.dispatch('CrudListByFilterAndPaging', { resource: this.resource, data: this.query })
       if (!err) {
-        this.tableData = res.list
-        this.total = res.total
+        this.tableData = res
       }
     },
     // 获取详情
     async getDetail(id) {
-      const [err, res] = await this.$store.dispatch('CrudDetail', { resource: this.resource, id })
+      const [err, res] = await this.$store.dispatch('CrudOneById', { resource: this.resource, id })
       if (!err) return res
     },
     // 删除
@@ -214,7 +212,7 @@ export default {
         const [err, res] = await this.$store.dispatch('CrudDelete', { resource: this.resource, id })
         if (!err) {
           this.$message.success('删除成功')
-          if (this.tableData.length === 1) {
+          if (this.tableData.list.length === 1) {
             this.query.page = this.query.page === 1 ? 1 : this.query.page - 1
           }
           this.getList()
@@ -246,7 +244,7 @@ export default {
         this.model.endAt = this.model.datespan[1]
         this.model.school = this.userInfo.school
         delete this.model.datespan
-        const [err, res] = await this.$store.dispatch(this.model._id ? 'CrudUpdate' : 'CrudAdd', { resource: this.resource, data: this.model })
+        const [err, res] = await this.$store.dispatch(this.model._id ? 'CrudUpdate' : 'CrudAdd', { resource: this.resource, id: this.model._id, data: this.model })
         if (!err) {
           this.$message.success('保存成功')
           this.getList()
@@ -295,7 +293,7 @@ export default {
 
 <style lang="scss" scoped>
 .con-mainplan {
-  .file-item{
+  .file-item {
     padding-top: 15px;
     &:nth-of-type(n + 2) {
       border-top: 1px dashed #ccc;

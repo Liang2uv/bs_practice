@@ -7,7 +7,7 @@
           placeholder="姓名..."
           suffix-icon="el-icon-search"
           style="width: 200px;margin-right:20px;"
-          v-model="query.search"
+          v-model="query.username"
         ></el-input>
         <el-button @click="onSearch" type="primary" size="mini">搜索</el-button>
       </div>
@@ -15,15 +15,18 @@
     </el-header>
     <el-main>
       <!-- 表格 -->
-      <el-table :data="tableData" :height="tableHeight" border>
-        <el-table-column label="序号" type="index" align="center" width="70"/>
+      <el-table :data="tableData.list" :height="tableHeight" border>
+        <el-table-column label="序号" type="index" align="center" width="70" />
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
         <el-table-column prop="username" label="姓名" align="center"></el-table-column>
         <el-table-column prop="role" label="角色" align="center"></el-table-column>
         <el-table-column prop="schoolInfo.name" label="所属学校" align="center"></el-table-column>
         <el-table-column prop="status" label="状态" align="center">
           <template slot-scope="scope">
-            <el-tag size="mini" :type="scope.row.status? 'success' : 'danger'">{{ scope.row.status?'正常':'停用' }}</el-tag>
+            <el-tag
+              size="mini"
+              :type="scope.row.status? 'success' : 'danger'"
+            >{{ scope.row.status?'正常':'停用' }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="150" align="center">
@@ -40,7 +43,7 @@
           background
           layout="prev, pager, next, total"
           @current-change="pageChange"
-          :total="total"
+          :total="query.total"
           :page-size="query.size"
           :current-page="query.page"
         ></el-pagination>
@@ -71,14 +74,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="所属学校：" prop="school">
-          <el-select
-            v-model="model.school"
-            filterable
-            remote
-            :remote-method="getSchoolList"
-            :loading="selectLoading"
-            placeholder="请输入关键词搜索"
-          >
+          <el-select v-model="model.school" filterable placeholder="请输入关键词搜索">
             <el-option
               v-for="item in schoolList"
               :key="item._id"
@@ -110,7 +106,8 @@ export default {
   name: 'admin-user',
   data() {
     return {
-      tableData: [],
+      resource: 'admin_users',
+      tableData: { total: 0, list: [] },
       model: {},
       dialogVisible: false,
       tableHeight: 0,
@@ -133,28 +130,25 @@ export default {
         ]
       },
       query: {
-        search: '',
+        username: '',
+        role: '^admin$',
+        refs: 'schoolInfo',
         page: 1,
-        size: 30,
-        role: 'admin',
-        key: 'username'
-      },
-      total: 0,
-      selectLoading: false
+        size: 30
+      }
     }
   },
   methods: {
     // 获取列表
-    async getList(){
-      const [err, res] = await this.$store.dispatch('GetUserList', this.query)
+    async getList() {
+      const [err, res] = await this.$store.dispatch('CrudListByFilterAndRefsPaging', { resource: this.resource, data: this.query })
       if (!err) {
-        this.tableData = res.list
-        this.total = res.total
+        this.tableData = res
       }
     },
     // 获取详情
     async getDetail(id) {
-      const [err, res] = await this.$store.dispatch('GetUserInfoById', { id })
+      const [err, res] = await this.$store.dispatch('CrudOneById', { resource: this.resource, id })
       if (!err) return res
     },
     // 删除
@@ -165,10 +159,10 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         })
-        const [err, res] = await this.$store.dispatch('DeleteUser', { id })
+        const [err, res] = await this.$store.dispatch('CrudDelete', { resource: this.resource, id })
         if (!err) {
           this.$message.success('删除成功')
-          if (this.tableData.length === 1) {
+          if (this.tableData.list.length === 1) {
             this.query.page = this.query.page === 1 ? 1 : this.query.page - 1
           }
           this.getList()
@@ -181,7 +175,6 @@ export default {
       const res = await this.getDetail(id)
       if (res) {
         this.model = Object.assign({}, this.model, res)
-        this.schoolList = res.schoolInfo
         this.dialogVisible = true
       }
     },
@@ -196,7 +189,7 @@ export default {
         if (!valid) {
           return false
         }
-        const [err, res] = await this.$store.dispatch(this.model._id ? 'UpdateUser' : 'AddUser', this.model)
+        const [err, res] = await this.$store.dispatch(this.model._id ? 'UpdateUser' : 'AddUser', { id: this.model._id, data: this.model })
         if (!err) {
           this.$message.success('保存成功')
           this.getList()
@@ -211,10 +204,8 @@ export default {
     // 获取学校列表
     async getSchoolList(search) {
       if (search !== '') {
-        this.selectLoading = true
-        const [err, res] = await this.$store.dispatch('GetOrgList', { type: 'notree', layer: 0, search })
-        if (!err) this.schoolList = res.list
-        this.selectLoading = false
+        const [err, res] = await this.$store.dispatch('CrudListByFilter', { resource: 'organizations', data: { type: 'school' } })
+        if (!err) this.schoolList = res
       } else {
         this.schoolList = []
       }
@@ -238,7 +229,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         })
-        const [err, res] = await this.$store.dispatch( 'UpdateUser', { _id: id, password: initPwd })
+        const [err, res] = await this.$store.dispatch( 'UpdateUser', { id, data: { password: initPwd } })
         if (!err) {
           this.$message.success('重置成功')
         }
@@ -248,6 +239,7 @@ export default {
   },
   created() {
     this.getList()
+    this.getSchoolList()
   },
   mounted() {
     this.$nextTick(() => {

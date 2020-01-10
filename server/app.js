@@ -33,7 +33,7 @@ app.use(function (err, req, res, next) {
   const statusCode = err.statusCode || 500
   console.log(err.message);
   res.status(statusCode).send({
-    message: statusCode === 500 ? '服务器错误' : err.message
+    message: statusCode === 500 ? '服务器内部错误' : err.message
   })
 })
 

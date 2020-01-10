@@ -7,7 +7,7 @@
           placeholder="学校名称..."
           suffix-icon="el-icon-search"
           style="width: 200px;margin-right:20px;"
-          v-model="query.search"
+          v-model="query.name"
         ></el-input>
         <el-button @click="onSearch" type="primary" size="mini">搜索</el-button>
       </div>
@@ -15,7 +15,7 @@
     </el-header>
     <el-main>
       <!-- 表格 -->
-      <el-table :data="tableData" :height="tableHeight" border>
+      <el-table :data="tableData.list" :height="tableHeight" border>
         <el-table-column label="序号" type="index" align="center" width="70"/>
         <el-table-column prop="name" label="学校名称" align="center"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100" align="center">
@@ -31,7 +31,7 @@
           background
           layout="prev, pager, next, total"
           @current-change="pageChange"
-          :total="total"
+          :total="tableData.total"
           :page-size="query.size"
           :current-page="query.page"
         ></el-pagination>
@@ -63,7 +63,8 @@ export default {
   name: 'school',
   data() {
     return {
-      tableData: [],
+      resource: 'organizations',
+      tableData: { total: 0, list: [] },
       model: {},
       dialogVisible: false,
       tableHeight: 0,
@@ -73,28 +74,24 @@ export default {
         ]
       },
       query: {
-        type: 'notree',
-        layer: 0,
-        search: '',
+        name: '',
+        type: 'school',
         page: 1,
-        size: 30,
-        key: 'name'
-      },
-      total: 0
+        size: 30
+      }
     }
   },
   methods: {
     // 获取列表
     async getList(){
-      const [err, res] = await this.$store.dispatch('GetOrgList', this.query)
+      const [err, res] = await this.$store.dispatch('CrudListByFilterAndPaging', { resource: this.resource, data: this.query })
       if (!err) {
-        this.tableData = res.list
-        this.total = res.total
+        this.tableData = res
       }
     },
     // 获取详情
     async getDetail(id) {
-      const [err, res] = await this.$store.dispatch('GetOrg', { id })
+      const [err, res] = await this.$store.dispatch('CrudOneById', { resource: this.resource, id })
       if (!err) return res
     },
     // 删除
@@ -108,7 +105,7 @@ export default {
         const [err, res] = await this.$store.dispatch('DeleteOrg', { id })
         if (!err) {
           this.$message.success('删除成功')
-          if (this.tableData.length === 1) {
+          if (this.tableData.list.length === 1) {
             this.query.page = this.query.page === 1 ? 1 : this.query.page - 1
           }
           this.getList()
@@ -136,12 +133,8 @@ export default {
           return false
         }
         const params = { name: this.model.name }
-        if (this.model._id) {
-          params._id = this.model._id
-        } else {
-          params.pid = '0'
-        }
-        const [err, res] = await this.$store.dispatch(this.model._id ? 'UpdateOrg' : 'AddOrg', params )
+        if (!this.model._id) { params.pid = '0' }
+        const [err, res] = await this.$store.dispatch(this.model._id ? 'CrudUpdate' : 'AddOrg', { resource: this.resource, id: this.model._id, data: params } )
         if (!err) {
           this.$message.success('保存成功')
           this.getList()

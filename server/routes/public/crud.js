@@ -4,60 +4,101 @@ const mongoose = require('mongoose')
 const router = expresss.Router({
   mergeParams: true // 合并参数
 })
-// 添加
-router.post('/', async (req, res) => {
-  const model = await req.Model.create(req.body)
-  res.send(model)
+
+/*****************************************查询业务(filter/refs/order/paging)**************************************************/
+// 查询全部
+router.get('/', async (req, res, next) => {
+  try { res.send(await req.Service.baseFindAll()) }catch(err) { next(err) }
 })
-// 修改
-router.put('/:id', async (req, res) => {
-  const model = await req.Model.findByIdAndUpdate(req.params.id, req.body, { new: true })
-  res.send(model)
+// 查询并分页
+router.get('/paging', async (req, res, next) => {
+  try { res.send(await req.Service.baseFindAllAndSkipLimit(req.query['page'], req.query['size'])) }catch(err) { next(err) }
 })
-// 列表
-router.get('/', async (req, res) => {
-  let { page = 1, size = 30, search = '', key = 'name' } = req.query
-  size = parseInt(size)
-  page = parseInt(page)
-  // 查询聚合管道
-  const queryArr = [
-    { $match: { [key]: { $regex: search } } },
-    {
-      $group: {
-        _id: null,
-        list: { $push: "$$ROOT" },
-        total: { $sum: 1 }
-      }
-    },
-    {
-      $addFields: {
-        list: { $slice: ['$list', size * (page - 1), size] }
-      }
-    },
-    {
-      $project: { _id: 0 }
-    }
-  ]
-  // 特列，按学校筛选
-  const white = ['MainPlan']
-  if (req.user.role !== 'superadmin' && white.includes(req.Model.modelName)) {
-    queryArr.splice(1, 0, { $match: { school: mongoose.Types.ObjectId(req.user.school) } })
-  }
-  // 查询
-  const result = await req.Model.aggregate(queryArr)
-  res.send(result[0] || { list: [], total: 0 })
+// 查询并排序
+router.get('/order', async (req, res, next) => {
+  try { res.send(await req.Service.baseFindAllAndOrder(req.query['order'])) }catch(err) { next(err) }
 })
-// 获取单个
-router.get('/:id', async (req, res) => {
-  const model = await req.Model.findById(req.params.id)
-  res.send(model)
+// 查询并排序分页
+router.get('/order/paging', async (req, res, next) => {
+  try { res.send(await req.Service.baseFindAllAndOrderSkipLimit(req.query['order'], req.query['page'], req.query['size'])) }catch(err) { next(err) }
 })
-// 删除
-router.delete('/:id', async (req, res) => {
-  await req.Model.findByIdAndRemove(req.params.id)
-  res.send({
-    message: '删除成功'
-  })
+// 关联查询
+router.get('/refs', async (req, res, next) => {
+  try { res.send(await req.Service.baseFindAllAndRef(req.query['refs'])) }catch(err) { next(err) }
+})
+// 关联查询并分页
+router.get('/refs/paging', async (req, res, next) => {
+  try { res.send(await req.Service.baseFindAllAndRefSkipLimit(req.query['refs'], req.query['page'], req.query['size'])) }catch(err) { next(err) }
+})
+// 关联查询并排序
+router.get('/refs/order', async (req, res, next) => {
+  try { res.send(await req.Service.baseFindAllAndRefOrder(req.query['refs'], req.query['order'])) }catch(err) { next(err) }
+})
+// 关联查询并排序分页
+router.get('/refs/order/paging', async (req, res, next) => {
+  try { res.send(await req.Service.baseFindAllAndRefOrderSkipLimit(req.query['refs'], req.query['order'], req.query['page'], req.query['size'])) }catch(err) { next(err) }
+})
+// 根据id查询
+router.get('/id/:id', async (req, res, next) => {
+  try { res.send(await req.Service.baseFindByID(req.params['id'])) }catch(err) { next(err) }
+})
+// 根据id关联查询
+router.get('/id/refs/:id', async (req, res, next) => {
+  try { res.send(await req.Service.baseFindByIDAndRef(req.params['id'], req.query['refs'])) }catch(err) { next(err) }
+})
+// 带条件查询
+router.get('/filter', async (req, res, next) => {
+  try { res.send(await req.Service.baseFindByFilter(req.query)) }catch(err) { next(err) }
+})
+// 带条件查询并分页
+router.get('/filter/paging', async (req, res, next) => {
+  const { page, size, ...filter } = req.query
+  try { res.send(await req.Service.baseFindByFilterAndSkipLimit(filter, page, size)) }catch(err) { next(err) }
+})
+// 带条件查询并排序
+router.get('/filter/order', async (req, res, next) => {
+  const { order, ...filter } = req.query
+  try { res.send(await req.Service.baseFindByFilterAndOrder(filter, order)) }catch(err) { next(err) }
+})
+// 带条件查询并排序分页
+router.get('/filter/order/paging', async (req, res, next) => {
+  const { order, page, size, ...filter } = req.query
+  try { res.send(await req.Service.baseFindByFilterAndOrderSkipLimit(filter, order, page, size)) }catch(err) { next(err) }
+})
+// 带条件关联查询
+router.get('/filter/refs', async (req, res, next) => {
+  const { refs, ...filter } = req.query
+  try { res.send(await req.Service.baseFindByFilterAndRef(filter, refs)) }catch(err) { next(err) }
+})
+// 带条件关联查询并分页
+router.get('/filter/refs/paging', async (req, res, next) => {
+  const { refs, page, size, ...filter } = req.query
+  try { res.send(await req.Service.baseFindByFilterAndRefSkipLimit(filter, refs, page, size)) }catch(err) { next(err) }
+})
+// 带条件关联查询并排序
+router.get('/filter/refs/order', async (req, res, next) => {
+  const { refs, order, ...filter } = req.query
+  try { res.send(await req.Service.baseFindByFilterAndRefOrder(filter, refs, order)) }catch(err) { next(err) }
+})
+// 带条件关联查询并排序分页
+router.get('/filter/refs/order/paging', async (req, res, next) => {
+  const { refs, order, page, size, ...filter } = req.query
+  try { res.send(await req.Service.baseFindByFilterAndRefOrderSkipLimit(filter, refs, order, page, size)) }catch(err) { next(err) }
+})
+
+/*****************************************添加业务**************************************************/
+router.post('/', async (req, res, next) => {
+  try { res.send(await req.Service.baseCreateObj(req.body)) }catch(err) { next(err) }
+})
+
+/*****************************************修改业务**************************************************/
+router.put('/:id', async (req, res, next) => {
+  try { res.send(await req.Service.baseUpdateObj(req.params['id'], req.body)) }catch(err) { next(err) }
+})
+
+/*****************************************删除业务**************************************************/
+router.delete('/:id', async (req, res, next) => {
+  try { res.send(await req.Service.baseRemoveObj(req.params['id'])) }catch(err) { next(err) }
 })
 
 module.exports = router

@@ -72,12 +72,12 @@ export default {
         if (!valid) {
           return false
         }
-        const [err, res] = await this.$store.dispatch('UpdateUser', this.model)
         delete this.model.schoolInfo
         delete this.model.collegeInfo
         delete this.model.gradeInfo
         delete this.model.majorInfo
         delete this.model.classInfo
+        const [err, res] = await this.$store.dispatch('UpdateUser', { id: this.model._id, data: this.model })
         if (!err) {
           this.$message.success('修改成功')
           this.$store.commit('SET_USERINFO', res)

@@ -8,7 +8,7 @@ if (env === 'dev') {
     user: null,
     password: null,
     port: '27017',
-    database: 'bs-practice'
+    database: 'bs-practice-test'
   }
 }
 
