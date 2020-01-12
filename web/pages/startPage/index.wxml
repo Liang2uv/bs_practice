@@ -1,0 +1,3 @@
+<view class="bg-white flex-sub radius shadow-lg" style="height: 100%">
+	<image src="https://image.weilanwl.com/gif/loading-white.gif" mode="aspectFit" class="gif-white response" style="height:100%"></image>
+</view>

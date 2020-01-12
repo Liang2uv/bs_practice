@@ -1,0 +1,21 @@
+<view>
+	<view class="text-xxl padding-xl text-center">
+		<text class="text-black ">{{title}}</text>
+	</view>
+	<view class="padding-xl">
+		<form bindsubmit="formSubmit" class="">
+			<view class="cu-form-group">
+				<input name="phone" placeholder="输入手机号"></input>
+			</view>
+			<view class="cu-form-group">
+				<input name="password" type="password" placeholder="输入密码"></input>
+			</view>
+			<view class="cu-form-group"></view>
+			<view class="btn-area margin-top-xxs">
+				<button formType="submit" class="bg-red" style="width:100%">登录</button>
+			</view>
+		</form>
+	</view>
+	<i-spin size="large" fix wx:if="{{ spinShow }}"></i-spin>
+  <i-toast id="toast" />
+</view>

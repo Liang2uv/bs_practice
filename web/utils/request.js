@@ -1,6 +1,5 @@
 import { baseURL, statusCode } from '../conf/request'
-const app = getApp()
-const request = {}
+import { getToken } from '../utils/util'
 export default function (method, url, data = {}, options = {}) {
   // 请求get对url进行处理
   if (method === 'get') {
@@ -13,8 +12,9 @@ export default function (method, url, data = {}, options = {}) {
   }
   // 请求头
   const reqHeader = {}
-  if (app.globalData.token) {
-    reqHeader['authorization'] = 'Bearer ' + app.globalData.token
+  const token = getToken()
+  if (token) {
+    reqHeader['authorization'] = 'Bearer ' + token
   }
   if (options.contentType) {
     reqHeader['content-type'] = 'application/json'
@@ -24,7 +24,7 @@ export default function (method, url, data = {}, options = {}) {
       url: baseURL + url,
       method: method,
       header: reqHeader,
-      data: data,
+      data: method === 'get' ? {} : data,
       success: res => {
         if (res.statusCode === statusCode.ok) {
           return resolve(res.data)

@@ -1,0 +1,8 @@
+<view class="bg-white flex-sub radius shadow-lg">
+	<image src="https://image.weilanwl.com/gif/rhomb-white.gif" mode="aspectFit" class="gif-white response" style="height:500rpx"></image>
+</view>
+<view class="flex-sub text-center margin-top">
+	<view class="solid-bottom text-xl padding">
+		<text class="text-gray">{{ title }}</text>
+	</view>
+</view>

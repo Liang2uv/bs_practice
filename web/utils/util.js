@@ -1,19 +1,15 @@
-const formatTime = date => {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
-
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+const app = getApp()
+export function getToken() {
+  return wx.getStorageSync('token')
+}
+export function setToken(token) {
+  wx.setStorageSync('token', token)
 }
 
-const formatNumber = n => {
-  n = n.toString()
-  return n[1] ? n : '0' + n
+export function getGlobalData(key) {
+  return app.globalData[key]
 }
 
-module.exports = {
-  formatTime: formatTime
+export function setGlobalData(key, value) {
+  app.globalData[key] = value
 }
