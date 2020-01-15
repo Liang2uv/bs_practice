@@ -1,3 +1,54 @@
-<view>
-  学生主页
+<!-- 自定义顶部导航 -->
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">首页</view>
+</cu-custom>
+<!-- 基本信息 -->
+<view class="basis-card bg-cyan">
+	<view class="text-xl padding-tb-lg">{{ userInfo.username }}，你好！</view>
+	<view class="flex text-white align-center">
+		<view class="flex-sub padding text-center">
+			<view class="flex align-center justify-center">
+				<view class="text-xxl">
+					<text class="cuIcon-footprint"></text>
+				</view>
+				<text class="text-sl margin-lr-sm">167</text>
+				<text>天</text>
+			</view>
+			<text>累计签到</text>
+		</view>
+		<view style="width:2rpx;height:110rpx;background-color:#fff;"></view>
+		<view class="flex-sub padding text-center">
+			<view class="flex align-center justify-center">
+				<view class="text-xxl">
+					<text class="cuIcon-squarecheck"></text>
+				</view>
+				<text class="text-sl margin-lr-sm">167</text>
+				<text>天</text>
+			</view>
+			<text>请假天数</text>
+		</view>
+	</view>
+</view>
+<!-- 功能列表 -->
+<view class="cu-bar bg-white solid-bottom margin-top">
+	<view class="action">
+		<text class="cuIcon-title text-red"></text> 实习申请
+	</view>
+</view>
+<view class="cu-list grid col-3 no-border">
+	<view class="cu-item">
+		<navigator url="/pages/task/index" hover-class="none">
+			<view class="cuIcon-post text-yellow"></view>
+			<text>实习任务</text>
+		</navigator>
+	</view>
+	<view class="cu-item">
+		<view class="cuIcon-tagfill text-blue"></view>
+		<text>请假申请</text>
+	</view>
+	<view class="cu-item">
+		<view class="cuIcon-repeal text-orange"></view>
+		<text>实习变更</text>
+	</view>
 </view>

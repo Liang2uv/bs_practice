@@ -1,2 +1,5 @@
-<!--components/teacher-message/index.wxml-->
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">消息中心</view>
+</cu-custom>
 <text>教师消息</text>

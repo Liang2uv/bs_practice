@@ -4,7 +4,7 @@ Component({
     name: String
   },
   options: {
-    addGlobalClass: true,
+    addGlobalClass: true
   },
   observers: {
     'active': function (val) {

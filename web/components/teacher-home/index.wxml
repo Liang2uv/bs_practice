@@ -1,2 +1,5 @@
-<!--components/teacher-home/index.wxml-->
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">首页</view>
+</cu-custom>
 <text>教师首页</text>

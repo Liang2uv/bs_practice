@@ -1,3 +1,6 @@
+const fs = require('fs')
+const path = require('path')
+
 /***************字符串处理相关**************/
 
 /**
@@ -56,5 +59,48 @@ function getMongoMatch(obj) {
   }
   return newObj
 }
+// ------------------ 日期处理相关 ------------------------
+ function padStart(num) {
+  return num < 10 ? "0" + num : num
+}
+function formatDate(date) {
+  date = date instanceof Date ? date : new Date(date)
+  return `${date.getFullYear()}-${padStart(date.getMonth() + 1)}-${padStart(date.getDate())}`
+}
+/**
+ * 获取两个日期之间的天数
+ * @param {Date} startDate 开始日期
+ * @param {Date} endDate 结束日期
+ * @param {Boolean} includes 是否包括这两个日期
+ */
+function getDateSpanDays(startDate, endDate, includes = true) {
+  startDate = startDate instanceof Date ? startDate : new Date(startDate)
+  endDate = endDate instanceof Date ? endDate : new Date(endDate)
+  startDate.setHours(0)
+  endDate.setHours(23)
+  const days = Math.floor((Math.abs(endDate.getTime() - startDate.getTime())) / (24 * 3600 * 1000))
+  return days
+}
 
-module.exports = { strToObj, strToObjForOrder, getMongoMatch }
+/**
+ * 获取所有的工作日
+ */
+function getWorkDays(startDate, endDate) {
+  let holidays = fs.readFileSync(path.resolve(__dirname + '/../assets/holidays.json'))
+  holidays = JSON.parse(holidays)
+  const days = []
+  const end = new Date(endDate)
+  let day = new Date(startDate)
+  day.setHours(0)
+  day.setMinutes(0)
+  day.setSeconds(0)
+  while(day <= end) {
+    if (!holidays[formatDate(day)]) {
+      days.push(day)
+    }
+    day = new Date(day.getTime() + 24 * 3600 * 1000)
+  }
+  return days
+}
+
+module.exports = { strToObj, strToObjForOrder, getMongoMatch, getDateSpanDays, getWorkDays }

@@ -1,5 +1,4 @@
 const expresss = require('express')
-const mongoose = require('mongoose')
 
 const router = expresss.Router({
   mergeParams: true // 合并参数

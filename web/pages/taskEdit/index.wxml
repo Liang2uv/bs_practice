@@ -1,0 +1,63 @@
+<!-- 新建任务 -->
+<wxs src="../../app.wxs" module="tools" />
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">新建任务</view>
+</cu-custom>
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />
+<!-- 表单 -->
+<van-cell-group>
+	<!-- 名称 -->
+	<van-field value="{{ model.name }}" data-key="name" bind:input="inputChange" required label="任务名称" placeholder="请输入任务名称" />
+	<!-- 实习计划 -->
+	<van-cell title="实习计划" value="{{ model.mainPlanInfo.name }}" title-width="90px" required value-class="text-left" bind:click="mainPlanPickerChange" />
+	<van-popup show="{{ mainPlanPickerShow }}" position="bottom">
+		<van-picker show-toolbar columns="{{ mainPlanList }}" bind:confirm="mainPlanPickerChange" bind:cancel="mainPlanPickerChange" />
+	</van-popup>
+	<!-- 指导老师 -->
+	<van-cell title="指导老师" value="{{ model.teacherInfo.name }}" title-width="90px" required value-class="text-left" bind:click="teacherPickerChange" />
+	<van-popup show="{{ teacherPickerShow }}" position="bottom">
+		<van-picker show-toolbar columns="{{ teacherList }}" bind:confirm="teacherPickerChange" bind:cancel="teacherPickerChange" />
+	</van-popup>
+	<!-- 开始时间 -->
+	<van-cell title="开始时间" value="{{ tools.DateFormat(model.startAt) }}" title-width="90px" required value-class="text-left" data-key="startAt" bind:click="datetimePickerChange" />
+	<van-popup show="{{ startAtPickerShow }}" position="bottom">
+		<van-datetime-picker data-key="startAt" type="datetime" value="{{ model.startAt }}" bind:cancel="datetimePickerChange" bind:confirm="datetimePickerChange" />
+	</van-popup>
+	<!-- 结束时间 -->
+	<van-cell title="结束时间" value="{{ tools.DateFormat(model.endAt) }}" title-width="90px" required value-class="text-left" data-key="endAt" bind:click="datetimePickerChange" />
+	<van-popup show="{{ endAtPickerShow }}" position="bottom">
+		<van-datetime-picker data-key="endAt" type="datetime" value="{{ model.endAt }}" bind:cancel="datetimePickerChange" bind:confirm="datetimePickerChange" />
+	</van-popup>
+	<!-- 上班时间 -->
+	<van-cell title="上班时间" value="{{ model.workTime[0] }}" title-width="90px" required value-class="text-left" data-key="workTime0" bind:click="workTimePickerChange" />
+	<van-popup show="{{ workTime0PickerShow }}" position="bottom">
+		<van-datetime-picker data-key="workTime0" type="time" value="{{ model.workTime[0] }}" bind:cancel="workTimePickerChange" bind:confirm="workTimePickerChange" />
+	</van-popup>
+	<!-- 下班时间 -->
+	<van-cell title="下班时间" value="{{ model.workTime[1] }}" title-width="90px" required value-class="text-left" data-key="workTime1" bind:click="workTimePickerChange" />
+	<van-popup show="{{ workTime1PickerShow }}" position="bottom">
+		<van-datetime-picker data-key="workTime1" type="time" value="{{ model.workTime[1] }}" bind:cancel="workTimePickerChange" bind:confirm="workTimePickerChange" />
+	</van-popup>
+	<!-- 实习地点 -->
+	<van-cell title="实习地点"  value="{{ model.address.name }}" title-width="90px" required bind:click="toSelectLocation" value-class="text-left">
+		<van-icon slot="right-icon" name="location-o" class="custom-icon"/>
+	</van-cell>
+	<!-- 休假类型 -->
+	<van-cell title="休假类型" value="{{ workTypeName }}" title-width="90px" required value-class="text-left" bind:click="workTypePickerChange" />
+	<van-popup show="{{ workTypePickerShow }}" position="bottom">
+		<van-picker show-toolbar columns="{{ workTypeList }}" bind:confirm="workTypePickerChange" bind:cancel="workTypePickerChange" />
+	</van-popup>
+	<!-- 实习联系人 -->
+	<van-field value="{{ model.contact }}" data-key="contact" bind:input="inputChange" label="实习联系人" required placeholder="请输入实习联系人" />
+	<!-- 联系人电话 -->
+	<van-field value="{{ model.contactPhone }}" type="number" data-key="contactPhone" bind:input="inputChange" label="联系人电话" required placeholder="请输入联系人电话" />
+	<!-- 实习岗位 -->	
+	<van-field value="{{ model.post }}" data-key="post" bind:input="inputChange" label="实习岗位" placeholder="请输入实习岗位" />
+	<!-- 实习薪资 -->
+	<van-field value="{{ model.salary }}" type="digit" data-key="salary" bind:input="inputChange" label="实习薪资" placeholder="请输入实习薪资(单位：元)" />
+</van-cell-group>
+<view class="padding flex">
+  <button class="cu-btn flex-sub bg-cyan lg" bind:tap="submit">提交</button>
+</view>

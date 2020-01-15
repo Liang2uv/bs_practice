@@ -1,0 +1,20 @@
+var padStart = function(num) {
+  return num < 10 ? "0" + num : num
+}
+var dateFormat = function (date) {
+  if (!date) {
+    return ""
+  }
+  date = getDate(date)
+  var year = date.getFullYear()
+  var month = (padStart(date.getMonth() + 1))
+  var day = padStart(date.getDate())
+  var hour = padStart(date.getHours())
+  var minute = padStart(date.getMinutes())
+  var second = padStart(date.getSeconds())
+  return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second
+}
+
+module.exports = {
+  DateFormat: dateFormat
+}

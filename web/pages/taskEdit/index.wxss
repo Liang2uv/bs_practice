@@ -1,0 +1,3 @@
+button:not([size='mini']) {
+  width: 100%;
+}

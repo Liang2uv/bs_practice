@@ -21,8 +21,8 @@ Page({
     }
     wx.login({
       success: res => {
-        const params = { code: res.code, ...e.detail.value }
-        bind(params).then(res => {
+        const data = { code: res.code, ...e.detail.value }
+        bind({ data }).then(res => {
           wx.setStorageSync('token', res.token)
           app.globalData.token = res.token
           app.globalData.userInfo = res.userInfo

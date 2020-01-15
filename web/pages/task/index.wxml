@@ -1,0 +1,39 @@
+<!-- 实习任务 -->
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">实习任务</view>
+</cu-custom>
+<view class="cu-bar bg-white solid-bottom margin-top">
+	<view class='action'>
+		<text class='cuIcon-titles text-orange '></text>所有任务
+	</view>
+	<view class='action'>
+		<navigator hover-class="none" url="/pages/taskEdit/index">
+			<view class="flex align-center text-orange">
+				<text class="flex-sub text-xxl margin-lr-xs">
+			  <text class="cuIcon-add"></text>
+				</text>
+				<text>新建</text>
+			</view>
+		</navigator>
+	</view>
+</view>
+<view class="cu-card article" wx:for="{{ list }}" wx:key="_id">
+	<view class="cu-item shadow">
+		<view class="cu-tag bg-{{ item.statusColor }} fr">{{ item.statusName }}</view>
+		<view class="title solid-bottom">
+			<view class="text-cut">
+				<text class="text-xxl text-{{ item.statusColor }}">
+			    <text class="cuIcon-tagfill"></text>
+				</text>
+				{{ item.name }}
+			</view>
+		</view>
+		<view class="content">
+			<view class="padding-tb-sm">
+				<view class="margin-tb-sm">开始时间：{{ item.startAt }}</view>
+				<view>结束时间：{{ item.endAt }}</view>
+			</view>
+		</view>
+	</view>
+</view>

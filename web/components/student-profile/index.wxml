@@ -1,2 +1,48 @@
-<!--components/student-home/index.wxml-->
-<text>学生我的</text>
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">我的</view>
+</cu-custom>
+<view class="bg-white">
+	<!-- 顶部卡片 -->
+	<view class="padding">
+		<view class="padding-xs radius shadow-warp bg-white">
+			<view class="flex align-center padding solid-bottom">
+				<view class="cu-avatar lg round margin-left" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big81005.jpg);"></view>
+				<view class="text-lg padding">
+					<text class="text-black text-bold">{{ userInfo.username }}</text>
+				</view>
+			</view>
+			<view class="flex">
+				<view class="flex-sub padding text-center">
+					<view class="text-xxl">
+						<text class=" cuIcon-edit text-orange"></text>
+					</view>
+					<view class="text-df">编辑资料</view>
+				</view>
+				<view class="flex-sub padding text-center">
+					<navigator url="/pages/auth/index" hover-class="none">
+						<view class="text-xxl">
+							<text class=" cuIcon-selection text-orange"></text>
+						</view>
+						<view class="text-df">个人认证</view>
+					</navigator>
+				</view>
+			</view>
+		</view>
+	</view>
+	<!-- 列表 -->
+	<view class="cu-list menu sm-border card-menu margin-top">
+		<view class="cu-item arrow">
+			<navigator class="content" hover-class="none" url="/pages/errorPage/index">
+				<text class="cuIcon-text text-orange"></text>
+				<text class="text-grey">意见反馈</text>
+			</navigator>
+		</view>
+		<view class="cu-item arrow">
+			<navigator class="content" hover-class="none" url="/pages/errorPage/index">
+				<text class="cuIcon-discoverfill text-orange"></text>
+				<text class="text-grey">关于我们</text>
+			</navigator>
+		</view>
+	</view>
+</view>

@@ -11,7 +11,7 @@ const middleWareResource = options => {
       req.Service = Service
       next()
     } catch (error) {
-      assert(false, 404, 'Not Found')
+      assert(false, 404, 'Not Found Service')
     }
   }
 }

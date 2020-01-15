@@ -41,7 +41,7 @@ Page({
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        login({ code: res.code }).then(res => {
+        login({ data: { code: res.code } }).then(res => {
           setToken(res.token)
           setGlobalData('token', res.token)
           setGlobalData('userInfo', res.userInfo)

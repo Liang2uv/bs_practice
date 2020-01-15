@@ -1,3 +1,7 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">错误页</view>
+</cu-custom>
 <view class="bg-white flex-sub radius shadow-lg">
 	<image src="https://image.weilanwl.com/gif/rhomb-white.gif" mode="aspectFit" class="gif-white response" style="height:500rpx"></image>
 </view>
