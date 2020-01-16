@@ -23,6 +23,10 @@ class TaskSchema extends BaseSchema {
         type: Date,
         required: true
       },
+      company: {  // 实习单位名称
+        type: String,
+        required: true
+      },
       workType: { // 休假类型：double-双休，single-单休，turns-大小周
         type: String,
         enum: ['double', 'single', 'truns'],
@@ -71,8 +75,12 @@ class TaskSchema extends BaseSchema {
       },
       files: [{ // 实习材料
         name: { type: String, required: true },
-        filename: { type: String },
-        fileurl: { type: String }
+        filename: String,
+        fileurl: String,
+        imgs: [{
+          imgname: String,
+          imgurl: String
+        }]
       }]
     }, 'Task')
     /********************该Schema特有的方法*************************/

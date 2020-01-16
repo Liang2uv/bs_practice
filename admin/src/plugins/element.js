@@ -6,9 +6,9 @@ import { Menu, Submenu, MenuItemGroup, MenuItem, Dropdown, DropdownItem, Dropdow
 // 表单
 import { Button, Input, Form, FormItem, Radio, RadioGroup, Select, Option, Cascader, Upload, DatePicker, InputNumber } from 'element-ui'
 // 数据展示
-import { Table, TableColumn, Pagination, Tree } from 'element-ui'
+import { Table, TableColumn, Pagination, Tree, Image } from 'element-ui'
 // 交互
-import { Dialog, Message, Popconfirm, MessageBox } from 'element-ui'
+import { Dialog, Message, Popconfirm, MessageBox, Tooltip } from 'element-ui'
 // 其他
 import { Icon, Avatar, Card, Tag, TabPane, Tabs } from 'element-ui'
 
@@ -34,6 +34,7 @@ Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Pagination)
 Vue.use(Tree)
+Vue.use(Image)
 
 // 表单
 Vue.use(Button)
@@ -54,6 +55,9 @@ Vue.use(Dialog)
 Vue.prototype.$message = Message
 Vue.use(Popconfirm)
 Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$prompt = MessageBox.prompt
+Vue.prototype.$alert = MessageBox.alert
+Vue.use(Tooltip)
 
 // 其他
 Vue.use(Icon)

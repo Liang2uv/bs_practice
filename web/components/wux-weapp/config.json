@@ -1,0 +1,10 @@
+{
+    "components": [
+        "toast",
+        "dialog",
+        "card",
+        "image",
+        "divider",
+        "upload"
+    ]
+}

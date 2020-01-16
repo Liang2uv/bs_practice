@@ -36,20 +36,20 @@ export function crudAdd({ resource, data }) {
 
 // 删除
 export function crudDelete({ resource, id }) {
-  return request.delete(`${uri}/${resource}/${id}`)
+  return request('delete', `${uri}/${resource}/${id}`)
 }
 
 // 更新
 export function crudUpdate({ resource, id, data }) {
-  return request.put(`${uri}/${resource}/${id}`, data)
+  return request('put', `${uri}/${resource}/${id}`, data)
 }
 
 // 根据id查询
 export function crudOneById({ resource, id }) {
-  return request.get(`${uri}/${resource}/id/${id}`)
+  return request('get', `${uri}/${resource}/id/${id}`)
 }
 
 // 根据id关联查询
-export function crudOneByIdAndRefs({ resource, id }) {
-  return request.get(`${uri}/${resource}/id/refs/${id}`)
+export function crudOneByIdAndRefs({ resource, id, data }) {
+  return request('get', `${uri}/${resource}/id/refs/${id}`, data)
 }

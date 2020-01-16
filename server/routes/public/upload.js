@@ -52,6 +52,7 @@ const uploadCos = function (req, res, next) {
     fs.unlinkSync(req.file.path)
     if (err) {
       res.status(500).send(err)
+      return
     }
     req.file.url = `https://${data.Location}`
     next()

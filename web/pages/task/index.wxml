@@ -18,7 +18,7 @@
 		</navigator>
 	</view>
 </view>
-<view class="cu-card article" wx:for="{{ list }}" wx:key="_id">
+<view class="cu-card article" wx:for="{{ list }}" wx:key="_id" data-id="{{ item._id }}" bindtap="toDetail">
 	<view class="cu-item shadow">
 		<view class="cu-tag bg-{{ item.statusColor }} fr">{{ item.statusName }}</view>
 		<view class="title solid-bottom">

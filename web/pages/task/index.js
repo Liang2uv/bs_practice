@@ -20,6 +20,9 @@ Page({
     })
     this.getList()
   },
+  onShow() {
+    this.getList()
+  },
   // 获取列表
   getList() {
     const params = { resource: this.data.resource, data: { applicant: this.data.userInfo._id } }
@@ -36,6 +39,12 @@ Page({
           return v
         })
       })
+    })
+  },
+  // 前往详情页
+  toDetail(e) {
+    wx.navigateTo({
+      url: '/pages/taskEdit/index?id=' + e.currentTarget.dataset.id,
     })
   }
 })

@@ -54,7 +54,11 @@ function getMongoMatch(obj) {
   const newObj = {}
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
-      newObj[key] = { $regex: obj[key] }
+      if (key === 'status') {
+        newObj[key] = Number(obj[key])
+      } else {
+        newObj[key] = { $regex: obj[key] }
+      }
     }
   }
   return newObj

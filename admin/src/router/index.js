@@ -87,6 +87,20 @@ const routes = [
     path: '/',
     name: 'layout',
     component: Layout,
+    meta: { title: '实习审核', icon: 'el-icon-setting' },
+    children: [
+      {
+        path: '/task',
+        name: 'task',
+        meta: { title: '实习任务审核', icon: 'icon', priv: ['teacher'] },
+        component: () => import('views/Task.vue')
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: 'layout',
+    component: Layout,
     meta: { title: '个人中心', icon: 'el-icon-user' },
     children: [
       {

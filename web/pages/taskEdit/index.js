@@ -1,8 +1,8 @@
-import { crudListByFilterAndRefs } from '../../api/crud'
+import { crudListByFilterAndRefs, crudOneByIdAndRefs } from '../../api/crud'
 import { getGlobalData, assert, dateCompare } from '../../utils/util'
+import { downloadFile, uploadImage } from '../../utils/file'
 import { MAP_KEY, MAP_REFERER } from '../../conf/map'
-import Toast from '../../components/vantui/toast/toast'
-import Dialog from '../../components/vantui/dialog/dialog';
+import { $wuxToast, $wuxDialog } from '../../components/wux-weapp/index'
 import { getWorkDays, addTask } from '../../api/task'
 const chooseLocation = requirePlugin('chooseLocation')
 Page({
@@ -28,10 +28,11 @@ Page({
     workTime1PickerShow: false,
     model: {
       name: '',
+      company: '',
       mainPlan: '',
       mainPlanInfo: { name: '', times: 0 },
       teacher: '',
-      teacherInfo: { name: '' },
+      teacherInfo: { username: '' },
       startAt: "",
       endAt: "",
       workType: '',
@@ -39,8 +40,11 @@ Page({
       workDays: 0,
       post: '',
       salary: 0,
-      address: {}
-    }
+      address: {},
+      files: []
+    },
+    isEdit: true,
+    taskId: null
   },
 
   /**
@@ -50,13 +54,35 @@ Page({
     this.setData({
       userInfo: getGlobalData('userInfo') || {}
     })
-    this.getMainPlanList()
+    if (options.id) { // 非编辑，只做浏览
+      this.setData({
+        isEdit: false,
+        taskId: options.id
+      })
+      // 获取实习任务详情信息
+      this.getTaskDetail()
+    } else {  // 编辑状态
+      // 获取实习计划列表
+      this.getMainPlanList()
+    }
   },
   /**
    * 生命周期函数--监听页面展示
    */
   onShow: function (options) {
     this.getLocation()
+  },
+  // 获取实习任务详情信息
+  getTaskDetail() {
+    const params = { id: this.data.taskId, resource: 'tasks', data: { refs: 'mainPlanInfo|teacherInfo' } }
+    crudOneByIdAndRefs(params).then(res => {
+      this.setData({
+        model: res,
+        workTypeName: {double:'双休',single:'单休',turns:'大小周'}[res.workType]
+      })
+    }, err => {
+      $wuxToast().show({ type: 'cancel', text: err.message, success: wx.navigateBack() })
+    })
   },
   // 获取实习计划列表
   getMainPlanList() {
@@ -77,6 +103,9 @@ Page({
   },
   // 时间选择器改变
   datetimePickerChange(e) {
+    if (!this.data.isEdit) {
+      return
+    }
     const key = e.currentTarget.dataset.key
     const params = {}
     params[key + 'PickerShow'] = e.type === 'click'
@@ -87,13 +116,16 @@ Page({
   },
   // 实习计划选择框状态改变
   mainPlanPickerChange(e) {
+    if (!this.data.isEdit) {
+      return
+    }
     const params = {}
     params['mainPlanPickerShow'] = e.type === 'click'
     if (e.type === 'confirm') {
       const { value, index } = e.detail
       params['model.mainPlan'] = this.data._mainPlanList[index]._id
-      params['model.mainPlanInfo.name'] = value
-      params['model.mainPlanInfo.times'] = this.data._mainPlanList[index].times
+      params['model.mainPlanInfo'] = this.data._mainPlanList[index]
+      params['model.files'] = this.data._mainPlanList[index].files.map(v => ({name: v.name, imgs: []})),
       params['_teacherList'] = this.data._mainPlanList[index].teacher
       params['teacherList'] = this.data._mainPlanList[index].teacher.map(v => v.username)
     }
@@ -101,17 +133,23 @@ Page({
   },
   // 指导老师选择框改变
   teacherPickerChange(e) {
+    if (!this.data.isEdit) {
+      return
+    }
     const params = {}
     params['teacherPickerShow'] = e.type === 'click'
     if (e.type === 'confirm') {
       const { value, index } = e.detail
       params['model.teacher'] = this.data._teacherList[index]._id
-      params['model.teacherInfo.name'] = value
+      params['model.teacherInfo.username'] = value
     }
     this.setData(params)
   },
   //休假类型选择框改变
   workTypePickerChange(e) {
+    if (!this.data.isEdit) {
+      return
+    }
     const params = {}
     params['workTypePickerShow'] = e.type === 'click'
     if (e.type === 'confirm') {
@@ -123,6 +161,9 @@ Page({
   },
   // 上下班时间选择框改变
   workTimePickerChange(e) {
+    if (!this.data.isEdit) {
+      return
+    }
     const key = e.currentTarget.dataset.key
     const idx = key === 'workTime0' ? 0 : 1
     const params = {}
@@ -134,6 +175,9 @@ Page({
   },
   // 地图选点
   toSelectLocation() {
+    if (!this.data.isEdit) {
+      return
+    }
     wx.navigateTo({
       url: `plugin://chooseLocation/index?key=${MAP_KEY}&referer=${MAP_REFERER}`
     })
@@ -151,47 +195,95 @@ Page({
       })
     }
   },
+  // 下载模板
+  downloadMoban(e) {
+    const { fileurl, filename } = e.currentTarget.dataset
+    downloadFile(fileurl, filename).then(res => {
+      $wuxDialog().confirm({
+        resetOnClose: true,
+        content: '下载成功，是否打开文档',
+        onConfirm: () => {
+          wx.openDocument({
+            filePath: res.filePath,
+            fail: function (res) {
+              $wuxToast().show({ type: 'cancel', text: '打开文档失败' })
+            }
+          })
+        }
+      })
+    }, err => {
+      $wuxToast().show({ type: 'cancel', text: err.message })
+    })
+  },
+  // 选择图片上传
+  chooseImage(e) {
+    const { fileindex } = e.currentTarget.dataset
+    uploadImage().then(res => {
+      const imgs = this.data.model.files[fileindex].imgs
+      imgs.push({ imgname: res.originalname, imgurl: res.url })
+      this.setData({
+        [`model.files[${fileindex}].imgs`]: imgs
+      })
+    }, err => {
+      $wuxToast().show({ type: 'cancel', text: err.message })
+    })
+  },
+  // 查看图片
+  viewImage(e) {
+    const { fileindex, imgurl } = e.currentTarget.dataset
+    wx.previewImage({
+      urls: this.data.model.files[fileindex].imgs.map(v => v.imgurl),
+      current: imgurl
+    });
+  },
+  // 删除图片
+  delImg(e) {
+    const { fileindex, imgindex } = e.currentTarget.dataset
+    const imgs = this.data.model.files[fileindex].imgs
+    imgs.splice(imgindex, 1)
+    this.setData({
+      [`model.files[${fileindex}].imgs`]: imgs
+    })
+  },
   // 提交表单
   submit() {
     try {
       this.formValidate()
       getWorkDays({ data: { startAt: new Date(this.data.model.startAt), endAt: new Date(this.data.model.endAt), mainPlan: this.data.model.mainPlan } }).then(res => {
-        Dialog.confirm({
+        $wuxDialog().confirm({
+          resetOnClose: true,
           title: '是否继续提交',
-          message: `有效实习天数为${res.workDays}天（除去双休与节假日），实习计划要求至少实习天数为${this.data.model.mainPlanInfo.times}天，是否继续?`,
-          asyncClose: true
-        }).then(() => {
-          const params = {
-            name: this.data.model.name,
-            mainPlan: this.data.model.mainPlan,
-            startAt: new Date(this.data.model.startAt),
-            endAt: new Date(this.data.model.endAt),
-            workType: this.data.model.workType,
-            workTime: this.data.model.workTime,
-            workDays: res.workDays,
-            post: this.data.model.post,
-            salary: this.data.model.salary,
-            address: this.data.model.address,
-            contact: this.data.model.contact,
-            contactPhone: this.data.model.contactPhone,
-            teacher: this.data.model.teacher,
-            applicant: this.data.userInfo._id,
-            status: 0
+          content: `有效实习天数为${res.workDays}天(除去双休与节假日)，实习计划要求至少实习天数为${this.data.model.mainPlanInfo.times}天，是否继续`,
+          onConfirm: () => {
+            const params = {
+              name: this.data.model.name,
+              company: this.data.model.company,
+              mainPlan: this.data.model.mainPlan,
+              startAt: new Date(this.data.model.startAt),
+              endAt: new Date(this.data.model.endAt),
+              workType: this.data.model.workType,
+              workTime: this.data.model.workTime,
+              workDays: res.workDays,
+              post: this.data.model.post,
+              salary: this.data.model.salary,
+              address: this.data.model.address,
+              contact: this.data.model.contact,
+              contactPhone: this.data.model.contactPhone,
+              teacher: this.data.model.teacher,
+              applicant: this.data.userInfo._id,
+              status: 0,
+              files: this.data.model.files
+            }
+            addTask({ data: params }).then(res => {
+              wx.navigateBack()
+            }, error => {
+              $wuxToast().show({ type: 'cancel', text: error.message })
+            })
           }
-          addTask({ data: params }).then(res => {
-            console.log(res)
-            Dialog.close()
-            wx.navigateBack()
-          }, error => {
-            Toast(error.message)
-            Dialog.close()
-          })
-        }).catch(error => {
-          Dialog.close()
         })
       })
     } catch (error) {
-      Toast(error.message)
+      $wuxToast().show({ text: error.message })
     }
   },
   // 数据校验

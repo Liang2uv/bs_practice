@@ -84,6 +84,9 @@
                 :min="1"
                 style="width:100px;margin: 0 10px;"
               ></el-input-number>天
+              <el-tooltip class="item" effect="dark" content="该天数将用作签到，所有应排除周末与节假日" placement="top">
+                <i class="el-icon-info"></i>
+              </el-tooltip>
             </el-form-item>
             <el-form-item prop="teacher" label="指导老师：">
               <el-select v-model="model.teacher" multiple>

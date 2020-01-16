@@ -52,6 +52,6 @@ export function crudOneById({ resource, id }) {
 }
 
 // 根据id关联查询
-export function crudOneByIdAndRefs({ resource, id }) {
-  return request.get(`${uri}/${resource}/id/refs/${id}`)
+export function crudOneByIdAndRefs({ resource, id, data }) {
+  return request.get(`${uri}/${resource}/id/refs/${id}`, { params: data })
 }
