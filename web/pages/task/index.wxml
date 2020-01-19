@@ -1,4 +1,5 @@
 <!-- 实习任务 -->
+<wxs src="../../app.wxs" module="tools" />
 <cu-custom bgColor="bg-cyan" isBack="{{true}}">
 	<view slot="backText">返回</view>
 	<view slot="content">实习任务</view>
@@ -18,7 +19,7 @@
 		</navigator>
 	</view>
 </view>
-<view class="cu-card article" wx:for="{{ list }}" wx:key="_id" data-id="{{ item._id }}" bindtap="toDetail">
+<view class="cu-card article" wx:for="{{ list }}" wx:key="_id" data-id="{{ item._id }}" catchtap="toDetail">
 	<view class="cu-item shadow">
 		<view class="cu-tag bg-{{ item.statusColor }} fr">{{ item.statusName }}</view>
 		<view class="title solid-bottom">
@@ -29,10 +30,13 @@
 				{{ item.name }}
 			</view>
 		</view>
-		<view class="content">
-			<view class="padding-tb-sm">
-				<view class="margin-tb-sm">开始时间：{{ item.startAt }}</view>
-				<view>结束时间：{{ item.endAt }}</view>
+		<view class="content flex flex-direction">
+			<view class="padding-tb-sm solid-bottom">
+				<view class="margin-tb-sm">开始时间：{{ tools.DateFormat(item.startAt) }}</view>
+				<view>结束时间：{{ tools.DateFormat(item.endAt) }}</view>
+			</view>
+			<view class="flex align-center padding-sm">
+				 <button catchtap="toClockList" class="cu-btn block line-orange" style="margin:0rpx 10rpx;">签到</button>
 			</view>
 		</view>
 	</view>

@@ -29,6 +29,11 @@ export default function (method, url, data = {}, options = {}) {
         if (res.statusCode === statusCode.ok) {
           return resolve(res.data)
         } else {
+          if (res.statusCode === statusCode.noAuth) {
+            wx.redirectTo({
+              url: '/pages/login/index?title=登录',
+            })
+          }
           return reject({status: res.statusCode, message: res.data.message  })
         }
       },

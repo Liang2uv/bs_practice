@@ -26,7 +26,7 @@ class BaseSchema extends mongoose.Schema {
        * @param {Object} order 排序方式
        */
       findAllAndOrder(order) {
-        return this.model(schemaName).find().sort({createdAt: -1}).sort(order).lean()
+        return this.model(schemaName).find().sort(order).lean()
       },
       /**
        * 查询并排序分页
@@ -35,7 +35,7 @@ class BaseSchema extends mongoose.Schema {
        * @param {Number} size 分页大小
        */
       findAllAndOrderSkipLimit(order, page, size) {
-        return this.model(schemaName).find().sort({createdAt: -1}).sort(order).skip(size * (page - 1)).limit(size).lean()
+        return this.model(schemaName).find().sort(order).skip(size * (page - 1)).limit(size).lean()
       },
       /**
        * 关联查询
@@ -59,7 +59,7 @@ class BaseSchema extends mongoose.Schema {
        * @param {Object} order 排序方式
        */
       findAllAndRefOrder(refs, order) {
-        return this.model(schemaName).find().populate(refs).sort({createdAt: -1}).sort(order).lean()
+        return this.model(schemaName).find().populate(refs).sort(order).lean()
       },
       /**
        * 关联查询并排序分页
@@ -69,7 +69,7 @@ class BaseSchema extends mongoose.Schema {
        * @param {Number} size 分页大小
        */
       findAllAndRefOrderSkipLimit(refs, order, page, size) {
-        return this.model(schemaName).find().populate(refs).sort({createdAt: -1}).sort(order).skip(size * (page - 1)).limit(size).lean()
+        return this.model(schemaName).find().populate(refs).sort(order).skip(size * (page - 1)).limit(size).lean()
       },
       /**
        * 根据id查询
@@ -109,7 +109,7 @@ class BaseSchema extends mongoose.Schema {
        * @param {String} order 排序方式
        */
       findByFilterAndOrder(filter, order) {
-        return this.model(schemaName).find().where(filter).sort({createdAt: -1}).sort(order).lean()
+        return this.model(schemaName).find().where(filter).sort(order).lean()
       },
       /**
        * 带条件查询并排序分页
@@ -119,7 +119,7 @@ class BaseSchema extends mongoose.Schema {
        * @param {Number} size 分页大小
        */
       findByFilterAndOrderSkipLimit(filter, order, page, size) {
-        return this.model(schemaName).find().where(filter).sort({createdAt: -1}).sort(order).skip(size * (page - 1)).limit(size).lean()
+        return this.model(schemaName).find().where(filter).sort(order).skip(size * (page - 1)).limit(size).lean()
       },
       /**
        * 带条件关联查询
@@ -146,7 +146,7 @@ class BaseSchema extends mongoose.Schema {
        * @param {Object} order 排序方式
        */
       findByFilterAndRefOrder(filter, refs, order) {
-        return this.model(schemaName).find().where(filter).populate(refs).sort({createdAt: -1}).sort(order).lean()
+        return this.model(schemaName).find().where(filter).populate(refs).sort(order).lean()
       },
       /**
        * 带条件关联查询并排序分页
@@ -157,7 +157,7 @@ class BaseSchema extends mongoose.Schema {
        * @param {Number} size 分页大小
        */
       findByFilterAndRefOrderSkipLimit(filter, refs, order, page, size) {
-        return this.model(schemaName).find().where(filter).populate(refs).sort({createdAt: -1}).sort(order).skip(size * (page - 1)).limit(size).lean()
+        return this.model(schemaName).find().where(filter).populate(refs).sort(order).skip(size * (page - 1)).limit(size).lean()
       },
       /**************************************更新方法**************************************/
       /**

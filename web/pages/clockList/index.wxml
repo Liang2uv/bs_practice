@@ -1,0 +1,13 @@
+<wxs src="../../app.wxs" module="tools" />
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">签到记录</view>
+</cu-custom>
+<view class="padding">
+	<wux-tag wx:for="{{ statusList }}" wx:key="label" color="{{ item.color }}">{{ item.label }}</wux-tag>
+</view>
+<wux-timeline position="alternate">
+	<wux-timeline-item wx:for="{{ clockList }}" wx:key="_id" dotStyle="border-color: {{ statusList[item.status].color }}; color: {{ statusList[item.status].color }}">
+		<view style="color: {{ statusList[item.status].color }}">{{ tools.DateFormat(item.date, 'yyyy-MM-dd') }}</view>
+	</wux-timeline-item>
+</wux-timeline>

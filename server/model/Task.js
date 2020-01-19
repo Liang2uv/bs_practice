@@ -48,8 +48,8 @@ class TaskSchema extends BaseSchema {
       },
       address: { // 实习地点/签到地点
         address: { type: String, required: true },  // 位置地址
-        latitude: { type: String, required: true }, // 纬度
-        longitude: { type: String, required: true },  // 经度
+        latitude: { type: Number, required: true }, // 纬度
+        longitude: { type: Number, required: true },  // 经度
         name: { type: String, required: true }, // 位置名称
         city: { type: String, required: true }  // 位置所在城市
       },

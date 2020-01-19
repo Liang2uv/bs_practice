@@ -7,3 +7,8 @@ export function getWorkDays({ data }) {
 export function addTask({ data }) {
   return request('post', '/web/tasks', data)
 }
+
+// 获取当前实习任务信息
+export function getCurrentTask() {
+  return request('get', '/web/tasks/current')
+}

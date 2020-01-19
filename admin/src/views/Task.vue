@@ -74,8 +74,8 @@
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="100" align="center">
           <template slot-scope="scope">
-            <el-button @click="review(scope.row, 'pass')" type="text" size="small">通过</el-button>
-            <el-button @click="review(scope.row, 'return')" type="text" size="small">驳回</el-button>
+            <el-button @click="review(scope.row, 'pass')" type="text" size="small" v-if="scope.row.status === 0">通过</el-button>
+            <el-button @click="review(scope.row, 'return')" type="text" size="small" v-if="scope.row.status === 0">驳回</el-button>
           </template>
         </el-table-column>
       </el-table>

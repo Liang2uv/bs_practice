@@ -15,6 +15,7 @@ Page({
       role: userInfo.role
     })
   },
+  // tab改变
   tabChange(e) {
     this.setData({
       curTab: e.currentTarget.dataset.tab

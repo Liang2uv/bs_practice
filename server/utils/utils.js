@@ -67,9 +67,31 @@ function getMongoMatch(obj) {
  function padStart(num) {
   return num < 10 ? "0" + num : num
 }
-function formatDate(date) {
+function formatDate(date, format = 'yyyy-MM-dd HH:mm:ss') {
   date = date instanceof Date ? date : new Date(date)
-  return `${date.getFullYear()}-${padStart(date.getMonth() + 1)}-${padStart(date.getDate())}`
+  const year = date.getFullYear()
+  const month = padStart(date.getMonth() + 1)
+  const day = padStart(date.getDate())
+  const hour = padStart(date.getHours())
+  const minute = padStart(date.getMinutes())
+  const second = padStart(date.getSeconds())
+  return format.replace('yyyy', year).replace('MM', month).replace('dd', day).replace('HH', hour).replace('mm', minute).replace('ss', second)
+}
+/**
+ * 比较两个日期之间的大小关系
+ * flag = true的时候只比较年月日
+ * 返回0-date1<date2，1-date1=date2, 2-date1>date2
+ */
+function dateCompare(date1, date2, flag = false) {
+  date1 = date1 instanceof Date ? date1 : new Date(date1)
+  date2 = date2 instanceof Date ? date2 : new Date(date2)
+  if (flag) {
+    const d1 = parseInt(formatDate(date1, 'yyyyMMdd'))
+    const d2 = parseInt(formatDate(date2, 'yyyyMMdd'))
+    return (d1 < d2 ? 0 : (d1 == d2 ? 1 : 2) )
+  } else {
+    return (date1 < date2 ? 0 : (date1 == date2 ? 1 : 2) )
+  }
 }
 /**
  * 获取两个日期之间的天数
@@ -98,8 +120,9 @@ function getWorkDays(startDate, endDate) {
   day.setHours(0)
   day.setMinutes(0)
   day.setSeconds(0)
+  day.setMilliseconds(0)
   while(day <= end) {
-    if (!holidays[formatDate(day)]) {
+    if (!holidays[formatDate(day, 'yyyy-MM-dd')]) {
       days.push(day)
     }
     day = new Date(day.getTime() + 24 * 3600 * 1000)
@@ -107,4 +130,19 @@ function getWorkDays(startDate, endDate) {
   return days
 }
 
-module.exports = { strToObj, strToObjForOrder, getMongoMatch, getDateSpanDays, getWorkDays }
+/**
+ * 判断某个时间段是否与其他时间段列表有重叠
+ */
+function dateCrossList(date, dateArr) {
+  let ret = false
+  for (let i = 0; i < dateArr.length; i++) {
+    if (dateCompare(date[1], dateArr[i][0], true) === 0 || dateCompare(date[0], dateArr[i][1], true) === 2) {  // 不重叠
+      continue
+    }
+    ret = true
+    break
+  }
+  return ret
+}
+
+module.exports = { strToObj, strToObjForOrder, getMongoMatch, getDateSpanDays, getWorkDays, dateCrossList, dateCompare }

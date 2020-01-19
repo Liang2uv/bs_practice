@@ -94,6 +94,12 @@ const routes = [
         name: 'task',
         meta: { title: '实习任务审核', icon: 'icon', priv: ['teacher'] },
         component: () => import('views/Task.vue')
+      },
+      {
+        path: '/day-record',
+        name: 'day-record',
+        meta: { title: '签到记录', icon: 'icon', priv: ['teacher'] },
+        component: () => import('views/DayRecord.vue')
       }
     ]
   },

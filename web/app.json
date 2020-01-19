@@ -6,7 +6,9 @@
     "pages/errorPage/index",
     "pages/auth/index",
     "pages/task/index",
-    "pages/taskEdit/index"
+    "pages/taskEdit/index",
+    "pages/clock/index",
+    "pages/clockList/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",
@@ -21,7 +23,7 @@
   },
   "plugins": {
     "chooseLocation": {
-      "version": "1.0.0",
+      "version": "1.0.2",
       "provider": "wx76a9a06e5b4e693e"
     }
   },

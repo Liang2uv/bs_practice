@@ -1,0 +1,21 @@
+<!--签到-->
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">签到</view>
+</cu-custom>
+<!-- 地图 -->
+<view class="page-body">
+  <view class="page-section page-section-gap">
+    <map
+      id="myMap"
+      style="width: 100%; height: 1050rpx;"
+      latitude="{{latitude}}"
+      longitude="{{longitude}}"
+      show-location
+    ></map>
+  </view>
+  <view class="btn-area flex justify-center">
+    <button class="cu-btn bg-cyan lg" bindtap="onClock">一键签到</button>
+  </view>
+</view>
+

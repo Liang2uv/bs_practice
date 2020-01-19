@@ -12,7 +12,7 @@
 		"coverView": true,
 		"autoAudits": false,
 		"checkInvalidKey": true,
-		"checkSiteMap": true,
+		"checkSiteMap": false,
 		"uploadWithSourceMap": true,
 		"babelSetting": {
 			"ignore": [],
@@ -65,6 +65,20 @@
 					"id": -1,
 					"name": "pages/taskEdit/index",
 					"pathName": "pages/taskEdit/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/clock/index",
+					"pathName": "pages/clock/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/clockList/index",
+					"pathName": "pages/clockList/index",
 					"scene": null
 				}
 			]

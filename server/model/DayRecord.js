@@ -19,9 +19,14 @@ class DayRecordSchema extends BaseSchema {
         type: String,
         required: true
       },
-      status: { // 记录状态：0-未签到1-已签到2-已请假
+      status: { // 记录状态：0-待签到1-已签到2-已请假3-缺勤
         type: Number,
         required: true
+      },
+      clock: {  // 签到信息
+        latitude: { type: Number, required: true }, // 纬度
+        longitude: { type: Number, required: true },  // 经度
+        distance: { type: Number, required: true }  // 距离签到地点的距离（m）
       }
     }, 'DayRecord')
     /********************该Schema特有的方法*************************/

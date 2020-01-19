@@ -15,5 +15,9 @@ router.post('/', async (req, res, next) => {
   try { res.send(await TaskService.addTask(req.body)) } catch (err) { next(err) }
 })
 
+// 获取当前实习任务信息
+router.get('/current', async (req, res, next) => {
+  try { res.json(await TaskService.getCurrentTask(req.user._id)) } catch (err) { next(err) }
+})
 
 module.exports = router

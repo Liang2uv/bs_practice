@@ -6,6 +6,7 @@ import getters from './getters'
 import adminUser from './modules/adminUser'
 import crud from './modules/crud'
 import organization from './modules/organization'
+import dayRexord from './modules/dayRexord'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
   modules: {
     adminUser,
     crud,
-    organization
+    organization,
+    dayRexord
   },
   getters
 })

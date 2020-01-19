@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "wux-timeline": "/components/wux-weapp/timeline/index",
+    "wux-timeline-item": "/components/wux-weapp/timeline-item/index",
+    "wux-tag": "/components/wux-weapp/tag/index"
+  }
+}

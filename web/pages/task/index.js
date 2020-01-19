@@ -46,5 +46,11 @@ Page({
     wx.navigateTo({
       url: '/pages/taskEdit/index?id=' + e.currentTarget.dataset.id,
     })
+  },
+  // 前往签到列表
+  toClockList() {
+    wx.navigateTo({
+      url: '/pages/clockList/index'
+    })
   }
 })

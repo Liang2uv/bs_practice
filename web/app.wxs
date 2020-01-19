@@ -1,7 +1,7 @@
 var padStart = function(num) {
   return num < 10 ? "0" + num : num
 }
-var dateFormat = function (date) {
+var dateFormat = function (date, format) {
   if (!date) {
     return ""
   }
@@ -12,7 +12,8 @@ var dateFormat = function (date) {
   var hour = padStart(date.getHours())
   var minute = padStart(date.getMinutes())
   var second = padStart(date.getSeconds())
-  return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second
+  format = format ? format : 'yyyy-MM-dd HH:mm:ss'
+  return format.replace('yyyy', year).replace('MM', month).replace('dd', day).replace('HH', hour).replace('mm', minute).replace('ss', second)
 }
 
 module.exports = {

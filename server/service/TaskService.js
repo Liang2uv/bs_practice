@@ -2,7 +2,7 @@ const BaseService = require('./baseService')
 const TaskModel = require('../model/Task')
 const DayRecordModel = require('../model/DayRecord')
 const MainPlanModel = require('../model/MainPlan')
-const { getWorkDays } = require('../utils/utils')
+const { getWorkDays, dateCrossList, dateCompare } = require('../utils/utils')
 const assert = require('http-assert')
 
 class TaskService extends BaseService {
@@ -38,6 +38,11 @@ class TaskService extends BaseService {
    * @param {Object} model 要添加的数据
    */
   async addTask(model) {
+    // 判断该任务的起始日期是否与其他任务有交叠，不允许有重叠
+    const taskList = await this.model.findByFilter({ applicant: model.applicant })
+    if (dateCrossList([model.startAt, model.endAt], taskList.map(v => [v.startAt, v.endAt]))) {
+      assert(false, 422, '创建出错：不允许与其他任务的日期有重叠')
+    }
     const result = await this.model.createObj(model)
     const days = getWorkDays(model.startAt, model.endAt)
     const dayRecords = days.map(v => {
@@ -45,11 +50,33 @@ class TaskService extends BaseService {
         date: v,
         task: result._id,
         student: model.applicant,
-        status: 0
+        status: dateCompare(new Date(), v, true) < 2? 0 : 3
       }
     })
     DayRecordModel.insertMany(dayRecords)
     return result
+  }
+  /**
+   * 获取当前实习任务信息
+   */
+  async getCurrentTask(userId) {
+    const startNow = new Date()
+    const endNow = new Date()
+    startNow.setHours(23)
+    startNow.setMinutes(59)
+    startNow.setSeconds(59)
+    endNow.setHours(0)
+    endNow.setMinutes(0)
+    endNow.setSeconds(0)
+    endNow.setMilliseconds(0)
+    // 获取任务
+    const task = await this.model.findOne({ applicant: userId, status: 3, startAt: { $lte: startNow }, endAt: { $gte: endNow } }).lean()
+    if (task) {
+      // 获取当前的工作日信息
+      const day = await DayRecordModel.findOne({ date: endNow, student: userId })
+      task.day = day
+    }
+    return task
   }
 }
 

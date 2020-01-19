@@ -19,6 +19,11 @@ export function crudListByFilterAndRefs({ resource, data }) {
   return request('get', `${uri}/${resource}/filter/refs`, data)
 }
 
+// 带条件查询并排序
+export function crudListByFilterAndOrder({ resource, data }) {
+  return request('get', `${uri}/${resource}/filter/order`, data)
+}
+
 // 带条件查询并分页
 export function crudListByFilterAndPaging({ resource, data }) {
   return request('get', `${uri}/${resource}/filter/paging`, data)

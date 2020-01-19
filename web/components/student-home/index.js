@@ -1,4 +1,5 @@
-import { getGlobalData } from '../../utils/util'
+import { getGlobalData, setGlobalData } from '../../utils/util'
+import { getCurrentTask } from '../../api/task'
 Component({
   options: {
     addGlobalClass: true
@@ -23,11 +24,29 @@ Component({
       this.setData({
         userInfo: getGlobalData('userInfo') || {}
       })
+      this.getCurrentTask()
     }
   },
   /**
    * 组件的方法列表
    */
   methods: {
+    // 获取当前实习任务信息
+    getCurrentTask() {
+      getCurrentTask().then(res => {
+        setGlobalData('currentTask', res)
+      }, err => {
+        wx.showToast({
+          title: err.message,
+          icon: 'none'
+        })
+      })
+    },
+    // 前往签到页面
+    toClock() {
+      wx.navigateTo({
+        url: '/pages/clock/index',
+      })
+    }
   }
 })

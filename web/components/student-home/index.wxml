@@ -31,6 +31,7 @@
 	</view>
 </view>
 <!-- 功能列表 -->
+<!-- 实习申请 -->
 <view class="cu-bar bg-white solid-bottom margin-top">
 	<view class="action">
 		<text class="cuIcon-title text-red"></text> 实习申请
@@ -50,5 +51,17 @@
 	<view class="cu-item">
 		<view class="cuIcon-repeal text-orange"></view>
 		<text>实习变更</text>
+	</view>
+</view>
+<!-- 实习过程 -->
+<view class="cu-bar bg-white solid-bottom margin-top">
+	<view class="action">
+		<text class="cuIcon-title text-red"></text> 实习过程
+	</view>
+</view>
+<view class="cu-list grid col-3 no-border">
+	<view class="cu-item" bindtap="toClock">
+		<view class="cuIcon-location text-orange"></view>
+		<text>签到</text>
 	</view>
 </view>

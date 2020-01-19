@@ -5,6 +5,10 @@
         "card",
         "image",
         "divider",
-        "upload"
+        "upload",
+        "timeline-item",
+        "timeline",
+        "tag",
+        "icon"
     ]
 }
