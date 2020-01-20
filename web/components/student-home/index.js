@@ -8,13 +8,31 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    currentTask: null
+    currentTask: null,
+    isPullDownRefresh: {
+      type: Boolean,
+      value: false
+    }
   },
   /**
    * 组件的初始数据
    */
   data: {
+    oldIsPullDownRefresh: false,
     userInfo: {}
+  },
+  /**
+   * 数据监听器
+   */
+  observers: {
+    'isPullDownRefresh': function (newValue) {
+      if (this.data.oldIsPullDownRefresh !== this.data.isPullDownRefresh) {
+        this.refresh()
+        this.setData({
+          oldIsPullDownRefresh: newValue
+        })
+      }
+    }
   },
   /**
    * 生命周期
@@ -31,6 +49,10 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    // 下拉刷新的方法
+    refresh() {
+      this.getCurrentTask()
+    },
     // 获取当前实习任务信息
     getCurrentTask() {
       getCurrentTask().then(res => {
@@ -47,6 +69,13 @@ Component({
     },
     // 前往签到页面
     toClock() {
+      if (!this.data.currentTask) {
+        wx.showToast({
+          title: '当前无任务需要签到',
+          icon: 'none'
+        })
+        return
+      }
       wx.navigateTo({
         url: '/pages/clock/index',
       })
@@ -61,7 +90,7 @@ Component({
         return
       }
       wx.navigateTo({
-        url: '/pages/dayOff/index',
+        url: '/pages/dayOffEdit/index',
       })
     }
   }

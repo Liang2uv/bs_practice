@@ -15,7 +15,7 @@
     ></map>
   </view>
   <view class="btn-area flex justify-center">
-    <button class="cu-btn bg-cyan lg" bindtap="onClock">一键签到</button>
+    <button class="cu-btn bg-cyan lg" bindtap="onClock" >一键签到</button>
   </view>
 </view>
 

@@ -32,6 +32,12 @@
 	</view>
 	<!-- 列表 -->
 	<view class="cu-list menu sm-border card-menu margin-top">
+	<view class="cu-item arrow">
+			<navigator class="content" hover-class="none" url="/pages/dayOff/index">
+				<text class="cuIcon-tag text-orange"></text>
+				<text class="text-grey">请假记录</text>
+			</navigator>
+		</view>
 		<view class="cu-item arrow">
 			<navigator class="content" hover-class="none" url="/pages/errorPage/index">
 				<text class="cuIcon-text text-orange"></text>

@@ -1,44 +1,39 @@
-<!-- 导航页面 -->
-<cp-tabbar-page name="1" active="{{curTab}}">
-	<cp-student-home wx:if="{{role==='student'}}"></cp-student-home>
-	<cp-teacher-home wx:elif="{{role==='teacher'}}"></cp-teacher-home>
-</cp-tabbar-page>
-<cp-tabbar-page name="2" active="{{curTab}}">
-	<cp-student-circle wx:if="{{role==='student'}}"></cp-student-circle>
-	<cp-teacher-circle wx:if="{{role==='teacher'}}"></cp-teacher-circle>
-</cp-tabbar-page>
-<cp-tabbar-page name="3" active="{{curTab}}">
-	<cp-student-message wx:if="{{role==='student'}}"></cp-student-message>
-	<cp-teacher-message wx:if="{{role==='teacher'}}"></cp-teacher-message>
-</cp-tabbar-page>
-<cp-tabbar-page name="4" active="{{curTab}}">
-	<cp-student-profile wx:if="{{role==='student'}}"></cp-student-profile>
-	<cp-teacher-profile wx:if="{{role==='teacher'}}"></cp-teacher-profile>
-</cp-tabbar-page>
+<!-- 学生 -->
+<block wx:if="{{ role === 'student' }}">
+	<cp-tabbar-page name="0" active="{{curTab}}">
+		<cp-student-home is-pull-down-refresh="{{ tabbar[0].isPullDownRefresh }}"></cp-student-home>
+	</cp-tabbar-page>
+	<cp-tabbar-page name="1" active="{{curTab}}">
+		<cp-student-circle is-pull-down-refresh="{{ tabbar[1].isPullDownRefresh }}"></cp-student-circle>
+	</cp-tabbar-page>
+	<cp-tabbar-page name="2" active="{{curTab}}">
+		<cp-student-message is-pull-down-refresh="{{ tabbar[2].isPullDownRefresh }}"></cp-student-message>
+	</cp-tabbar-page>
+	<cp-tabbar-page name="3" active="{{curTab}}">
+		<cp-student-profile is-pull-down-refresh="{{ tabbar[3].isPullDownRefresh }}"></cp-student-profile>
+	</cp-tabbar-page>
+</block>
+<!-- 教师 -->
+<block wx:elif="{{ role === 'teacher' }}">
+	<cp-tabbar-page name="0" active="{{curTab}}">
+		<cp-teacher-home is-pull-down-refresh="{{ tabbar[0].isPullDownRefresh }}"></cp-teacher-home>
+	</cp-tabbar-page>
+	<cp-tabbar-page name="1" active="{{curTab}}">
+		<cp-teacher-circle is-pull-down-refresh="{{ tabbar[1].isPullDownRefresh }}"></cp-teacher-circle>
+	</cp-tabbar-page>
+	<cp-tabbar-page name="2" active="{{curTab}}">
+		<cp-teacher-message is-pull-down-refresh="{{ tabbar[2].isPullDownRefresh }}"></cp-teacher-message>
+	</cp-tabbar-page>
+	<cp-tabbar-page name="3" active="{{curTab}}">
+		<cp-teacher-profile is-pull-down-refresh="{{ tabbar[3].isPullDownRefresh }}"></cp-teacher-profile>
+	</cp-tabbar-page>
+</block>
 <!-- 底部导航栏 -->
 <view class="cu-bar tabbar bg-white shadow foot">
-	<view class="{{'action ' + (curTab === '1' ? 'text-cyan' : 'text-gray')}}" bindtap="tabChange" data-tab="1">
+	<view wx:for="{{ tabbar }}" wx:key="text" class="{{'action ' + (curTab === index ? item.textActiveColor : item.textColor)}}" bindtap="tabChange" data-tab="{{ index }}">
 		<view class="text-xxl">
-			<text class="{{curTab === '1' ? 'cuIcon-homefill' : 'cuIcon-home'}}"></text>
+			<text class="{{curTab === index ? 'cuIcon-'+item.activeIcon : 'cuIcon-'+item.icon}}"></text>
 		</view>
-		<view>首页</view>
-	</view>
-	<view class="{{'action ' + (curTab === '2' ? 'text-cyan' : 'text-gray')}}" bindtap="tabChange" data-tab="2">
-		<view class="text-xxl">
-			<text class="{{curTab === '2' ? 'cuIcon-discoverfill' : 'cuIcon-discover'}}"></text>
-		</view>
-		<view>实习圈</view>
-	</view>
-	<view class="{{'action ' + (curTab === '3' ? 'text-cyan' : 'text-gray')}}" bindtap="tabChange" data-tab="3">
-		<view class="text-xxl">
-			<text class="{{curTab === '3' ? 'cuIcon-commentfill' : 'cuIcon-comment'}}"></text>
-		</view>
-		<view>消息</view>
-	</view>
-	<view class="{{'action ' + (curTab === '4' ? 'text-cyan' : 'text-gray')}}" bindtap="tabChange" data-tab="4">
-		<view class="text-xxl">
-			<text class="{{curTab === '4' ? 'cuIcon-profilefill' : 'cuIcon-profile'}}"></text>
-		</view>
-		<view>我的</view>
+		<view>{{ item.text }}</view>
 	</view>
 </view>

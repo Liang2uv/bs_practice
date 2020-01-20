@@ -9,6 +9,7 @@
     "pages/taskEdit/index",
     "pages/clock/index",
     "pages/clockList/index",
+    "pages/dayOffEdit/index",
     "pages/dayOff/index"
   ],
   "window": {

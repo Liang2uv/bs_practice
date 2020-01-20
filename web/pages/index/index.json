@@ -1,4 +1,5 @@
 {
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "cp-tabbar-page": "/components/tabbar-page/index",
     "cp-student-home": "/components/student-home/index",
