@@ -122,7 +122,7 @@ Page({
     const params = {}
     params['mainPlanPickerShow'] = e.type === 'click'
     if (e.type === 'confirm') {
-      const { value, index } = e.detail
+      const { index } = e.detail
       params['model.mainPlan'] = this.data._mainPlanList[index]._id
       params['model.mainPlanInfo'] = this.data._mainPlanList[index]
       params['model.files'] = this.data._mainPlanList[index].files.map(v => ({name: v.name, imgs: []})),

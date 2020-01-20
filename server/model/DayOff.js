@@ -2,12 +2,16 @@ const mongoose = require('mongoose')
 const BaseSchema = require('./BaseSchema')
 
 /**
- * 工作日记录表
+ * 请假记录表
  */
-class DayRecordSchema extends BaseSchema {
+class DayOffSchema extends BaseSchema {
   constructor() {
     super({
-      date: { // 日期
+      startAt: {  // 开始时间
+        type: Date,
+        required: true
+      },
+      endAt: {  // 结束时间
         type: Date,
         required: true
       },
@@ -19,16 +23,19 @@ class DayRecordSchema extends BaseSchema {
         type: String,
         required: true
       },
-      status: { // 记录状态：0-待签到1-已签到2-已请假3-缺勤
-        type: Number,
+      reason: {  // 请假理由
+        type: String,
         required: true
       },
-      clock: {  // 签到信息
-        latitude: { type: Number }, // 纬度
-        longitude: { type: Number },  // 经度
-        distance: { type: Number }  // 距离签到地点的距离（m）
+      files: [{ // 证明材料
+        filename: String, // 文件名
+        fileurl: String // 文件存储路径
+      }],
+      status: { // 状态：0-待审核1-审核通过2-审核不通过
+        type: Number,
+        required: true
       }
-    }, 'DayRecord')
+    }, 'DayOff')
     /********************该Schema特有的方法*************************/
     let special = {}
     /*********************合并特有方法和公共方法*********************/
@@ -36,7 +43,7 @@ class DayRecordSchema extends BaseSchema {
   }
 }
 
-const schema = new DayRecordSchema()
+const schema = new DayOffSchema()
 
 schema.virtual('taskInfo', {
   ref: 'Task',
@@ -51,5 +58,5 @@ schema.virtual('studentInfo', {
   justOne: true
 })
 
-module.exports = mongoose.model('DayRecord', schema)
+module.exports = mongoose.model('DayOff', schema)
 

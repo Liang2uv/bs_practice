@@ -169,7 +169,6 @@ export default {
     return {
       resource: 'tasks',
       tableData: { total: 0, list: [] },
-      model: {},
       mainPlanDialogVisible: false,
       applicantDialogVisible: false,
       filesDialogVisible: false,

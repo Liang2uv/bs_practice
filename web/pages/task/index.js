@@ -48,9 +48,10 @@ Page({
     })
   },
   // 前往签到列表
-  toClockList() {
+  toClockList(e) {
+    const { task } = e.currentTarget.dataset
     wx.navigateTo({
-      url: '/pages/clockList/index'
+      url: '/pages/clockList/index?task=' + task
     })
   }
 })

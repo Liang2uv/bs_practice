@@ -1,4 +1,3 @@
-import { getGlobalData } from '../../utils/util'
 import { crudListByFilterAndOrder } from '../../api/crud'
 Page({
 
@@ -6,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userInfo: {},
+    taskId: null,
     clockList: [],
     statusList: [
       { label: '待签到', color: '#aaaaaa' },
@@ -21,14 +20,14 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      userInfo: getGlobalData('userInfo') || {}
+      taskId: options.task
     })
     this.getClockList()
   },
 
   // 获取签到记录
   getClockList() {
-    crudListByFilterAndOrder({ resource: 'day_records', data: {student: this.data.userInfo._id, order: 'date_asc'} }).then(res => {
+    crudListByFilterAndOrder({ resource: 'day_records', data: {task: this.data.taskId, order: 'date_asc'} }).then(res => {
       this.setData({
         clockList: res
       })

@@ -88,7 +88,8 @@ function dateCompare(date1, date2, flag = false) {
   if (flag) {
     const d1 = parseInt(formatDate(date1, 'yyyyMMdd'))
     const d2 = parseInt(formatDate(date2, 'yyyyMMdd'))
-    return (d1 < d2 ? 0 : (d1 == d2 ? 1 : 2) )
+    const res = (d1 < d2 ? 0 : (d1 == d2 ? 1 : 2) )
+    return res
   } else {
     return (date1 < date2 ? 0 : (date1 == date2 ? 1 : 2) )
   }
@@ -115,13 +116,9 @@ function getWorkDays(startDate, endDate) {
   let holidays = fs.readFileSync(path.resolve(__dirname + '/../assets/holidays.json'))
   holidays = JSON.parse(holidays)
   const days = []
-  const end = new Date(endDate)
-  let day = new Date(startDate)
-  day.setHours(0)
-  day.setMinutes(0)
-  day.setSeconds(0)
-  day.setMilliseconds(0)
-  while(day <= end) {
+  let end = endDate instanceof Date ? endDate : new Date(endDate)
+  let day = startDate instanceof Date ? startDate : new Date(startDate)
+  while(dateCompare(day, end, true) < 2) {
     if (!holidays[formatDate(day, 'yyyy-MM-dd')]) {
       days.push(day)
     }
@@ -145,4 +142,31 @@ function dateCrossList(date, dateArr) {
   return ret
 }
 
-module.exports = { strToObj, strToObjForOrder, getMongoMatch, getDateSpanDays, getWorkDays, dateCrossList, dateCompare }
+/**
+ * 将时间设为00:00:00或23:59:59
+ */
+function dataSetTime(date, type = '00') {
+  if (type === '00') {
+    date.setHours(0)
+    date.setMinutes(0)
+    date.setSeconds(0)
+    date.setMilliseconds(0)
+  } else if (type === '23') {
+    date.setHours(23)
+    date.setMinutes(59)
+    date.setSeconds(59)
+    date.setMilliseconds(999)
+  }
+  return date
+}
+
+module.exports = { 
+  strToObj, 
+  strToObjForOrder, 
+  getMongoMatch, 
+  getDateSpanDays, 
+  getWorkDays,
+  dateCrossList, 
+  dateCompare,
+  dataSetTime
+}

@@ -96,6 +96,12 @@ const routes = [
         component: () => import('views/Task.vue')
       },
       {
+        path: '/day-off',
+        name: 'day-off',
+        meta: { title: '请假审核', icon: 'icon', priv: ['teacher'] },
+        component: () => import('views/DayOff.vue')
+      },
+      {
         path: '/day-record',
         name: 'day-record',
         meta: { title: '签到记录', icon: 'icon', priv: ['teacher'] },

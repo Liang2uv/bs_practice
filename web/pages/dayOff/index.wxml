@@ -1,0 +1,52 @@
+<!--请假申请-->
+<wxs src="../../app.wxs" module="tools" />
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">请假申请</view>
+</cu-custom>
+
+<wux-toast id="wux-toast" />
+
+<view class="cu-bar bg-white solid-bottom">
+	<view class='action'>
+		<text class='cuIcon-titles text-orange '></text>基本信息
+	</view>
+</view>
+<!-- 表单 -->
+<van-cell-group>
+	<!-- 任务名称 -->
+	<van-cell title="关联任务" value="{{ model.taskInfo.name }}" title-width="90px" value-class="text-left"/>
+	<!-- 开始时间 -->
+	<van-cell title="开始时间" value="{{ tools.DateFormat(model.startAt) }}" title-width="90px" required value-class="text-left" data-key="startAt" bind:click="datetimePickerChange" />
+	<van-popup wx:if="{{ isEdit }}" show="{{ startAtPickerShow }}" position="bottom">
+		<van-datetime-picker data-key="startAt" type="datetime" value="{{ model.startAt }}" bind:cancel="datetimePickerChange" bind:confirm="datetimePickerChange" />
+	</van-popup>
+	<!-- 结束时间 -->
+	<van-cell title="结束时间" value="{{ tools.DateFormat(model.endAt) }}" title-width="90px" required value-class="text-left" data-key="endAt" bind:click="datetimePickerChange" />
+	<van-popup wx:if="{{ isEdit }}" show="{{ endAtPickerShow }}" position="bottom">
+		<van-datetime-picker data-key="endAt" type="datetime" value="{{ model.endAt }}" bind:cancel="datetimePickerChange" bind:confirm="datetimePickerChange" />
+	</van-popup>
+	<!-- 申请理由 -->	
+	<van-field readonly="{{ !isEdit }}" required value="{{ model.reason }}" data-key="reason" bind:input="inputChange" label="申请理由" placeholder="请输入申请理由" />
+</van-cell-group>
+<!-- 证明材料 -->
+<wux-card full title="证明材料">
+  <view slot="body">
+    <view class="grid col-4 grid-square flex-sub">
+      <view class="bg-img" wx:for="{{ model.files }}" wx:key="filename" bindtap="viewImage" data-imgurl="{{ item.fileurl }}">
+        <image src='{{ item.fileurl }}' mode='aspectFill'></image>
+        <view wx:if="{{ isEdit }}" class="cu-tag bg-red" catchtap="delImg" data-index="{{index}}">
+          <text class="cuIcon-close"></text>
+        </view>
+      </view>
+      <view class="solids" bindtap="chooseImage" wx:if="{{ isEdit && model.files.length < 8}}">
+        <text class="cuIcon-cameraadd"></text>
+      </view>
+    </view>
+  </view>
+</wux-card>
+<!-- 提交按钮 -->
+<view wx:if="{{ isEdit }}" class="padding flex">
+  <button class="cu-btn flex-sub bg-cyan lg" bind:tap="submit">提交</button>
+</view>
+<view class="padding-xs"></view>

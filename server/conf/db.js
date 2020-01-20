@@ -1,6 +1,12 @@
 const env = process.env.NODE_ENV
 
-let MONGO_CONF
+let MONGO_CONF = {
+  host: '127.0.0.1',
+  user: null,
+  password: null,
+  port: '27017',
+  database: 'bs-practice'
+}
 
 if (env === 'dev') {
   MONGO_CONF = {

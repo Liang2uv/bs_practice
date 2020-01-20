@@ -64,14 +64,7 @@ export default {
     return {
       resource: 'day_records',
       tableData: { total: 0, list: [] },
-      model: {},
-      mainPlanDialogVisible: false,
-      applicantDialogVisible: false,
-      filesDialogVisible: false,
       tableHeight: 0,
-      mainPlanInfo: null,
-      applicantInfo: null,
-      filesInfo: null,
       query: {
         teaId: null,
         stuSearch: '',
@@ -79,7 +72,6 @@ export default {
         page: 1,
         size: 30
       },
-      tabFile: '',
       statusArr: ['未签到', '已签到', '已请假', '缺勤']
     }
   },

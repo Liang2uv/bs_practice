@@ -2,7 +2,7 @@ const BaseService = require('./baseService')
 const TaskModel = require('../model/Task')
 const DayRecordModel = require('../model/DayRecord')
 const MainPlanModel = require('../model/MainPlan')
-const { getWorkDays, dateCrossList, dateCompare } = require('../utils/utils')
+const { getWorkDays, dateCrossList, dateCompare, dataSetTime } = require('../utils/utils')
 const assert = require('http-assert')
 
 class TaskService extends BaseService {
@@ -30,6 +30,7 @@ class TaskService extends BaseService {
     if (endAt < mainPlanStartAt) {
       return { workDays: 0, days: [] }
     }
+    // 得到的是有效的实习工作日
     const days = getWorkDays(trueStartAt.getTime(), trueEndAt.getTime())
     return { workDays: days.length, days }
   }
@@ -44,6 +45,7 @@ class TaskService extends BaseService {
       assert(false, 422, '创建出错：不允许与其他任务的日期有重叠')
     }
     const result = await this.model.createObj(model)
+    // 得到的是实际工作日
     const days = getWorkDays(model.startAt, model.endAt)
     const dayRecords = days.map(v => {
       return {
@@ -53,28 +55,31 @@ class TaskService extends BaseService {
         status: dateCompare(new Date(), v, true) < 2? 0 : 3
       }
     })
-    DayRecordModel.insertMany(dayRecords)
+    await DayRecordModel.insertMany(dayRecords)
     return result
   }
   /**
    * 获取当前实习任务信息
    */
   async getCurrentTask(userId) {
-    const startNow = new Date()
-    const endNow = new Date()
-    startNow.setHours(23)
-    startNow.setMinutes(59)
-    startNow.setSeconds(59)
-    endNow.setHours(0)
-    endNow.setMinutes(0)
-    endNow.setSeconds(0)
-    endNow.setMilliseconds(0)
+    const startNow = dataSetTime(new Date(), '23')
+    const endNow = dataSetTime(new Date())
     // 获取任务
     const task = await this.model.findOne({ applicant: userId, status: 3, startAt: { $lte: startNow }, endAt: { $gte: endNow } }).lean()
     if (task) {
       // 获取当前的工作日信息
       const day = await DayRecordModel.findOne({ date: endNow, student: userId })
       task.day = day
+      // 获取所有的工作日信息
+      const days = await DayRecordModel.find({ task: task._id }).lean()
+      // 统计已经实习的天数和签到天数
+      const [practiceDays, clockDays] = days.reduce((arr, item) => {
+        dateCompare(new Date(), item.date, true) >= 1 ? ++arr[0] : arr[0]
+        item.status === 1 ? ++arr[1] : arr[1]
+        return arr
+      }, [0, 0])
+      task.practiceDays = practiceDays
+      task.clockDays = clockDays
     }
     return task
   }

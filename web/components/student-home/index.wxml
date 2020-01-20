@@ -5,17 +5,17 @@
 </cu-custom>
 <!-- 基本信息 -->
 <view class="basis-card bg-cyan">
-	<view class="text-xl padding-tb-lg">{{ userInfo.username }}，你好！</view>
+	<view class="text-lg padding-tb-lg">当前：{{ currentTask ? currentTask.name : '暂无实习任务' }}</view>
 	<view class="flex text-white align-center">
 		<view class="flex-sub padding text-center">
 			<view class="flex align-center justify-center">
 				<view class="text-xxl">
 					<text class="cuIcon-footprint"></text>
 				</view>
-				<text class="text-sl margin-lr-sm">167</text>
+				<text class="text-sl margin-lr-sm">{{ currentTask ? currentTask.practiceDays : 0 }}</text>
 				<text>天</text>
 			</view>
-			<text>累计签到</text>
+			<text>已经实习</text>
 		</view>
 		<view style="width:2rpx;height:110rpx;background-color:#fff;"></view>
 		<view class="flex-sub padding text-center">
@@ -23,10 +23,10 @@
 				<view class="text-xxl">
 					<text class="cuIcon-squarecheck"></text>
 				</view>
-				<text class="text-sl margin-lr-sm">167</text>
+				<text class="text-sl margin-lr-sm">{{ currentTask ? currentTask.clockDays : 0 }}</text>
 				<text>天</text>
 			</view>
-			<text>请假天数</text>
+			<text>累计签到</text>
 		</view>
 	</view>
 </view>
@@ -44,7 +44,7 @@
 			<text>实习任务</text>
 		</navigator>
 	</view>
-	<view class="cu-item">
+	<view bindtap="toDayOff" class="cu-item">
 		<view class="cuIcon-tagfill text-blue"></view>
 		<text>请假申请</text>
 	</view>

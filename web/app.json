@@ -8,7 +8,8 @@
     "pages/task/index",
     "pages/taskEdit/index",
     "pages/clock/index",
-    "pages/clockList/index"
+    "pages/clockList/index",
+    "pages/dayOff/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

@@ -8,7 +8,7 @@ Component({
    * 组件的属性列表
    */
   properties: {
-
+    currentTask: null
   },
   /**
    * 组件的初始数据
@@ -35,6 +35,9 @@ Component({
     getCurrentTask() {
       getCurrentTask().then(res => {
         setGlobalData('currentTask', res)
+        this.setData({
+          currentTask: res
+        })
       }, err => {
         wx.showToast({
           title: err.message,
@@ -46,6 +49,19 @@ Component({
     toClock() {
       wx.navigateTo({
         url: '/pages/clock/index',
+      })
+    },
+    // 前往请假申请页面
+    toDayOff() {
+      if (!this.data.currentTask) {
+        wx.showToast({
+          title: '当前无任务需要请假',
+          icon: 'none'
+        })
+        return
+      }
+      wx.navigateTo({
+        url: '/pages/dayOff/index',
       })
     }
   }
