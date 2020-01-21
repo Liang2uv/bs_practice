@@ -1,12 +1,18 @@
-<!--pages/dayOff/index.wxml-->
-<text>pages/dayOff/index.wxml</text>
 <wxs src="../../app.wxs" module="tools" />
 <cu-custom bgColor="bg-cyan" isBack="{{true}}">
 	<view slot="backText">返回</view>
 	<view slot="content">请假记录</view>
 </cu-custom>
-<view class="padding-lr">
-  <wux-card title="{{ tools.DateFormat(item.createdAt, 'yyyy-MM-dd') }}" wx:for="{{ dayOffList }}" wx:key="_id" extra="{{ statusArr[item.status] }}" data-id="{{ item._id }}" bindtap="toDetail">
+<view class="cu-bar bg-white solid-bottom">
+  <view class='action'>
+    <text class='cuIcon-titles text-orange '></text> 所有记录
+  </view>
+  <view class='action'>
+    <button class="cu-btn bg-cyan" catchtap="toDayOff">去请假</button>
+  </view>
+</view>
+<view wx:for="{{ dayOffList }}" class="margin-top" wx:key="_id">
+  <wux-card full title="{{ tools.DateFormat(item.createdAt, 'yyyy-MM-dd') }}" extra="{{ statusArr[item.status] }}" data-id="{{ item._id }}" bindtap="toDetail">
       <view slot="body">理由：{{ item.reason }}</view>
       <view slot="footer">{{ item.taskInfo.name  }}</view>
   </wux-card>

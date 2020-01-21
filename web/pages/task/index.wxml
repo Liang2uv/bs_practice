@@ -4,6 +4,7 @@
 	<view slot="backText">返回</view>
 	<view slot="content">实习任务</view>
 </cu-custom>
+<wux-dialog id="wux-dialog" />
 <view class="cu-bar bg-white solid-bottom margin-top">
 	<view class='action'>
 		<text class='cuIcon-titles text-orange '></text>所有任务
@@ -35,8 +36,11 @@
 				<view class="margin-tb-sm">开始时间：{{ tools.DateFormat(item.startAt, 'yyyy-MM-dd') }}</view>
 				<view>结束时间：{{ tools.DateFormat(item.endAt, 'yyyy-MM-dd') }}</view>
 			</view>
-			<view class="flex align-center padding-sm">
-				 <button data-task="{{ item._id }}" catchtap="toClockList" class="cu-btn block line-orange" style="margin:0rpx 10rpx;">签到记录</button>
+			<view class="flex align-center padding-tb-sm">
+				 <button data-task="{{ item._id }}" catchtap="toClockList" class="cu-btn block line-orange" style="margin:0rpx 10rpx;">签到</button>
+				 <button data-task="{{ item._id }}" catchtap="selectNote" class="cu-btn block line-orange" style="margin:0rpx 10rpx;">手册</button>
+				 <button data-task="{{ item._id }}" catchtap="toDayOffList" class="cu-btn block line-orange" style="margin:0rpx 10rpx;">请假</button>
+				 <button data-task="{{ item._id }}" class="cu-btn block line-orange" style="margin:0rpx 10rpx;">变更</button>
 			</view>
 		</view>
 	</view>

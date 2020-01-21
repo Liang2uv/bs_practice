@@ -16,7 +16,7 @@
 			</view>
 			<view class="cu-form-group"></view>
 			<view class="btn-area margin-top-xxs">
-				<button formType="submit" class="bg-red" style="width:100%">登录</button>
+				<button formType="submit" class="bg-cyan" style="width:100%">登录</button>
 			</view>
 		</form>
 	</view>

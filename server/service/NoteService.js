@@ -1,32 +1,21 @@
 const BaseService = require('./baseService')
-const DayOffModel = require('../model/DayOff')
-const DayRecordModel = require('../model/DayRecord')
+const NoteModel = require('../model/Note')
 const assert = require('http-assert')
-const { dataSetTime } = require('../utils/utils')
 
-class DayOffService extends BaseService {
+class NoteService extends BaseService {
   constructor() {
-    super(DayOffModel)
-  }
-  // 更新请假申请
-  async updateDayOff(id, model) {
-    const res = await this.model.updateObj(id, model)
-    if (model.status === 1) { // 审核通过，将对于的考勤记录更新为已请假
-      const startAt = dataSetTime(res.startAt)
-      const endAt = dataSetTime(res.endAt)
-      await DayRecordModel.updateMany({ task: res.task, date: { $gte: startAt, $lte: endAt } }, { status: 2 })
-    }
-    return res
+    super(NoteModel)
   }
   /**
-   * 获取学生的请假列表（老师用）
+   * 获取学生的实习记录列表（老师用）
    * @param {String} teaId 老师id
    * @param {String} stuSearch 学生姓名或学号
+   * @param {String} type 类型
    * @param {Number} status 状态
    * @param {Number} page 页码
    * @param {Number} size 分页大小
    */
-  async getList(teaId, stuSearch = "", status = { $in: [0, 1, 2] }, page = 1, size = 30) {
+  async getList(teaId, stuSearch = '', type = '', status = { $in: [0, 1] }, page = 1, size = 30) {
     assert(teaId, 400, '请求参数错误')
     page = parseInt(page)
     size = parseInt(size)
@@ -63,6 +52,7 @@ class DayOffService extends BaseService {
             { "studentInfo.username": { $regex: stuSearch } },
             { "studentInfo.number": { $regex: stuSearch } }
           ],
+          type: { $regex: type },
           status: status,
           "taskInfo.teacher": { $regex: teaId }
         }
@@ -90,4 +80,4 @@ class DayOffService extends BaseService {
   }
 }
 
-module.exports = new DayOffService()
+module.exports = new NoteService()

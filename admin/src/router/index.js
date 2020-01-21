@@ -87,12 +87,12 @@ const routes = [
     path: '/',
     name: 'layout',
     component: Layout,
-    meta: { title: '实习审核', icon: 'el-icon-setting' },
+    meta: { title: '实习申请', icon: 'el-icon-setting' },
     children: [
       {
         path: '/task',
         name: 'task',
-        meta: { title: '实习任务审核', icon: 'icon', priv: ['teacher'] },
+        meta: { title: '实习任务', icon: 'icon', priv: ['teacher'] },
         component: () => import('views/Task.vue')
       },
       {
@@ -100,12 +100,44 @@ const routes = [
         name: 'day-off',
         meta: { title: '请假审核', icon: 'icon', priv: ['teacher'] },
         component: () => import('views/DayOff.vue')
-      },
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: 'layout',
+    component: Layout,
+    meta: { title: '实习过程', icon: 'el-icon-setting' },
+    children: [
       {
         path: '/day-record',
         name: 'day-record',
         meta: { title: '签到记录', icon: 'icon', priv: ['teacher'] },
         component: () => import('views/DayRecord.vue')
+      },
+      {
+        path: '/note-day',
+        name: 'note-day',
+        meta: { title: '实习日记', icon: 'icon', priv: ['teacher'] },
+        component: () => import('views/NoteDay.vue')
+      },
+      {
+        path: '/note-week',
+        name: 'note-week',
+        meta: { title: '实习周记', icon: 'icon', priv: ['teacher'] },
+        component: () => import('views/NoteWeek.vue')
+      },
+      {
+        path: '/note-month',
+        name: 'note-month',
+        meta: { title: '实习月记', icon: 'icon', priv: ['teacher'] },
+        component: () => import('views/NoteMonth.vue')
+      },
+      {
+        path: '/note-summary',
+        name: 'note-summary',
+        meta: { title: '实习总结', icon: 'icon', priv: ['teacher'] },
+        component: () => import('views/NoteSummary.vue')
       }
     ]
   },

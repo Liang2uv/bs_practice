@@ -3,6 +3,14 @@
 	<view slot="backText">返回</view>
 	<view slot="content">签到记录</view>
 </cu-custom>
+<view class="cu-bar bg-white solid-bottom">
+  <view class='action'>
+    <text class='cuIcon-titles text-orange '></text> 所有记录
+  </view>
+  <view class='action'>
+    <button class="cu-btn bg-cyan" catchtap="toClock">去签到</button>
+  </view>
+</view>
 <view class="padding">
 	<wux-tag wx:for="{{ statusList }}" wx:key="label" color="{{ item.color }}">{{ item.label }}</wux-tag>
 </view>

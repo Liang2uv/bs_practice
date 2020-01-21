@@ -1,0 +1,50 @@
+<wxs src="../../app.wxs" module="tools" />
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">{{ title }}</view>
+</cu-custom>
+<wux-toast id="wux-toast" />
+<!-- 表单 -->
+	<!-- 内容 -->
+<view class="cu-form-group">
+	<textarea style="height:400rpx;" disabled="{{ !isEdit }}" value="{{ model.content }}" data-key="content" maxlength="-1" disabled="{{modalName!=null}}" bindinput="inputChange" placeholder="{{ '写点什么吧(字数：' + minTextLength + '~' + maxTextLength + ')' }}"></textarea>
+</view>
+<van-cell-group>
+	<!-- 所属任务 -->
+	<van-cell title="所属任务" value="{{ model.taskInfo.name }}" title-width="90px" required value-class="text-left" bind:click="taskPickerChange" />
+	<van-popup wx:if="{{ isEdit }}" show="{{ taskPickerShow }}" position="bottom">
+		<van-picker show-toolbar columns="{{ taskList }}" bind:confirm="taskPickerChange" bind:cancel="taskPickerChange" />
+	</van-popup>
+	<!-- 关联日期 -->
+	<van-cell title="关联日期" value="{{ tools.DateFormat(model.date) }}" title-width="90px" required value-class="text-left" data-key="date" bind:click="datetimePickerChange" />
+	<van-popup wx:if="{{ isEdit }}" show="{{ datePickerShow }}" position="bottom">
+		<van-datetime-picker data-key="date" type="datetime" value="{{ model.date }}" bind:cancel="datetimePickerChange" bind:confirm="datetimePickerChange" />
+	</van-popup>
+</van-cell-group>
+<!-- 图片 -->
+<view class="cu-bar bg-white">
+	<view class="action">
+		图片上传(最多4张)
+	</view>
+	<view class="action">
+		{{model.imgs.length}}/4
+	</view>
+</view>
+<view class="cu-form-group">
+	<view class="grid col-4 grid-square flex-sub ">
+		<view class="bg-img" wx:for="{{ model.imgs }}" wx:key="index" bindtap="viewImage" data-imgurl="{{ item }}">
+			<image src='{{ item }}' mode='aspectFill'></image>
+			<view wx:if="{{ isEdit }}" class="cu-tag bg-red" catchtap="delImg" data-index="{{index}}">
+				<text class="cuIcon-close"></text>
+			</view>
+		</view>
+		<view class="solids" bindtap="chooseImage" wx:if="{{ isEdit && model.imgs.length < 4}}">
+			<text class="cuIcon-cameraadd"></text>
+		</view>
+	</view>
+</view>
+<!-- 提交按钮 -->
+<view wx:if="{{ isEdit }}" class="padding flex">
+  <button class="cu-btn flex-sub bg-cyan lg" bind:tap="submit">提交</button>
+</view>
+<view class="padding-xs"></view>

@@ -1,0 +1,41 @@
+<wxs src="../../app.wxs" module="tools" />
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">{{ title }}</view>
+</cu-custom>
+
+<view class="cu-bar bg-white solid-bottom">
+  <view class='action'>
+    <text class='cuIcon-titles text-orange '></text> {{ title }}
+  </view>
+  <view class='action'>
+    <button class="cu-btn bg-cyan" catchtap="toAdd">去添加</button>
+  </view>
+</view>
+<view class="padding text-right text-gray">
+共{{ list.length }}篇
+</view>
+<view class="cu-card dynamic no-card solid-bottom" wx:for="{{ list }}" wx:key="_id">
+  <view class="cu-item shadow">
+    <view class="cu-list menu-avatar">
+      <view class="cu-item">
+        <view class="cu-avatar round lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
+        <view class="content flex-sub">
+          <view>{{ item.studentInfo.username }}</view>
+          <view class="text-gray text-sm flex justify-between">
+            {{ tools.DateFormat(item.date, 'yyyy年MM月dd日') }}
+          </view>
+        </view>
+        <view class="cu-tag bg-{{ item.status === 0 ? 'grey' : 'blue' }}">{{ item.status === 0 ? '未审核' : item.score + '分' }}</view>
+      </view>
+    </view>
+    <view class="text-content">{{ item.content }}</view>
+    <view class="grid flex-sub padding-lr col-4 grid-square">
+      <view class="bg-img" style=" {{ 'background-image:url(' + imgItem + ');' }}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:for="{{ item.imgs }}" wx:key="imgIndex" data-nodeindex="{{ index }}" data-url="{{ imgItem }}" bindtap="viewImage">
+      </view>
+    </view>
+    <view class="text-gray text-sm text-right padding">
+      <text class="cuIcon-appreciatefill margin-lr-xs"></text> {{ item.likes }}
+    </view>
+  </view>
+</view>

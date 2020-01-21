@@ -92,6 +92,13 @@ Component({
       wx.navigateTo({
         url: '/pages/dayOffEdit/index',
       })
+    },
+    // 前往实习记录编辑页面
+    toNote(e) {
+      const { type, title } = e.currentTarget.dataset
+      wx.navigateTo({
+        url: `/pages/noteEdit/index?type=${type}&title=${title}`,
+      })
     }
   }
 })

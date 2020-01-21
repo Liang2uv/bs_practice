@@ -79,6 +79,20 @@
 					"id": -1,
 					"name": "pages/clockList/index",
 					"pathName": "pages/clockList/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/noteEdit/index",
+					"pathName": "pages/noteEdit/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/note/index",
+					"pathName": "pages/note/index",
 					"scene": null
 				}
 			]

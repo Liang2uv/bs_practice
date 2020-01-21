@@ -8,6 +8,7 @@ import crud from './modules/crud'
 import organization from './modules/organization'
 import dayRecord from './modules/dayRecord'
 import dayOff from './modules/dayOff'
+import note from './modules/note'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ export default new Vuex.Store({
     crud,
     organization,
     dayRecord,
-    dayOff
+    dayOff,
+    note
   },
   getters
 })

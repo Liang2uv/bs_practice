@@ -72,7 +72,7 @@ export default {
         page: 1,
         size: 30
       },
-      statusArr: ['未签到', '已签到', '已请假', '缺勤']
+      statusArr: ['待签到', '已签到', '已请假', '缺勤']
     }
   },
   computed: {

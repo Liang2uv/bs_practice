@@ -56,10 +56,12 @@ export function uploadImage(count = 1) {
         })
       },
       fail: err => {
-        reject({
-          status: statusCode.wxReqErr,
-          message: '读取图片出错'
-        })
+        if (err.errMsg !== 'chooseImage:fail cancel') {
+          reject({
+            status: statusCode.wxReqErr,
+            message: '读取图片出错'
+          })
+        }
       }
     })
   })

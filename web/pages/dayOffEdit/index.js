@@ -46,7 +46,7 @@ Page({
         model: res
       })
     }, err => {
-      $wuxToast().show({ type: 'cancel', text: err.message, success: wx.navigateBack() })
+      $wuxToast().show({ type: 'cancel', text: err.message, success: () => wx.navigateBack() })
     })
   },
   // 输入框选择状态改变

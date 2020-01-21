@@ -10,7 +10,9 @@
     "pages/clock/index",
     "pages/clockList/index",
     "pages/dayOffEdit/index",
-    "pages/dayOff/index"
+    "pages/dayOff/index",
+    "pages/noteEdit/index",
+    "pages/note/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

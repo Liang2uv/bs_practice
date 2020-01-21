@@ -7,6 +7,7 @@ Page({
    */
   data: {
     dayOffList: [],
+    taskId: null,
     statusArr: ['待审核', '已通过', '未通过']
   },
 
@@ -14,6 +15,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      taskId: options.task
+    })
     this.getList()
   },
   // 获取请假申请列表
@@ -24,6 +28,9 @@ Page({
         student: getGlobalData('userInfo')._id,
         refs: 'taskInfo'
       }
+    }
+    if (this.data.taskId) {
+      params.data.task = this.data.taskId
     }
     crudListByFilterAndRefs(params).then(res => {
       this.setData({
@@ -41,6 +48,12 @@ Page({
     const { id } = e.currentTarget.dataset
     wx.navigateTo({
       url: '/pages/dayOffEdit/index?id=' + id,
+    })
+  },
+  // 添加请假记录
+  toDayOff() {
+    wx.navigateTo({
+      url: '/pages/dayOffEdit/index',
     })
   }
 })

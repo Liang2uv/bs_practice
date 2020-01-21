@@ -37,5 +37,11 @@ Page({
         icon: 'nonw'
       })
     })
+  },
+  // 前往签到页面
+  toClock() {
+    wx.navigateTo({
+      url: '/pages/clock/index',
+    })
   }
 })
