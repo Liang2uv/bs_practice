@@ -86,7 +86,8 @@ Page({
   // 选择实习手册类型
   selectNote(e) {
     const {
-      task
+      task,
+      taskname
     } = e.currentTarget.dataset
     $wuxDialog().open({
       resetOnClose: true,
@@ -97,7 +98,7 @@ Page({
           bold: !0,
           onTap: () => {
             wx.navigateTo({
-              url: '/pages/note/index?type=day&title=实习日记&task=' + task,
+              url: '/pages/note/index?type=day&title=实习日记&taskName='+ taskname +'&task=' + task,
             })
           },
         },
@@ -106,7 +107,7 @@ Page({
           bold: !0,
           onTap: () => {
             wx.navigateTo({
-              url: '/pages/note/index?type=week&title=实习周记&task=' + task,
+              url: '/pages/note/index?type=week&title=实习周记&taskName='+ taskname +'&task=' + task,
             })
           },
         },
@@ -115,7 +116,7 @@ Page({
           bold: !0,
           onTap: () => {
             wx.navigateTo({
-              url: '/pages/note/index?type=month&title=实习月记&task=' + task,
+              url: '/pages/note/index?type=month&title=实习月记&taskName='+ taskname +'&task=' + task,
             })
           },
         },
@@ -124,7 +125,7 @@ Page({
           bold: !0,
           onTap: () => {
             wx.navigateTo({
-              url: '/pages/note/index?type=summary&title=实习总结&task=' + task,
+              url: '/pages/note/index?type=summary&title=实习总结&taskName='+ taskname +'&task=' + task,
             })
           },
         }

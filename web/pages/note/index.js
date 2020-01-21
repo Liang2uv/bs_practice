@@ -1,5 +1,5 @@
 import { getGlobalData } from '../../utils/util'
-import { crudListByFilterAndRefs } from '../../api/crud'
+import { crudListByFilterAndOrder } from '../../api/crud'
 Page({
 
   /**
@@ -7,11 +7,13 @@ Page({
    */
   data: {
     title: '列表',
+    taskName: '',
+    userInfo: {},
     query: {
       type: '',
       task: '',
       student: '',
-      refs: 'taskInfo|studentInfo'
+      order: 'date_desc'
     },
     list: []
   },
@@ -20,10 +22,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const { title, type, task } = options
+    const { title, type, task, taskName } = options
     const userInfo = getGlobalData('userInfo') || {}
     this.setData({
       title: title,
+      taskName: taskName,
+      userInfo: userInfo,
       ['query.type']: type,
       ['query.task']: task,
       ['query.student']: userInfo._id
@@ -36,7 +40,7 @@ Page({
       resource: 'notes',
       data: this.data.query
     }
-    crudListByFilterAndRefs(params).then(res => {
+    crudListByFilterAndOrder(params).then(res => {
       this.setData({
         list: res
       })

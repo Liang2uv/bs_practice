@@ -208,7 +208,6 @@ Page({
         views: this.data.model.views,
         status: this.data.model.status
       }
-      console.log(params)
       crudAdd({
         resource: 'notes',
         data: params

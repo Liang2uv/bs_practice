@@ -76,4 +76,8 @@
 		<view class="cuIcon-form text-grey"></view>
 		<text>实习月记</text>
 	</view>
+	<view class="cu-item" data-title="发布实习总结" data-type="summary" bindtap="toNote">
+		<view class="cuIcon-send text-grey"></view>
+		<text>实习总结</text>
+	</view>
 </view>
