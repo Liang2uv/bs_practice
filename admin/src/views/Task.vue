@@ -236,7 +236,15 @@ export default {
         }
       }
       this.$prompt('请输入理由（可空）', '确认消息').then(async ({ value }) => {
+        const message = {
+          content: `实习任务“${ row.name }”审核${status === 1 ? '未' : ''}通过${ value ? ':' + value : ''}`,
+          send: this.userInfo._id,
+          receive: row.applicant,
+          type: 'system',
+          status: 0
+        }
         const [err, res] = await this.$store.dispatch('CrudUpdate', { resource: this.resource, id: row._id, data: { status } })
+        await this.$store.dispatch('CrudAdd', { resource: 'messages', data: message })
         this.getList()
         if (!err) {
           this.$message.success('操作成功')

@@ -16,6 +16,25 @@ var dateFormat = function (date, format) {
   return format.replace('yyyy', year).replace('MM', month).replace('dd', day).replace('HH', hour).replace('mm', minute).replace('ss', second)
 }
 
+var dateFormatByNow = function (date) {
+  if (!date) {
+    return ""
+  }
+  date = getDate(date)
+  var year = date.getFullYear()
+  var month = (padStart(date.getMonth() + 1))
+  var day = padStart(date.getDate())
+  var hour = padStart(date.getHours())
+  var minute = padStart(date.getMinutes())
+  var second = padStart(date.getSeconds())
+  var format = 'HH:mm'
+  if (getDate() - date > 86400000) {
+    format = 'yyyy-MM-dd'
+  }
+  return format.replace('yyyy', year).replace('MM', month).replace('dd', day).replace('HH', hour).replace('mm', minute).replace('ss', second)
+}
+
 module.exports = {
-  DateFormat: dateFormat
+  DateFormat: dateFormat,
+  DateFormatByNow: dateFormatByNow
 }

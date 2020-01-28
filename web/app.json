@@ -15,7 +15,8 @@
     "pages/note/index",
     "pages/circleSearch/index",
     "pages/publish/index",
-    "pages/topicEdit/index"
+    "pages/topicEdit/index",
+    "pages/messageDetail/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

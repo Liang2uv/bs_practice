@@ -136,6 +136,14 @@ export default {
     review(row, status) {
       this.$prompt('请输入理由（可空）', '确认消息').then(async ({ value }) => {
         const [err, res] = await this.$store.dispatch('UpdateDayOff', { id: row._id, data: { status } })
+        const message = {
+          content: `您的请假申请审核${status === 2 ? '未' : ''}通过${ value ? ':' + value : ''}`,
+          send: this.userInfo._id,
+          receive: row.student,
+          type: 'system',
+          status: 0
+        }
+        await this.$store.dispatch('CrudAdd', { resource: 'messages', data: message })
         this.getList()
         if (!err) {
           this.$message.success('操作成功')

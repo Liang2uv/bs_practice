@@ -86,6 +86,14 @@ export default {
     // 审核
     async review(row, status) {
       const [err, res] = await this.$store.dispatch('CrudUpdate', { resource: this.resource, id: row._id, data: { status } })
+      const message = {
+        content: `您申请加入的圈子“${row.circleInfo.name}”管理员已同意加入，快去看看吧`,
+        send: this.userInfo._id,
+        receive: row.user,
+        type: 'system',
+        status: 0
+      }
+      await this.$store.dispatch('CrudAdd', { resource: 'messages', data: message })
       this.getList()
       if (!err) {
         this.$message.success('操作成功')
