@@ -39,7 +39,7 @@
         <div class="flex-1"></div>
         <div class="d-flex ai-center">
           <el-avatar
-            src="https://img.zcool.cn/community/031191c5db0fbe3a8012163babf39e8.jpg@80w_80h_1c_1e_1o_100sh.jpg"
+            :src="userInfo.avatar"
             class="mx-2"
           ></el-avatar>
           <el-dropdown trigger="click">

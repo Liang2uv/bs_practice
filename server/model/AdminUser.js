@@ -53,6 +53,10 @@ class AdminUserSchema extends BaseSchema {
       },
       class: { // 班级
         type: String
+      },
+      avatar: { // 头像
+        type: String,
+        default: 'https://practice-liangbb-1300060132.cos.ap-guangzhou.myqcloud.com/mp/big81005.jpg'
       }
     }, 'AdminUser')
     /********************该Schema特有的方法*************************/

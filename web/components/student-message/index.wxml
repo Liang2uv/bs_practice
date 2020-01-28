@@ -5,7 +5,10 @@
 <view class="cu-list menu-avatar">
   <!-- 系统消息 -->
 	<view data-title="系统消息" data-type="system" bindtap="toMessageDetail" class="cu-item ">
-		<view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view>
+		<!-- <view class="cu-avatar radius lg" style="background-image:url();"></view> -->
+		<view class="cu-avatar lg round margin-right bg-blue light">
+			<text>系</text>
+		</view>
 		<view class="content">
 			<view class="text-blue">
 				<text class="text-cut">系统消息</text>
@@ -21,7 +24,10 @@
 	</view>
   <!-- 预警消息 -->
   <view data-title="预警消息" data-type="warning" bindtap="toMessageDetail" class="cu-item ">
-		<view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view>
+		<!-- <view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view> -->
+		<view class="cu-avatar lg round margin-right bg-orange light">
+			<text>警</text>
+		</view>
 		<view class="content">
 			<view class="text-orange">
 				<text class="text-cut">预警消息</text>
