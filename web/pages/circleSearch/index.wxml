@@ -1,0 +1,30 @@
+<!-- 搜索圈子 -->
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">搜索圈子</view>
+</cu-custom>
+<!-- 搜索栏 -->
+<form bindsubmit="searchClick" bindreset="formReset">
+  <view class="cu-bar search bg-white">
+    <view class="search-form round">
+      <text class="cuIcon-search"></text>
+      <input type="text" placeholder="搜索圈子名称" name="search" confirm-type="搜索" value="{{ search }}"></input>
+    </view>
+    <view class="action">
+      <button class="cu-btn bg-cyan shadow-blur round" formType="submit">搜索</button>
+    </view>
+  </view>
+</form>
+<!-- 搜索结果 -->
+<view wx:if="{{ list.length !== 0 }}" class="cu-list menu sm-border">
+	<view class="cu-item" wx:for="{{ list }}" wx:key="_id">
+		<view class="content">
+			<text class="cuIcon-hot text-orange"></text>
+			<text class="text-grey">{{ item.name }}</text>
+		</view>
+		<view class="action">
+			<view class="cu-tag round bg-green light" data-id="{{ item._id }}" bindtap="joinCircle">申请加入</view>
+		</view>
+	</view>
+</view>
+<wux-divider wx:else position="center" text="无结果" />

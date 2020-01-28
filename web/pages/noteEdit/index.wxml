@@ -21,6 +21,11 @@
 		<van-datetime-picker data-key="date" type="datetime" value="{{ model.date }}" bind:cancel="datetimePickerChange" bind:confirm="datetimePickerChange" />
 	</van-popup>
 </van-cell-group>
+<wux-cell-group>
+	<wux-popup-select value="{{ model.circles }}" options="{{ circlesList }}" multiple bind:confirm="circlesPickerChange">
+			<wux-cell title="同步到圈子" is-link extra="{{ circlesDisplay }}"></wux-cell>
+	</wux-popup-select>
+</wux-cell-group>
 <!-- 图片 -->
 <view class="cu-bar bg-white">
 	<view class="action">

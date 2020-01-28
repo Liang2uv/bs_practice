@@ -35,8 +35,14 @@
       <view class="bg-img" style=" {{ 'background-image:url(' + imgItem + ');' }}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:for="{{ item.imgs }}" wx:key="imgIndex" data-nodeindex="{{ index }}" data-url="{{ imgItem }}" bindtap="viewImage">
       </view>
     </view>
-    <view class="text-gray text-sm text-right padding">
-      <text class="cuIcon-appreciatefill margin-lr-xs"></text> {{ item.likes }}
+    <view class="padding flex justify-between align-center">
+      <view>
+        <view wx:for="{{ item.tags }}" wx:for-item="tagItem" wx:for-index="tagIndex" wx:key="tagIndex" class="cu-tag round bg-orange light">#{{ tagItem }}#</view>
+      </view>
+      <view class="text-gray text-sm">
+        <text class="cuIcon-attentionfill margin-lr-xs"></text> {{ item.views || 0 }}
+        <text class="cuIcon-appreciatefill margin-lr-xs"></text> {{ item.likes }}
+      </view>
     </view>
   </view>
 </view>

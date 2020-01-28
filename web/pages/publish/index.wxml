@@ -1,0 +1,20 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">发布</view>
+</cu-custom>
+<view class="cu-list grid col-3 no-border">
+	<view class="cu-item">
+		<navigator url="/pages/task/index" hover-class="none">
+			<view class="cuIcon-countdownfill text-red"></view>
+			<text>创建圈子</text>
+		</navigator>
+	</view>
+	<view data-type="normal" class="cu-item" bindtap="toTopicEdit">
+		<view class="cuIcon-creative text-blue"></view>
+		<text>发帖子</text>
+	</view>
+	<view data-type="notice" class="cu-item" bindtap="toTopicEdit">
+		<view class="cuIcon-magic text-mauve"></view>
+		<text>发布公告</text>
+	</view>
+</view>

@@ -123,11 +123,6 @@ export default {
   computed: {
     ...mapGetters(['userInfo'])
   },
-  filters: {
-    statusformat(val, statusArr) {
-      return statusArr[val]
-    }
-  },
   methods: {
     onOpenReason(info) {
       this.reasonInfo = info

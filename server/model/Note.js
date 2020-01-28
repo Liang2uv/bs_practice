@@ -34,14 +34,6 @@ class NoteSchema extends BaseSchema {
         required: true,
         enum: ['day', 'week', 'month', 'summary']
       },
-      views: {  // 浏览数
-        type: Number,
-        default: 0
-      },
-      likes: {  // 点赞数
-        type: Number,
-        default: 0
-      },
       status: { // 状态：0-待审核1-已审核
         type: Number,
         required: true

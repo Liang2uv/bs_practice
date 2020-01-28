@@ -12,7 +12,10 @@
     "pages/dayOffEdit/index",
     "pages/dayOff/index",
     "pages/noteEdit/index",
-    "pages/note/index"
+    "pages/note/index",
+    "pages/circleSearch/index",
+    "pages/publish/index",
+    "pages/topicEdit/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

@@ -145,6 +145,26 @@ const routes = [
     path: '/',
     name: 'layout',
     component: Layout,
+    meta: { title: '圈子管理', icon: 'el-icon-setting' },
+    children: [
+      {
+        path: '/circles',
+        name: 'circles',
+        meta: { title: '我的圈子', icon: 'icon', priv: ['teacher'] },
+        component: () => import('views/Circle.vue')
+      },
+      {
+        path: '/circle_review',
+        name: 'circle_review',
+        meta: { title: '圈子审核', icon: 'icon', priv: ['teacher'] },
+        component: () => import('views/CircleReview.vue')
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: 'layout',
+    component: Layout,
     meta: { title: '个人中心', icon: 'el-icon-user' },
     children: [
       {

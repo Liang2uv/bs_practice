@@ -191,11 +191,6 @@ export default {
   computed: {
     ...mapGetters(['userInfo'])
   },
-  filters: {
-    statusformat(val, statusArr) {
-      return statusArr[val]
-    }
-  },
   methods: {
     async onOpenApplicant(info) {
       const [err, res] = await this.$store.dispatch('CrudOneByIdAndRefs', { resource: 'admin_users', id: info._id, data: { refs: 'collegeInfo|gradeInfo|majorInfo|classInfo' } })

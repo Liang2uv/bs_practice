@@ -1,12 +1,12 @@
 import {
-  crudAdd,
   crudOneByIdAndRefs,
   crudListByFilter
 } from '../../api/crud'
+import { getCircleJoinList } from '../../api/circle'
+import { addNote } from '../../api/note'
 import {
   getGlobalData,
   assert,
-  dateCompare,
   dateFormat
 } from '../../utils/util'
 import {
@@ -39,14 +39,14 @@ Page({
       },
       student: '',
       tags: [],
-      likes: 0,
       score: 0,
       date: '',
       type: 'day',
-      views: 0,
       status: 0
     },
-    noteId: null
+    noteId: null,
+    circlesDisplay: '',
+    circlesList: []
   },
 
   /**
@@ -80,6 +80,8 @@ Page({
       })
       // 获取实习任务列表
       this.getTaskList()
+      // 获取圈子列表
+      this.getCircleList()
     }
   },
   // 获取详情信息
@@ -116,6 +118,32 @@ Page({
         taskList: res.map(v => v.name),
         _taskList: res
       })
+    })
+  },
+  // 获取圈子列表
+  getCircleList() {
+    const data = {
+      userId: this.data.userInfo._id,
+      name: '',
+      page: 1,
+      size: 50
+    }
+    getCircleJoinList({ data }).then(res => {
+      this.setData({
+        circlesList: res.list.map(v => ({ title: v.name, value: v._id }))
+      })
+    }, err => {
+      wx.showToast({
+        title: err.message,
+        icon: 'nonw'
+      })
+    })
+  },
+  // 同步的圈子选择器发生改变
+  circlesPickerChange(e) {
+    this.setData({
+      ['model.circles']: e.detail.value,
+      circlesDisplay: e.detail.label
     })
   },
   // 输入框选择状态改变
@@ -202,14 +230,12 @@ Page({
         student: this.data.userInfo._id,
         date: dateFormat(this.data.model.date),
         tags: this.data.model.tags,
-        likes: this.data.model.likes,
         score: this.data.model.score,
         type: this.data.model.type,
-        views: this.data.model.views,
-        status: this.data.model.status
+        status: this.data.model.status,
+        circles: this.data.model.circles
       }
-      crudAdd({
-        resource: 'notes',
+      addNote({
         data: params
       }).then(res => {
         $wuxToast().show({

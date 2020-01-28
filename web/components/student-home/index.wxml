@@ -1,6 +1,5 @@
 <!-- 自定义顶部导航 -->
-<cu-custom bgColor="bg-cyan" isBack="{{true}}">
-	<view slot="backText">返回</view>
+<cu-custom bgColor="bg-cyan">
 	<view slot="content">首页</view>
 </cu-custom>
 <!-- 基本信息 -->

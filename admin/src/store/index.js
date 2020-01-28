@@ -9,6 +9,8 @@ import organization from './modules/organization'
 import dayRecord from './modules/dayRecord'
 import dayOff from './modules/dayOff'
 import note from './modules/note'
+import circle from './modules/circle'
+import circleUser from './modules/circleUser'
 
 Vue.use(Vuex)
 
@@ -19,7 +21,9 @@ export default new Vuex.Store({
     organization,
     dayRecord,
     dayOff,
-    note
+    note,
+    circle,
+    circleUser
   },
   getters
 })

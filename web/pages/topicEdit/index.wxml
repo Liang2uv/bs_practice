@@ -1,0 +1,43 @@
+<wxs src="../../app.wxs" module="tools" />
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">发布帖子</view>
+</cu-custom>
+<wux-toast id="wux-toast" />
+<!-- 表单 -->
+	<!-- 内容 -->
+<view class="cu-form-group">
+	<textarea style="height:400rpx;" disabled="{{ !isEdit }}" value="{{ model.content }}" data-key="content" maxlength="-1" bindinput="inputChange" placeholder="写点什么吧"></textarea>
+</view>
+<wux-cell-group>
+	<wux-popup-select value="{{ model.circles }}" options="{{ circlesList }}" multiple bind:confirm="circlesPickerChange">
+			<wux-cell title="发布到圈子" is-link extra="{{ circlesDisplay }}"></wux-cell>
+	</wux-popup-select>
+</wux-cell-group>
+<!-- 图片 -->
+<view class="cu-bar bg-white">
+	<view class="action">
+		图片上传(最多4张)
+	</view>
+	<view class="action">
+		{{model.imgs.length}}/4
+	</view>
+</view>
+<view class="cu-form-group">
+	<view class="grid col-4 grid-square flex-sub ">
+		<view class="bg-img" wx:for="{{ model.imgs }}" wx:key="index" bindtap="viewImage" data-imgurl="{{ item }}">
+			<image src='{{ item }}' mode='aspectFill'></image>
+			<view wx:if="{{ isEdit }}" class="cu-tag bg-red" catchtap="delImg" data-index="{{index}}">
+				<text class="cuIcon-close"></text>
+			</view>
+		</view>
+		<view class="solids" bindtap="chooseImage" wx:if="{{ isEdit && model.imgs.length < 4}}">
+			<text class="cuIcon-cameraadd"></text>
+		</view>
+	</view>
+</view>
+<!-- 提交按钮 -->
+<view wx:if="{{ isEdit }}" class="padding flex">
+  <button class="cu-btn flex-sub bg-cyan lg" bind:tap="submit">提交</button>
+</view>
+<view class="padding-xs"></view>

@@ -9,6 +9,10 @@
         "timeline-item",
         "timeline",
         "tag",
-        "icon"
+        "icon",
+        "popup-select",
+        "cell-group",
+        "cell",
+        "fab-button"
     ]
 }

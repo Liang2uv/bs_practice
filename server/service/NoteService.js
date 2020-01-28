@@ -1,5 +1,7 @@
 const BaseService = require('./baseService')
 const NoteModel = require('../model/Note')
+const TopicModel = require('../model/Topic')
+const CircleTopicModel = require('../model/CircleTopic')
 const assert = require('http-assert')
 
 class NoteService extends BaseService {
@@ -77,6 +79,37 @@ class NoteService extends BaseService {
       }
     ])
     return result.length === 0 ? { total: 0, list: [] } : result[0]
+  }
+  /**
+   * 添加实习记录
+   * @param {Object} data 添加的数据
+   */
+  async addNote(data) {
+    const model = await this.model.createObj(data)
+    // -----------同步到圈子的业务逻辑---------
+    if (data.circles && data.circles.length !== 0) {
+      // 1. 创建帖子
+      const topicData = {
+        content: data.content,
+        imgs: data.imgs,
+        user: data.student,
+        tags: data.tags,
+        type: 'note',
+        views: 0,
+        likes: 0
+      }
+      const topic = await TopicModel.createObj(topicData)
+      // 2. 将帖子与圈子相关联
+      const circleTopicData = data.circles.map(v => {
+        return {
+          circle: v,
+          user: topic.user,
+          topic: topic._id.toString()
+        }
+      })
+      await CircleTopicModel.insertMany(circleTopicData)
+    }
+    return model
   }
 }
 

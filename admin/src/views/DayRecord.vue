@@ -78,11 +78,6 @@ export default {
   computed: {
     ...mapGetters(['userInfo'])
   },
-  filters: {
-    statusformat(val, statusArr) {
-      return statusArr[val]
-    }
-  },
   methods: {
     // 获取列表
     async getList(){
