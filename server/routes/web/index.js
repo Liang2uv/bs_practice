@@ -5,6 +5,7 @@ const circleUserRouter = require('./circleUser')
 const noteRouter = require('./note')
 const topicRouter = require('./topic')
 const messageRouter = require('./message')
+const commentRouter = require('./comment')
 
 const webRouter = app => {
   app.use('/api/web/admin_users', adminUserRouter)
@@ -13,5 +14,6 @@ const webRouter = app => {
   app.use('/api/web/notes', middlewareAuth(), noteRouter)
   app.use('/api/web/topics', middlewareAuth(), topicRouter)
   app.use('/api/web/messages', middlewareAuth(), messageRouter)
+  app.use('/api/web/comments', middlewareAuth(), commentRouter)
 }
 module.exports = webRouter

@@ -24,7 +24,6 @@
 	</view>
   <!-- 预警消息 -->
   <view data-title="预警消息" data-type="warning" bindtap="toMessageDetail" class="cu-item ">
-		<!-- <view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view> -->
 		<view class="cu-avatar lg round margin-right bg-orange light">
 			<text>警</text>
 		</view>
@@ -41,5 +40,22 @@
 			<view wx:if="{{ warningRed > 0 }}" class="cu-tag round bg-red sm">{{ warningRed }}</view>
 		</view>
 	</view>
-  <!-- 普通消息 -->
+  <!-- 评论与回复 -->
+	<view data-title="评论与回复" data-type="comment" bindtap="toMessageDetail" class="cu-item ">
+		<view class="cu-avatar lg round margin-right bg-green light">
+			<text>评</text>
+		</view>
+		<view class="content">
+			<view class="text-orange">
+				<text class="text-cut">评论与回复</text>
+			</view>
+			<view class="text-gray text-sm flex">
+				<text class="text-cut">{{ commentList[0].content }}</text>
+			</view>
+		</view>
+		<view class="action">
+			<view class="text-grey text-xs">{{ tools.DateFormatByNow(commentList[0].updatedAt) }}</view>
+			<view wx:if="{{ commentRed > 0 }}" class="cu-tag round bg-red sm">{{ commentRed }}</view>
+		</view>
+	</view>
 </view>

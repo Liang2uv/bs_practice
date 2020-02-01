@@ -101,7 +101,6 @@ Component({
         resource: 'circletopics',
         data: {
           circle: currentCircleId,
-          user: this.data.userInfo._id,
           refs: 'userInfo|topicInfo',
           page: 1,
           size: 50
@@ -151,6 +150,13 @@ Component({
         urls: imgs,
         current: url
       });
+    },
+    // 前往帖子详情页
+    toDetail(e) {
+      const { id } = e.currentTarget.dataset
+      wx.navigateTo({
+        url: '/pages/topicDetail/index?id=' + id,
+      })
     }
   }
 })

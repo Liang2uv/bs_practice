@@ -64,5 +64,12 @@ Page({
       urls: this.data.list[nodeindex].imgs,
       current: url
     });
+  },
+  // 前往详情页
+  toDetail(e) {
+    const { id } = e.currentTarget.dataset
+    wx.navigateTo({
+      url: '/pages/noteDetail/index?id=' + id,
+    })
   }
 })

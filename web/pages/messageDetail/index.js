@@ -58,5 +58,16 @@ Page({
       ids
     }
     updateMessageStatusBulk({ data })
+  },
+  // 前往关联页面
+  toRef(e) {
+    if (this.data.type === 'comment') {
+      const { remark } = e.currentTarget.dataset
+      if (remark && remark !== 'undefined') {
+        wx.navigateTo({
+          url: '/pages/topicDetail/index?id=' + remark,
+        })
+      }
+    }
   }
 })

@@ -21,7 +21,7 @@
   </view>
 </scroll-view>
 <!-- 内容区 -->
-<view class="cu-card dynamic no-card solid-bottom" wx:for="{{ topicListArr[currentTab] }}" wx:key="_id">
+<view class="cu-card dynamic no-card solid-bottom" wx:for="{{ topicListArr[currentTab] }}" wx:key="_id" bindtap="toDetail" data-id="{{ item.topic }}">
   <view class="cu-item shadow">
     <view class="cu-list menu-avatar">
       <view class="cu-item">
@@ -46,7 +46,7 @@
       </view>
       <view class="text-gray text-sm">
         <text class="cuIcon-attentionfill margin-lr-xs"></text> {{ item.topicInfo.views || 0 }}
-        <text class="cuIcon-appreciatefill margin-lr-xs"></text> {{ item.topicInfo.likes }}
+        <text class="cuIcon-messagefill margin-lr-xs"></text> {{ item.topicInfo.comments || 0 }}
       </view>
     </view>
   </view>

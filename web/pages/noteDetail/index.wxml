@@ -1,0 +1,32 @@
+<wxs src="../../app.wxs" module="tools" />
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">详情</view>
+</cu-custom>
+
+<view class="cu-card dynamic no-card solid-bottom">
+  <view class="cu-item shadow">
+    <view class="cu-list menu-avatar">
+      <view class="cu-item">
+        <view class="cu-avatar round lg" style="{{ 'background-image:url('+ userInfo.avatar +');' }}"></view>
+        <view class="content flex-sub">
+          <view>{{ userInfo.username }}</view>
+          <view class="text-gray text-sm flex justify-between">
+            {{ tools.DateFormat(noteInfo.date, 'yyyy年MM月dd日') }}
+          </view>
+        </view>
+        <view class="cu-tag bg-{{ noteInfo.status === 0 ? 'grey' : 'blue' }}">{{ noteInfo.status === 0 ? '未审核' : noteInfo.score + '分' }}</view>
+      </view>
+    </view>
+    <view class="content">{{ noteInfo.content }}</view>
+    <view class="grid flex-sub padding-lr col-4 grid-square">
+      <view class="bg-img" style=" {{ 'background-image:url(' + imgItem + ');' }}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:for="{{ noteInfo.imgs }}" wx:key="imgIndex" data-url="{{ imgItem }}" bindtap="viewImage">
+      </view>
+    </view>
+    <view class="padding flex justify-between align-center">
+      <view>
+        <view wx:for="{{ noteInfo.tags }}" wx:for-item="tagItem" wx:for-index="tagIndex" wx:key="tagIndex" class="cu-tag round bg-orange light">#{{ tagItem }}#</view>
+      </view>
+    </view>
+  </view>
+</view>

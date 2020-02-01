@@ -22,11 +22,11 @@ class TopicSchema extends BaseSchema {
         required: true,
         enum: ['note', 'notice', 'normal']
       },
-      views: {  // 浏览数
+      comments: { // 评论数
         type: Number,
         default: 0
       },
-      likes: {  // 点赞数
+      views: {  // 浏览数
         type: Number,
         default: 0
       }

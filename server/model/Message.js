@@ -18,10 +18,13 @@ class MessageSchema extends BaseSchema {
         type: String,
         required: true
       },
-      type: { // 消息类型: system-系统消息warning-预警消息
+      type: { // 消息类型: system-系统消息warning-预警消息comment-评论与回复
         type: String,
         required: true,
-        enum: ['system', 'warning']
+        enum: ['system', 'warning', 'comment']
+      },
+      remark: { // 备注
+        type: String,
       },
       status: { // 消息状态：0-未读1-已读
         type: Number,

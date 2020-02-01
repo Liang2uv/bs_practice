@@ -22,6 +22,8 @@ Component({
     systemRed: 0,
     warningList: [],
     warningRed: 0,
+    commentList: [],
+    commentRed: 0,
     oldIsPullDownRefresh: false
   },
   /**
@@ -49,6 +51,8 @@ Component({
       this.getSystemList()
       // 获取预警消息
       this.getWarningList()
+      // 获取评论与回复消息
+      this.getCommentList()
     }
   },
   /**
@@ -58,6 +62,8 @@ Component({
     // 下拉刷新的方法
     refresh() {
       this.getSystemList()
+      this.getWarningList()
+      this.getCommentList()
     },
     // 获取系统消息
     getSystemList() {
@@ -88,6 +94,22 @@ Component({
         this.setData({
           warningList: res,
           warningRed: res.filter(v => v.status === 0).length
+        })
+      })
+    },
+    // 获取评论与回复消息
+    getCommentList() {
+      const params = {
+        resource: 'messages',
+        data: { 
+          receive: this.data.userInfo._id, 
+          type: 'comment'
+        }
+      }
+      crudListByFilter(params).then(res => {
+        this.setData({
+          commentList: res,
+          commentRed: res.filter(v => v.status === 0).length
         })
       })
     },

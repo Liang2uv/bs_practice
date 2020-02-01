@@ -16,7 +16,7 @@
   <view class="flex-sub text-left">{{ taskName }}</view>
   <view class="flex-sub text-right">共{{ list.length }}篇</view>
 </view>
-<view class="cu-card dynamic no-card solid-bottom" wx:for="{{ list }}" wx:key="_id">
+<view class="cu-card dynamic no-card solid-bottom" data-id="{{ item._id }}" bindtap="toDetail" wx:for="{{ list }}" wx:key="_id">
   <view class="cu-item shadow">
     <view class="cu-list menu-avatar">
       <view class="cu-item">
@@ -38,10 +38,6 @@
     <view class="padding flex justify-between align-center">
       <view>
         <view wx:for="{{ item.tags }}" wx:for-item="tagItem" wx:for-index="tagIndex" wx:key="tagIndex" class="cu-tag round bg-orange light">#{{ tagItem }}#</view>
-      </view>
-      <view class="text-gray text-sm">
-        <text class="cuIcon-attentionfill margin-lr-xs"></text> {{ item.views || 0 }}
-        <text class="cuIcon-appreciatefill margin-lr-xs"></text> {{ item.likes }}
       </view>
     </view>
   </view>
