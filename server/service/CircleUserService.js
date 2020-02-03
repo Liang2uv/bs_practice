@@ -124,6 +124,78 @@ class CircleUserService extends BaseService {
     ])
     return result.length === 0 ? { total: 0, list: [] } : result[0]
   }
+  /**
+   * 获取某个圈子的进圈申请列表（老师用）
+   * @param {String} circle 圈子id
+   * @param {String} stuSearch 学生姓名或学号
+   * @param {Number} status 状态
+   * @param {Number} page 页码
+   * @param {Number} size 分页大小
+   */
+  async getCircleReviewList(circle, stuSearch = '', status = { $in: [0, 1] }, page = 1, size = 30) {
+    assert(circle, 400, '请求参数错误')
+    circle = mongoose.Types.ObjectId(circle)
+    page = parseInt(page)
+    size = parseInt(size)
+    status = typeof (status) === 'string' ? parseInt(status) : status
+    // 查找申请列表
+    const result = await this.model.aggregate([
+      {
+        $addFields: { user: { $toObjectId: '$user' } }
+      },
+      {
+        $addFields: { circle: { $toObjectId: '$circle' } }
+      },
+      {
+        $lookup: { from: 'adminusers', localField: 'user', foreignField: '_id', as: 'userInfo' }
+      },
+      {
+        $lookup: { from: 'circles', localField: 'circle', foreignField: '_id', as: 'circleInfo' }
+      },
+      {
+        $unwind: '$userInfo'
+      },
+      {
+        $unwind: '$circleInfo'
+      },
+      {
+        $project: {
+          'userInfo.password': 0,
+          'userInfo.openid': 0
+        }
+      },
+      {
+        $match: {
+          $or: [
+            { 'userInfo.username': { $regex: stuSearch } },
+            { 'userInfo.number': { $regex: stuSearch } },
+          ],
+          userRole: 'student',
+          status,
+          circle
+        }
+      },
+      {
+        $sort: { createdAt: -1 }
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: 1 },
+          list: { $push: '$$ROOT' }
+        }
+      },
+      {
+        $addFields: {
+          list: { $slice: ['$list', size * (page - 1), size] }
+        }
+      },
+      {
+        $project: { _id: 0 }
+      }
+    ])
+    return result.length === 0 ? { total: 0, list: [] } : result[0]
+  }
 }
 
 module.exports = new CircleUserService()

@@ -4,7 +4,7 @@
 </cu-custom>
 <view class="cu-list grid col-3 no-border">
 	<view class="cu-item">
-		<navigator url="/pages/task/index" hover-class="none">
+		<navigator url="/pages/circleEdit/index" hover-class="none">
 			<view class="cuIcon-countdownfill text-red"></view>
 			<text>创建圈子</text>
 		</navigator>

@@ -1,1 +1,16 @@
-/* components/teacher-circle/index.wxss */
+button:not([size='mini']) {
+  min-height: auto;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+.fab-button {
+  position: fixed;
+  z-index: 1024;
+  bottom: 130rpx;
+  right: 30rpx;
+}
+.fab-button image {
+  width: 100rpx;
+  height: 100rpx;
+}

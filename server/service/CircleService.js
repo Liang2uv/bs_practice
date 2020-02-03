@@ -15,20 +15,21 @@ class CircleService extends BaseService {
    * @param {Number} page 页码
    * @param {Number} size 分页大小
    */
-  async getList(userId, name = '', page = 1, size = 30) {
+  async getList(userId, name = '', page = 1, size = 30, status = [0, 1]) {
     assert(userId, 400, '请求参数错误')
+    status = typeof status === 'string' ? [parseInt(status)] : status
     // 获取用户加入的圈子id
     const ids = (await CircleUserModel.find({ user: userId, status: 1 }).lean()).map(v => mongoose.Types.ObjectId(v.circle))
-    // 获取公共圈子id
+    // 获取公共圈子信息
     const pubModel = await this.model.findOne({ name: /^公共圈子$/ })
-    if (pubModel) {
-      ids.push(pubModel._id)
-    }
     page = parseInt(page)
     size = parseInt(size)
     // 根据这些id获取圈子信息
-    const total = (await this.model.findByFilter({ _id: { $in: ids }, name: { $regex: name } })).length
-    const list = await this.model.findByFilterAndRefSkipLimit({ _id: { $in: ids }, name: { $regex: name } }, 'createrInfo', page, size)
+    const total = ((await this.model.findByFilter({ _id: { $in: ids }, name: { $regex: name }, status: { $in: status } })).length) + (pubModel ? 1 : 0)
+    const list = await this.model.findByFilterAndRefSkipLimit({ _id: { $in: ids }, name: { $regex: name }, status: { $in: status } }, 'createrInfo', page, size)
+    if (pubModel) {
+      list.unshift(pubModel)
+    }
     return { total, list }
   }
   /**

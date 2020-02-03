@@ -156,7 +156,7 @@ const routes = [
       {
         path: '/circle_review',
         name: 'circle_review',
-        meta: { title: '圈子审核', icon: 'icon', priv: ['teacher'] },
+        meta: { title: '进圈审核', icon: 'icon', priv: ['teacher'] },
         component: () => import('views/CircleReview.vue')
       }
     ]

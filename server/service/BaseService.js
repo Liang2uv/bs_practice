@@ -180,7 +180,6 @@ class BaseService {
     refs = refs.replace(/\|/g, ' ')
     page = parseInt(page)
     size = parseInt(size)
-    console.log(filter, refs, page, size);
     const list = await this.model.findByFilterAndRefSkipLimit(filter, refs, page, size)
     return { total, list }
   }

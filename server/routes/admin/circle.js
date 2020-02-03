@@ -7,7 +7,7 @@ const router = express.Router({
 
 // 获取圈子列表
 router.get('/', async (req, res, next) => {
-  try { res.send(await CircleService.getList(req.query['userId'], req.query['name'], req.query['page'], req.query['size'])) } catch (err) { next(err) }
+  try { res.send(await CircleService.getList(req.query['userId'], req.query['name'], req.query['page'], req.query['size'], req.query['status'])) } catch (err) { next(err) }
 })
 
 // 创建圈子

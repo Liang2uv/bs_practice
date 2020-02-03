@@ -1,0 +1,48 @@
+<wxs src="../../app.wxs" module="tools" />
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">圈子审核</view>
+</cu-custom>
+<wux-dialog id="wux-dialog" />
+<!-- 导航栏 -->
+<scroll-view scroll-x class="bg-white nav text-center" scroll-with-animation scroll-left="{{0}}">
+  <view class="cu-item {{ index==currentTab?'text-cyan cur':'' }}" wx:for="{{ tabList }}" wx:key="id" bindtap="tabSelect" data-index="{{ index }}">
+    {{ item.text }}
+  </view>
+</scroll-view>
+<!-- 列表 -->
+<scroll-view scroll-y class="list-con" style="height: {{scrollHeight}}px;" bindscrolltolower="onScrolltolower">
+  <view class="cu-list menu">
+    <view class="cu-item" wx:for="{{ tabList[currentTab].list }}" wx:key="_id">
+      <view class="content padding-tb-sm">
+        <view>
+          <text class="cuIcon-emojiflashfill text-pink margin-right-xs"></text>{{ item.userInfo.username }}</view>
+        <view class="text-gray text-sm">
+          <text class="cuIcon-infofill margin-right-xs"></text>
+          {{ tools.DateFormat(item.createdAt, 'yyyy-MM-dd') }}
+        </view>
+      </view>
+      <view class="action" wx:if="{{ item.status === 0 }}">
+        <button class="cu-btn round bg-green shadow" data-item="{{ item }}" bindtap="agree">同意加入</button>
+      </view>
+      <view class="action" wx:if="{{ item.status === 1 }}">
+        <button class="cu-btn round bg-green shadow" data-item="{{ item }}" bindtap="getOut">移除</button>
+      </view>
+    </view>
+  </view>
+  <view hidden="{{ !tabList[currentTab].isLoading }}">
+    <wux-divider>
+        <view class="loadmore">
+            <view class="loading"></view>
+            <text class="text">正在加载</text>
+        </view>
+    </wux-divider>
+  </view>
+  <view hidden="{{ tabList[currentTab].scrollFlag }}">
+    <wux-divider>
+      <view class="loadmore">
+          <text class="text">没有更多了</text>
+      </view>
+    </wux-divider>
+  </view>
+</scroll-view>

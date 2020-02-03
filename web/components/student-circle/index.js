@@ -28,6 +28,7 @@ Component({
     currentTab: 0,
     userInfo: {},
     circleQuery: {
+      status: 1,
       name: '',
       page: 1,
       size: 50

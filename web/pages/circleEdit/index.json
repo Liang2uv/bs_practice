@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "van-cell-group": "/components/vantui/cell-group/index",
+    "van-field": "/components/vantui/field/index",
+    "van-cell": "/components/vantui/cell/index"
+  }
+}

@@ -22,7 +22,9 @@
     "pages/taskReview/index",
     "pages/dayOffReview/index",
     "pages/clockReview/index",
-    "pages/noteReview/index"
+    "pages/noteReview/index",
+    "pages/circleReview/index",
+    "pages/circleEdit/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

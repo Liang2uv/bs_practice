@@ -9,5 +9,9 @@ const router = express.Router({
 router.post('/', async (req, res, next) => {
   try { res.send(await CircleUserService.joinCircle(req.body['user'], req.body['circle'])) } catch (err) { next(err) }
 })
+// 获取某个圈子的进圈申请列表（老师用）
+router.get('/', async (req, res, next) => {
+  try { res.send(await CircleUserService.getCircleReviewList(req.query['circle'], req.query['stuSearch'], req.query['status'], req.query['page'], req.query['size'])) } catch (err) { next(err) }
+})
 
 module.exports = router
