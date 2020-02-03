@@ -11,6 +11,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    title: '新建任务',
     userInfo: {},
     mainPlanList: [],
     _mainPlanList: [],
@@ -56,6 +57,7 @@ Page({
     })
     if (options.id) { // 非编辑，只做浏览
       this.setData({
+        title: '任务详情',
         isEdit: false,
         taskId: options.id
       })

@@ -1,0 +1,42 @@
+<wxs src="../../app.wxs" module="tools" />
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">实习任务</view>
+</cu-custom>
+<wux-dialog id="wux-dialog" />
+<!-- 导航栏 -->
+<scroll-view scroll-x class="bg-white nav" scroll-with-animation scroll-left="{{0}}">
+  <view class="cu-item {{ index==currentTab?'text-cyan cur':'' }}" wx:for="{{ tabList }}" wx:key="id" bindtap="tabSelect" data-index="{{ index }}">
+    {{ item.text }}
+  </view>
+</scroll-view>
+<!-- 列表 -->
+<scroll-view scroll-y class="list-con" style="height: {{scrollHeight}}px;" bindscrolltolower="onScrolltolower">
+  <view wx:for="{{ tabList[currentTab].list }}" wx:key="_id" class="padding-tb-sm">
+    <wux-card full title="{{ item.name }}" actions="{{ item.status === 0 ? actions : [] }}" data-item="{{ item }}" bind:action="review">
+      <view slot="body" catchtap="toDetail" data-id="{{ item._id }}">
+        <view>任务名称：{{ item.name }}</view>
+        <view>申请人：{{ item.applicantInfo.username }}</view>
+        <view>申请人学号：{{ item.applicantInfo.number }}</view>
+        <view>所属计划：{{ item.mainPlanInfo.name }}</view>
+        <view>实习时间：{{ tools.DateFormat(item.startAt, 'yyyy年MM月dd日') + '~' + tools.DateFormat(item.endAt, 'yyyy年MM月dd日') }}</view>
+      </view>
+      <view slot="footer">状态：{{ tabList[item.status].text }}</view>
+    </wux-card>
+  </view>
+  <view hidden="{{ !tabList[currentTab].isLoading }}">
+    <wux-divider>
+        <view class="loadmore">
+            <view class="loading"></view>
+            <text class="text">正在加载</text>
+        </view>
+    </wux-divider>
+  </view>
+  <view hidden="{{ tabList[currentTab].scrollFlag }}">
+    <wux-divider>
+      <view class="loadmore">
+          <text class="text">没有更多了</text>
+      </view>
+    </wux-divider>
+  </view>
+</scroll-view>

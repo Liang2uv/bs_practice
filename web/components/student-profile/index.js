@@ -1,4 +1,4 @@
-import { getGlobalData, setGlobalData } from '../../utils/util'
+import { getGlobalData, setGlobalData, clearToken, clearGlobalData } from '../../utils/util'
 import { uploadImage } from '../../utils/file'
 import { crudUpdate } from '../../api/crud'
 import { getUserInfoByToken } from '../../api/adminUser'
@@ -99,6 +99,22 @@ Component({
                 title: err.message,
                 icon: 'none'
               })
+            })
+          }
+        }
+      })
+    },
+    // 注销与登录
+    loginout() {
+      wx.showModal({
+        title: '注销',
+        content: '是否要退出登录？',
+        success: e => {
+          if (e.confirm) {
+            clearToken()
+            clearGlobalData()
+            wx.redirectTo({
+              url: '/pages/login/index',
             })
           }
         }

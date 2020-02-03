@@ -18,7 +18,8 @@
     "pages/topicEdit/index",
     "pages/messageDetail/index",
     "pages/topicDetail/index",
-    "pages/noteDetail/index"
+    "pages/noteDetail/index",
+    "pages/taskReview/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

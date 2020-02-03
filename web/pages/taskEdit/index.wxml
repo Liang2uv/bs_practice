@@ -2,7 +2,7 @@
 <wxs src="../../app.wxs" module="tools" />
 <cu-custom bgColor="bg-cyan" isBack="{{true}}">
 	<view slot="backText">返回</view>
-	<view slot="content">新建任务</view>
+	<view slot="content">{{ title }}</view>
 </cu-custom>
 <wux-dialog id="wux-dialog" />
 <wux-toast id="wux-toast" />

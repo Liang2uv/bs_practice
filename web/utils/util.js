@@ -6,12 +6,20 @@ export function setToken(token) {
   wx.setStorageSync('token', token)
 }
 
+export function clearToken() {
+  wx.removeStorageSync('token')
+}
+
 export function getGlobalData(key) {
   return app.globalData[key]
 }
 
 export function setGlobalData(key, value) {
   app.globalData[key] = value
+}
+
+export function clearGlobalData() {
+  app.globalData = {}
 }
 
 export function assert(condition, message) {

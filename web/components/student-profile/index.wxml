@@ -1,5 +1,5 @@
 <cu-custom bgColor="bg-cyan">
-  <view slot="content">我的</view>
+	<view slot="content">我的</view>
 </cu-custom>
 <view class="bg-white">
 	<!-- 顶部卡片 -->
@@ -31,7 +31,7 @@
 	</view>
 	<!-- 列表 -->
 	<view class="cu-list menu sm-border card-menu margin-top">
-	<view class="cu-item arrow">
+		<view class="cu-item arrow">
 			<navigator class="content" hover-class="none" url="/pages/dayOff/index">
 				<text class="cuIcon-tag text-orange"></text>
 				<text class="text-grey">请假记录</text>
@@ -48,6 +48,12 @@
 				<text class="cuIcon-discoverfill text-orange"></text>
 				<text class="text-grey">关于我们</text>
 			</navigator>
+		</view>
+		<view class="cu-item arrow" bindtap="loginout">
+			<view class="content">
+				<text class="cuIcon-exit text-orange"></text>
+				<text class="text-grey">注销与登录</text>
+			</view>
 		</view>
 	</view>
 </view>

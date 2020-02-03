@@ -1,5 +1,61 @@
-<cu-custom bgColor="bg-cyan" isBack="{{true}}">
-  <view slot="backText">返回</view>
-  <view slot="content">首页</view>
+<!-- 自定义顶部导航 -->
+<cu-custom bgColor="bg-cyan">
+	<view slot="content">首页</view>
 </cu-custom>
-<text>教师首页</text>
+<!-- 基本信息 -->
+<view class="basis-card bg-cyan">
+	<view class="text-lg padding-tb-xs">{{ userInfo.username }}老师，您好</view>
+  <view class="text-df padding-tb-xs">学校：{{ userInfo.schoolInfo.name }}</view>
+  <view class="text-df padding-tb-xs">学院：{{ userInfo.collegeInfo.name }}</view>
+</view>
+<!-- 功能列表 -->
+<!-- 实习申请 -->
+<view class="cu-bar bg-white solid-bottom margin-top">
+	<view class="action">
+		<text class="cuIcon-title text-red"></text> 实习申请
+	</view>
+</view>
+<view class="cu-list grid col-3 no-border">
+	<view class="cu-item">
+		<navigator url="/pages/taskReview/index" hover-class="none">
+			<view class="cuIcon-post text-yellow"></view>
+			<text>实习任务</text>
+		</navigator>
+	</view>
+	<view bindtap="toDayOff" class="cu-item">
+		<view class="cuIcon-tagfill text-blue"></view>
+		<text>请假审核</text>
+	</view>
+	<view class="cu-item">
+		<view class="cuIcon-repeal text-orange"></view>
+		<text>实习变更</text>
+	</view>
+</view>
+<!-- 实习过程 -->
+<view class="cu-bar bg-white solid-bottom margin-top">
+	<view class="action">
+		<text class="cuIcon-title text-red"></text> 实习过程
+	</view>
+</view>
+<view class="cu-list grid col-4 no-border">
+	<view class="cu-item" bindtap="toClock">
+		<view class="cuIcon-location text-orange"></view>
+		<text>签到</text>
+	</view>
+	<view class="cu-item" data-title="发布日记" data-type="day" bindtap="toNote">
+		<view class="cuIcon-baby text-cyan"></view>
+		<text>实习日记</text>
+	</view>
+	<view class="cu-item" data-title="发布周记" data-type="week" bindtap="toNote">
+		<view class="cuIcon-copy text-olive"></view>
+		<text>实习周记</text>
+	</view>
+	<view class="cu-item" data-title="发布月记" data-type="month" bindtap="toNote">
+		<view class="cuIcon-form text-grey"></view>
+		<text>实习月记</text>
+	</view>
+	<view class="cu-item" data-title="发布实习总结" data-type="summary" bindtap="toNote">
+		<view class="cuIcon-send text-grey"></view>
+		<text>实习总结</text>
+	</view>
+</view>

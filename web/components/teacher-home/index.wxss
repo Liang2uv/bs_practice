@@ -1,1 +1,8 @@
-/* components/teacher-home/index.wxss */
+/* components/teacher-home/index.wxss */.basis-card {
+  padding: 10rpx 30rpx;
+  border-bottom-right-radius: 12rpx;
+  border-bottom-left-radius: 12rpx;
+  background-image: url(https://image.weilanwl.com/color2.0/cardBg.png);
+  background-size: cover;
+  background-position: center;
+}
