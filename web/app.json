@@ -21,7 +21,8 @@
     "pages/noteDetail/index",
     "pages/taskReview/index",
     "pages/dayOffReview/index",
-    "pages/clockReview/index"
+    "pages/clockReview/index",
+    "pages/noteReview/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

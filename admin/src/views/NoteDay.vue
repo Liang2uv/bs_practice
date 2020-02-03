@@ -120,7 +120,7 @@ export default {
           this.$message.error('分数不合法')
           return
         }
-        const [err, res] = await this.$store.dispatch('CrudUpdate', { resource: this.resource, id: row._id, data: { status: 1, score: score } })
+        const [err, res] = await this.$store.dispatch('CrudUpdate', { resource: this.resource, id: row._id, data: { status: 1, score } })
         this.getList()
         if (!err) {
           this.$message.success('操作成功')

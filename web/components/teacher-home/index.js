@@ -49,6 +49,13 @@ Component({
   methods: {
     // 下拉刷新的方法
     refresh() {
+    },
+    // 前往实习记录
+    toNote(e) {
+      const { title, type } = e.currentTarget.dataset
+      wx.navigateTo({
+        url: `/pages/noteReview/index?title=${title}&type=${type}`,
+      })
     }
   }
 })

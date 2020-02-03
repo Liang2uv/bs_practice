@@ -13,6 +13,7 @@
         "popup-select",
         "cell-group",
         "cell",
-        "fab-button"
+        "fab-button",
+        "rater"
     ]
 }

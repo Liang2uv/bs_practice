@@ -46,19 +46,19 @@
 			<text>签到记录</text>
 		</navigator>
 	</view>
-	<view class="cu-item" data-title="发布日记" data-type="day" bindtap="toNote">
+	<view class="cu-item" data-title="实习日记" data-type="day" bindtap="toNote">
 		<view class="cuIcon-baby text-cyan"></view>
 		<text>实习日记</text>
 	</view>
-	<view class="cu-item" data-title="发布周记" data-type="week" bindtap="toNote">
+	<view class="cu-item" data-title="实习周记" data-type="week" bindtap="toNote">
 		<view class="cuIcon-copy text-olive"></view>
 		<text>实习周记</text>
 	</view>
-	<view class="cu-item" data-title="发布月记" data-type="month" bindtap="toNote">
+	<view class="cu-item" data-title="实习月记" data-type="month" bindtap="toNote">
 		<view class="cuIcon-form text-grey"></view>
 		<text>实习月记</text>
 	</view>
-	<view class="cu-item" data-title="发布实习总结" data-type="summary" bindtap="toNote">
+	<view class="cu-item" data-title="实习总结" data-type="summary" bindtap="toNote">
 		<view class="cuIcon-send text-grey"></view>
 		<text>实习总结</text>
 	</view>
