@@ -19,7 +19,8 @@
     "pages/messageDetail/index",
     "pages/topicDetail/index",
     "pages/noteDetail/index",
-    "pages/taskReview/index"
+    "pages/taskReview/index",
+    "pages/dayOffReview/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

@@ -1,11 +1,11 @@
 <wxs src="../../app.wxs" module="tools" />
 <cu-custom bgColor="bg-cyan" isBack="{{true}}">
 	<view slot="backText">返回</view>
-	<view slot="content">实习任务</view>
+	<view slot="content">请假审核</view>
 </cu-custom>
 <wux-dialog id="wux-dialog" />
 <!-- 导航栏 -->
-<scroll-view scroll-x class="bg-white nav" scroll-with-animation scroll-left="{{0}}">
+<scroll-view scroll-x class="bg-white nav text-center" scroll-with-animation scroll-left="{{0}}">
   <view class="cu-item {{ index==currentTab?'text-cyan cur':'' }}" wx:for="{{ tabList }}" wx:key="id" bindtap="tabSelect" data-index="{{ index }}">
     {{ item.text }}
   </view>
@@ -13,17 +13,17 @@
 <!-- 列表 -->
 <scroll-view scroll-y class="list-con" style="height: {{scrollHeight}}px;" bindscrolltolower="onScrolltolower">
   <view wx:for="{{ tabList[currentTab].list }}" wx:key="_id" class="padding-tb-sm">
-    <wux-card full title="{{ item.name }}" actions="{{ item.status === 0 ? actions : [] }}" data-item="{{ item }}" bind:action="review">
+    <wux-card full title="请假申请" actions="{{ item.status === 0 ? actions : [] }}" data-item="{{ item }}" bind:action="review">
       <view class="text-gray" catchtap="toDetail" data-id="{{ item._id }}" slot="extra">
         查看详情
         <text class="cuIcon-right"></text>
       </view>
       <view slot="body" catchtap="toDetail" data-id="{{ item._id }}">
-        <view>任务名称：{{ item.name }}</view>
-        <view>申请人：{{ item.applicantInfo.username }}</view>
-        <view>申请人学号：{{ item.applicantInfo.number }}</view>
-        <view>所属计划：{{ item.mainPlanInfo.name }}</view>
-        <view>实习时间：{{ tools.DateFormat(item.startAt, 'yyyy年MM月dd日') + '~' + tools.DateFormat(item.endAt, 'yyyy年MM月dd日') }}</view>
+        <view>学生姓名：{{ item.studentInfo.username }}</view>
+        <view>学生学号：{{ item.studentInfo.number }}</view>
+        <view>关联任务：{{ item.taskInfo.name }}</view>
+        <view class="text-cut">请假理由：{{ item.reason }}</view>
+        <view>请假时间：{{ tools.DateFormat(item.startAt, 'yyyy年MM月dd日 HH:mm:ss') + '~' + tools.DateFormat(item.endAt, 'yyyy年MM月dd日 HH:mm:ss') }}</view>
       </view>
       <view slot="footer">状态：{{ tabList[item.status].text }}</view>
     </wux-card>

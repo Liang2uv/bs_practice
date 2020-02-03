@@ -22,9 +22,11 @@
 			<text>实习任务</text>
 		</navigator>
 	</view>
-	<view bindtap="toDayOff" class="cu-item">
-		<view class="cuIcon-tagfill text-blue"></view>
-		<text>请假审核</text>
+	<view class="cu-item">
+		<navigator url="/pages/dayOffReview/index" hover-class="none">
+			<view class="cuIcon-tagfill text-blue"></view>
+			<text>请假审核</text>
+		</navigator>
 	</view>
 	<view class="cu-item">
 		<view class="cuIcon-repeal text-orange"></view>
