@@ -40,9 +40,11 @@
 	</view>
 </view>
 <view class="cu-list grid col-4 no-border">
-	<view class="cu-item" bindtap="toClock">
-		<view class="cuIcon-location text-orange"></view>
-		<text>签到</text>
+	<view class="cu-item">
+		<navigator url="/pages/clockReview/index" hover-class="none">
+			<view class="cuIcon-location text-orange"></view>
+			<text>签到记录</text>
+		</navigator>
 	</view>
 	<view class="cu-item" data-title="发布日记" data-type="day" bindtap="toNote">
 		<view class="cuIcon-baby text-cyan"></view>

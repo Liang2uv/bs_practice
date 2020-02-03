@@ -1,0 +1,42 @@
+<wxs src="../../app.wxs" module="tools" />
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">签到记录</view>
+</cu-custom>
+<wux-dialog id="wux-dialog" />
+<!-- 导航栏 -->
+<scroll-view scroll-x class="bg-white nav text-center" scroll-with-animation scroll-left="{{0}}">
+  <view class="cu-item {{ index==currentTab?'text-cyan cur':'' }}" wx:for="{{ tabList }}" wx:key="id" bindtap="tabSelect" data-index="{{ index }}">
+    {{ item.text }}
+  </view>
+</scroll-view>
+<!-- 列表 -->
+<scroll-view scroll-y class="list-con" style="height: {{scrollHeight}}px;" bindscrolltolower="onScrolltolower">
+  <view wx:for="{{ tabList[currentTab].list }}" wx:key="_id" class="padding-tb-sm">
+    <wux-card full title="{{ tools.DateFormat(item.date, 'yyyy年MM月dd日') }}" data-item="{{ item }}">
+      <view slot="extra" class="text-gray">{{ tabList[item.status].text }}</view>
+      <view slot="body" catchtap="toDetail" data-id="{{ item._id }}">
+        <view>学生姓名：{{ item.studentInfo.username }}</view>
+        <view>学生学号：{{ item.studentInfo.number }}</view>
+        <view>关联任务：{{ item.taskInfo.name }}</view>
+        <view wx:if="{{ item.clock.distance }}">签到距离：{{ item.clock.distance + '米' }}</view>
+        <view>日期：{{ tools.DateFormat(item.date, 'yyyy年MM月dd日') }}</view>
+      </view>
+    </wux-card>
+  </view>
+  <view hidden="{{ !tabList[currentTab].isLoading }}">
+    <wux-divider>
+        <view class="loadmore">
+            <view class="loading"></view>
+            <text class="text">正在加载</text>
+        </view>
+    </wux-divider>
+  </view>
+  <view hidden="{{ tabList[currentTab].scrollFlag }}">
+    <wux-divider>
+      <view class="loadmore">
+          <text class="text">没有更多了</text>
+      </view>
+    </wux-divider>
+  </view>
+</scroll-view>

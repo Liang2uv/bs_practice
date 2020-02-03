@@ -20,7 +20,8 @@
     "pages/topicDetail/index",
     "pages/noteDetail/index",
     "pages/taskReview/index",
-    "pages/dayOffReview/index"
+    "pages/dayOffReview/index",
+    "pages/clockReview/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

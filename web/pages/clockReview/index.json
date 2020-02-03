@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "wux-card": "/components/wux-weapp/card/index",
+    "wux-dialog": "/components/wux-weapp/dialog/index",
+    "wux-divider": "/components/wux-weapp/divider/index"
+  }
+}

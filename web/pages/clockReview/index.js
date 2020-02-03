@@ -1,7 +1,7 @@
 import { getGlobalData } from '../../utils/util'
 import { crudAdd } from '../../api/crud'
 import { $wuxDialog } from '../../components/wux-weapp/index'
-import { getDayOffList, updateDayOff } from '../../api/dayOff'
+import { getDayRecordList } from '../../api/dayRecord'
 Page({
 
   /**
@@ -11,7 +11,7 @@ Page({
     currentTab: 0,
     tabList: [{
       id: 0,
-      text: '未审核',
+      text: '待签到',
       isInit: true,
       scrollFlag: true,
       isLoading: false,
@@ -24,7 +24,7 @@ Page({
       list: []
     },{
       id: 1,
-      text: '已通过',
+      text: '已签到',
       isInit: false,
       scrollFlag: true,
       isLoading: false,
@@ -37,7 +37,7 @@ Page({
       },
     },{
       id: 2,
-      text: '不通过',
+      text: '已请假',
       isInit: false,
       scrollFlag: true,
       isLoading: false,
@@ -48,15 +48,21 @@ Page({
         size: 30
       },
       list: []
+    },{
+      id: 3,
+      text: '缺勤',
+      isInit: false,
+      scrollFlag: true,
+      isLoading: false,
+      query: {
+        teaId: '',
+        status: 3,
+        page: 1,
+        size: 30
+      },
+      list: []
     }],
     userInfo: {},
-    actions: [{
-      type: 'default',
-      text: '驳回',
-    }, {
-      type: 'primary',
-      text: '通过',
-    }],
     scrollHeight: 0
   },
 
@@ -67,7 +73,7 @@ Page({
     this.setData({
       userInfo: getGlobalData('userInfo') || {}
     })
-    // 获取请假申请列表
+    // 获取签到记录列表
     this.getCurrentTabList()
     // 设置列表栏的高度
     this.setScorllHeight();
@@ -101,7 +107,7 @@ Page({
         [`tabList[${this.data.currentTab}].query.teaId`]: this.data.userInfo._id,
         [`tabList[${this.data.currentTab}].isLoading`]: true
       })
-      getDayOffList({ data: this.data.tabList[this.data.currentTab].query }).then(res => {
+      getDayRecordList({ data: this.data.tabList[this.data.currentTab].query }).then(res => {
         if (res.list.length > 0) {
           this.setData({
             [`tabList[${this.data.currentTab}].list`]: this.data.tabList[this.data.currentTab].list.concat(res.list)
@@ -124,51 +130,6 @@ Page({
         })
       })
     }
-  },
-  // 审核操作
-  review(e) {
-    const { index } = e.detail
-    const { item } = e.currentTarget.dataset
-    let status = 2  // 默认是未通过
-    if (index === 1) {  // 点击通过的操作
-      status = 1
-    }
-    $wuxDialog().prompt({
-      resetOnClose: true,
-      title: '确认消息',
-      content: '',
-      defaultText: '',
-      maxlength: '300',
-      placeholder: '请输入理由（可空）',
-      onConfirm: (e, value) => {
-        const message = {
-          content: `您的请假申请审核${status === 2 ? '未' : ''}通过${ value ? ':' + value : ''}`,
-          send: this.data.userInfo._id,
-          receive: item.student,
-          type: 'system',
-          status: 0
-        }
-        updateDayOff({ id: item._id, data: { status } }).then(res => {
-          return crudAdd({ resource: 'messages', data: message })
-        }).then(res => {
-          wx.showToast({
-            title: '操作成功',
-            icon: 'none'
-          })
-        }).catch(err => {
-          wx.showToast({
-            title: err.message,
-            icon: 'none'
-          })
-        })
-      }
-    })
-  },
-  // 前往详情页
-  toDetail(e) {
-    wx.navigateTo({
-      url: '/pages/dayOffEdit/index?id=' + e.currentTarget.dataset.id,
-    })
   },
   // 设置列表栏的高度
   setScorllHeight () {
