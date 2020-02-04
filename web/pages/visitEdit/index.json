@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "van-cell-group": "/components/vantui/cell-group/index",
+    "van-field": "/components/vantui/field/index",
+    "van-cell": "/components/vantui/cell/index",
+    "van-popup": "/components/vantui/popup/index",
+    "van-datetime-picker": "/components/vantui/datetime-picker/index",
+    "wux-toast": "/components/wux-weapp/toast/index"
+  }
+}

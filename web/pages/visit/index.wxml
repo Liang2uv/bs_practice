@@ -1,2 +1,55 @@
-<!--pages/visit/index.wxml-->
-<text>pages/visit/index.wxml</text>
+<!-- 实习任务 -->
+<wxs src="../../app.wxs" module="tools" />
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">走访记录</view>
+</cu-custom>
+<view class="cu-bar bg-white solid-bottom margin-top">
+	<view class='action'>
+		<text class='cuIcon-titles text-orange '></text>所有记录
+	</view>
+	<view class='action'>
+		<navigator hover-class="none" url="/pages/visitEdit/index">
+			<view class="flex align-center text-orange">
+				<text class="flex-sub text-xxl margin-lr-xs">
+			  <text class="cuIcon-add"></text>
+				</text>
+				<text>新建</text>
+			</view>
+		</navigator>
+	</view>
+</view>
+<view class="cu-card article" wx:for="{{ list }}" wx:key="_id" data-id="{{ item._id }}" catchtap="toDetail">
+	<view class="cu-item shadow">
+		<view class="title solid-bottom">
+			<view class="text-cut">
+				<text class="text-xxl text-yellow">
+			    <text class="cuIcon-tagfill"></text>
+				</text>
+				{{ tools.DateFormat(item.date, 'yyyy-MM-dd') }}
+			</view>
+		</view>
+		<view class="content flex flex-direction">
+      <view>走访时间：{{ tools.DateFormat(item.date, 'yyyy-MM-dd') }}</view>
+      <view>走访学生：{{ item.students }}</view>
+		</view>
+    <view data-id="{{ item._id }}" bindtap="toDetail" class="margin-top-sm text-bold text-green text-center text-lg padding-top-sm padding-lr-sm dashed-top">
+      查看详情
+    </view>
+	</view>
+</view>
+<view hidden="{{ !isLoading }}">
+  <wux-divider>
+      <view class="loadmore">
+          <view class="loading"></view>
+          <text class="text">正在加载</text>
+      </view>
+  </wux-divider>
+</view>
+<view hidden="{{ scrollFlag }}">
+  <wux-divider>
+    <view class="loadmore">
+        <text class="text">没有更多了</text>
+    </view>
+  </wux-divider>
+</view>

@@ -145,6 +145,20 @@ const routes = [
     path: '/',
     name: 'layout',
     component: Layout,
+    meta: { title: '实习走访', icon: 'el-icon-setting' },
+    children: [
+      {
+        path: '/visit',
+        name: 'visit',
+        meta: { title: '走访记录', icon: 'icon', priv: ['teacher'] },
+        component: () => import('views/Visit.vue')
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: 'layout',
+    component: Layout,
     meta: { title: '圈子管理', icon: 'el-icon-setting' },
     children: [
       {

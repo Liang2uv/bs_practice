@@ -7,7 +7,7 @@
 <!-- 表单 -->
 	<!-- 内容 -->
 <view class="cu-form-group">
-	<textarea style="height:400rpx;" disabled="{{ !isEdit }}" value="{{ model.content }}" data-key="content" maxlength="-1" disabled="{{modalName!=null}}" bindinput="inputChange" placeholder="{{ '写点什么吧(字数：' + minTextLength + '~' + maxTextLength + ')' }}"></textarea>
+	<textarea style="height:400rpx;" disabled="{{ !isEdit }}" value="{{ model.content }}" data-key="content" bindinput="inputChange" placeholder="{{ '写点什么吧(字数：' + minTextLength + '~' + maxTextLength + ')' }}"></textarea>
 </view>
 <van-cell-group>
 	<!-- 所属任务 -->

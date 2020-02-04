@@ -1,0 +1,86 @@
+<wxs src="../../app.wxs" module="tools" />
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">走访记录</view>
+</cu-custom>
+<wux-toast id="wux-toast" />
+<!-- 表单 -->
+<form>
+	<!-- 走访记录 -->
+  <view class="cu-form-group">
+    <textarea wx:if="{{ isEdit }}" style="height:400rpx;" value="{{ model.content }}" data-key="content" bindinput="inputChange" placeholder="请填写走访记录"></textarea>
+    <view wx:else style="height:400rpx;">{{ model.content }}</view>
+  </view>
+  <!-- 走访学生 -->
+  <view class="cu-form-group align-start">
+    <view class="stu-title">走访学生</view>
+    <view class="flex align-center visit-stus">
+      <view wx:for="{{ model.students }}" wx:key="*this" class="bg-grey light padding-xs margin-xs">
+        {{ item }}
+        <text data-index="{{ index }}" catchtap="delStudent" class="cuIcon-close text-gray margin-left-xs"></text>
+      </view>
+      <view wx:if="{{ isEdit }}" class="bg-blue light padding-xs margin-xs" catchtap="addStudent">添加</view>
+    </view>
+  </view>
+  <van-cell-group>
+    <!-- 走访日期 -->
+    <van-cell title="走访日期" value="{{ tools.DateFormat(model.date) }}" title-width="90px" required value-class="text-left" data-key="date" bind:click="datetimePickerChange" />
+    <van-popup wx:if="{{ isEdit }}" show="{{ datePickerShow }}" position="bottom">
+      <van-datetime-picker data-key="date" type="datetime" value="{{ model.date }}" bind:cancel="datetimePickerChange" bind:confirm="datetimePickerChange" />
+    </van-popup>
+  </van-cell-group>
+</form>
+<!-- 图片 -->
+<view class="cu-bar bg-white">
+	<view class="action">
+		图片上传(最多10张)
+	</view>
+	<view class="action">
+		{{model.imgs.length}}/10
+	</view>
+</view>
+<view class="cu-form-group">
+	<view class="grid col-4 grid-square flex-sub ">
+		<view class="bg-img" wx:for="{{ model.imgs }}" wx:key="index" bindtap="viewImage" data-imgurl="{{ item }}">
+			<image src='{{ item }}' mode='aspectFill'></image>
+			<view wx:if="{{ isEdit }}" class="cu-tag bg-red" catchtap="delImg" data-index="{{index}}">
+				<text class="cuIcon-close"></text>
+			</view>
+		</view>
+		<view class="solids" bindtap="chooseImage" wx:if="{{ isEdit && model.imgs.length < 10}}">
+			<text class="cuIcon-cameraadd"></text>
+		</view>
+	</view>
+</view>
+<!-- 提交按钮 -->
+<view wx:if="{{ isEdit }}" class="padding flex">
+  <button class="cu-btn flex-sub bg-cyan lg" bind:tap="submit">提交</button>
+</view>
+<view class="padding-xs"></view>
+<!-- 搜索学生页面 -->
+<view class="search-page" hidden="{{ !search }}">
+  <!-- 搜索栏 -->
+  <view class="cu-bar bg-white search">
+    <view class="search-form radius">
+      <text class="cuIcon-search"></text>
+      <input type="text" bindconfirm="searchStudent" placeholder="搜索学生姓名" confirm-type="search"></input>
+    </view>
+    <view class="action">
+      <text class="cuIcon-close"></text>
+      <text catchtap="cancelSearch">取消</text>
+    </view>
+  </view>
+  <!-- 结果列表 -->
+  <view class="cu-list menu">
+    <view class="cu-item" wx:for="{{ studentList }}" wx:key="_id">
+      <view class="content">
+        <text class="text-grey">{{ item.username }}</text>
+        <text class="text-grey text-sm">（{{ item.number }}）</text>
+      </view>
+      <view class="action">
+        <button data-item="{{ item }}" catchtap="selectStudent" class="cu-btn round bg-green shadow">
+          <text class="cuIcon-add"></text> 添加</button>
+      </view>
+    </view>
+  </view>
+</view>

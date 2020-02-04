@@ -26,7 +26,8 @@
     "pages/circleReview/index",
     "pages/circleEdit/index",
     "pages/visit/index",
-    "pages/myTopic/index"
+    "pages/myTopic/index",
+    "pages/visitEdit/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

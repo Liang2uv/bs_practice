@@ -1,0 +1,22 @@
+.visit-stus {
+  flex-wrap: wrap;
+}
+.stu-title {
+  width: 220rpx;
+  font-size: 28rpx;
+  margin-top: 20rpx;
+}
+.search-page {
+  background: rgba(0,0,0, .6);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 120rpx;
+  z-index: 999;
+}
+button:not([size='mini']) {
+  min-height: auto;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+}

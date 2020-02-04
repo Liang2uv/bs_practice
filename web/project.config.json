@@ -100,6 +100,13 @@
 					"id": -1,
 					"name": "pages/topicDetail/index",
 					"pathName": "pages/topicDetail/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/visitEdit/index",
+					"pathName": "pages/visitEdit/index",
 					"scene": null
 				}
 			]

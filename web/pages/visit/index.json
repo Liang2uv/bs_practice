@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "wux-divider": "/components/wux-weapp/divider/index"
+  }
 }
