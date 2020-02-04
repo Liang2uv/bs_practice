@@ -158,6 +158,12 @@ Component({
       wx.navigateTo({
         url: '/pages/topicDetail/index?id=' + id,
       })
+    },
+    // 前往我的帖子
+    toMyTopic() {
+      wx.navigateTo({
+        url: '/pages/myTopic/index?circle=' + this.data.circleList[this.data.currentTab]._id,
+      })
     }
   }
 })

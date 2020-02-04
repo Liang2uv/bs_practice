@@ -21,6 +21,16 @@
   </view>
 </scroll-view>
 <!-- 内容区 -->
+<!-- 操作 -->
+<view class="cu-list menu margin-tb-xs">
+  <view class="cu-item arrow" bindtap="toMyTopic">
+    <view class="content">
+      <text class="cuIcon-profile text-yellow"></text>
+      <text class="text-grey">我的帖子</text>
+    </view>
+  </view>
+</view>
+<!-- 列表 -->
 <view class="cu-card dynamic no-card solid-bottom" wx:for="{{ topicListArr[currentTab] }}" wx:key="_id" bindtap="toDetail" data-id="{{ item.topic }}">
   <view class="cu-item shadow">
     <view class="cu-list menu-avatar">

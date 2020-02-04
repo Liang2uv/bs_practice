@@ -87,7 +87,7 @@ const routes = [
     path: '/',
     name: 'layout',
     component: Layout,
-    meta: { title: '实习申请', icon: 'el-icon-setting' },
+    meta: { title: '实习申请', icon: 'el-icon-edit-outline' },
     children: [
       {
         path: '/task',
@@ -107,7 +107,7 @@ const routes = [
     path: '/',
     name: 'layout',
     component: Layout,
-    meta: { title: '实习过程', icon: 'el-icon-setting' },
+    meta: { title: '实习过程', icon: 'el-icon-odometer' },
     children: [
       {
         path: '/day-record',
@@ -145,7 +145,7 @@ const routes = [
     path: '/',
     name: 'layout',
     component: Layout,
-    meta: { title: '实习走访', icon: 'el-icon-setting' },
+    meta: { title: '实习走访', icon: 'el-icon-paperclip' },
     children: [
       {
         path: '/visit',
@@ -159,7 +159,7 @@ const routes = [
     path: '/',
     name: 'layout',
     component: Layout,
-    meta: { title: '圈子管理', icon: 'el-icon-setting' },
+    meta: { title: '圈子管理', icon: 'el-icon-orange' },
     children: [
       {
         path: '/circles',

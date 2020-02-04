@@ -47,10 +47,10 @@
 		<view class="cuIcon-tagfill text-blue"></view>
 		<text>请假申请</text>
 	</view>
-	<view class="cu-item">
+	<!-- <view class="cu-item">
 		<view class="cuIcon-repeal text-orange"></view>
 		<text>实习变更</text>
-	</view>
+	</view> -->
 </view>
 <!-- 实习过程 -->
 <view class="cu-bar bg-white solid-bottom margin-top">
