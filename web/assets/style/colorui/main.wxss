@@ -25,6 +25,7 @@ page {
 	--pink: #e03997;
 	--brown: #a5673f;
 	--grey: #8799a3;
+	--grey2: #fafafa;
 	--black: #333333;
 	--darkGray: #666666;
 	--gray: #aaaaaa;
@@ -3490,6 +3491,10 @@ scroll-view.cu-steps .cu-item {
 .bg-grey {
 	background-color: var(--grey);
 	color: var(--white);
+}
+
+.bg-grey2 {
+	background-color: var(--grey2);
 }
 
 .bg-gray {

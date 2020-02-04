@@ -22,7 +22,7 @@
 		<cp-teacher-circle is-pull-down-refresh="{{ tabbar[1].isPullDownRefresh }}"></cp-teacher-circle>
 	</cp-tabbar-page>
 	<cp-tabbar-page name="2" active="{{curTab}}">
-		<cp-teacher-message is-pull-down-refresh="{{ tabbar[2].isPullDownRefresh }}"></cp-teacher-message>
+		<cp-student-message is-pull-down-refresh="{{ tabbar[2].isPullDownRefresh }}"></cp-student-message>
 	</cp-tabbar-page>
 	<cp-tabbar-page name="3" active="{{curTab}}">
 		<cp-teacher-profile is-pull-down-refresh="{{ tabbar[3].isPullDownRefresh }}"></cp-teacher-profile>

@@ -11,13 +11,19 @@
 <!-- 内容区 -->
 <!-- 操作 -->
 <view class="cu-list menu margin-tb-xs">
-  <view class="cu-item arrow" bindtap="circleEdit">
+  <view class="cu-item arrow" bindtap="toMyTopic">
+    <view class="content">
+      <text class="cuIcon-profile text-yellow"></text>
+      <text class="text-grey">我的帖子</text>
+    </view>
+  </view>
+  <view class="cu-item arrow" bindtap="circleEdit" wx:if="{{ circleList[currentTab].name !== '公共圈子' }}">
     <view class="content">
       <text class="cuIcon-edit text-blue"></text>
       <text class="text-grey">编辑圈子信息</text>
     </view>
   </view>
-  <view class="cu-item arrow" bindtap="circleReview">
+  <view class="cu-item arrow" bindtap="circleReview" wx:if="{{ circleList[currentTab].name !== '公共圈子' }}">
     <view class="content">
       <text class="cuIcon-warn text-orange"></text>
       <text class="text-grey">进圈审核</text>

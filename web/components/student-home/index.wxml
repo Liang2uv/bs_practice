@@ -59,10 +59,6 @@
 	</view>
 </view>
 <view class="cu-list grid col-4 no-border">
-	<view class="cu-item" bindtap="toClock">
-		<view class="cuIcon-location text-orange"></view>
-		<text>签到</text>
-	</view>
 	<view class="cu-item" data-title="发布日记" data-type="day" bindtap="toNote">
 		<view class="cuIcon-baby text-cyan"></view>
 		<text>实习日记</text>
@@ -72,11 +68,15 @@
 		<text>实习周记</text>
 	</view>
 	<view class="cu-item" data-title="发布月记" data-type="month" bindtap="toNote">
-		<view class="cuIcon-form text-grey"></view>
+		<view class="cuIcon-form text-pink"></view>
 		<text>实习月记</text>
 	</view>
 	<view class="cu-item" data-title="发布实习总结" data-type="summary" bindtap="toNote">
 		<view class="cuIcon-send text-grey"></view>
 		<text>实习总结</text>
+	</view>
+	<view class="cu-item" bindtap="toClock">
+		<view class="cuIcon-location text-orange"></view>
+		<text>签到</text>
 	</view>
 </view>

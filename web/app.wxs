@@ -21,14 +21,18 @@ var dateFormatByNow = function (date) {
     return ""
   }
   date = getDate(date)
+  var now = getDate()
   var year = date.getFullYear()
   var month = (padStart(date.getMonth() + 1))
   var day = padStart(date.getDate())
   var hour = padStart(date.getHours())
   var minute = padStart(date.getMinutes())
   var second = padStart(date.getSeconds())
+  var nyear = now.getFullYear()
+  var nmonth = (padStart(now.getMonth() + 1))
+  var nday = padStart(now.getDate())
   var format = 'HH:mm'
-  if (getDate() - date > 86400000) {
+  if (nyear !== year || nmonth !== month || nday !== day) {
     format = 'yyyy-MM-dd'
   }
   return format.replace('yyyy', year).replace('MM', month).replace('dd', day).replace('HH', hour).replace('mm', minute).replace('ss', second)

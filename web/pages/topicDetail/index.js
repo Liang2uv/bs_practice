@@ -103,6 +103,9 @@ Page({
         title: res.message,
         icon: 'none'
       })
+      this.setData({
+        content: ''
+      })
       this.getCommentList()
     }, err => {
       wx.showToast({

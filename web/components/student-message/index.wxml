@@ -5,7 +5,6 @@
 <view class="cu-list menu-avatar">
   <!-- 系统消息 -->
 	<view data-title="系统消息" data-type="system" bindtap="toMessageDetail" class="cu-item ">
-		<!-- <view class="cu-avatar radius lg" style="background-image:url();"></view> -->
 		<view class="cu-avatar lg round margin-right bg-blue light">
 			<text>系</text>
 		</view>
