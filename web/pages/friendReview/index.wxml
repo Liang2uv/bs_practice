@@ -1,0 +1,20 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">搜索好友</view>
+</cu-custom>
+<wxs src="../../app.wxs" module="tools" />
+<!-- 列表 -->
+<view wx:if="{{ list.length !== 0 }}" class="cu-list menu sm-border">
+  <view class="cu-item" wx:for="{{ list }}" wx:key="_id">
+    <view class="content padding-tb-sm">
+      <view>
+        <text class="cuIcon-emoji text-blue margin-right-xs"></text> {{ item.fromUserInfo.username }} <text class="margin-left-xs text-gray">{{ tools.DateFormatByNow(item.createdAt) }}</text> </view>
+      <view class="text-gray text-sm">
+        <text class="cuIcon-infofill margin-right-xs"></text> 附带消息：{{ item.remark && item.remark !== '' ? item.remark : '无' }}</view>
+    </view>
+    <view class="action">
+      <view class="cu-tag round bg-green light" data-id="{{ item._id }}" bindtap="aggree">同意添加</view>
+    </view>
+  </view>
+</view>
+<wux-divider wx:else position="center" text="当前无好友申请" />

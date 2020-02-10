@@ -1,0 +1,45 @@
+<wxs src="../../app.wxs" module="tools" />
+<cu-custom bgColor="bg-cyan" isBack="{{false}}">
+	<view slot="backText">返回</view>
+	<view slot="content">实习考评</view>
+</cu-custom>
+<wux-dialog id="wux-dialog" />
+<!-- 导航栏 -->
+<scroll-view scroll-x class="bg-white nav text-center" scroll-with-animation scroll-left="{{0}}">
+  <view class="cu-item {{ index==currentTab?'text-cyan cur':'' }}" wx:for="{{ tabList }}" wx:key="id" bindtap="tabSelect" data-index="{{ index }}">
+    {{ item.text }}
+  </view>
+</scroll-view>
+<!-- 列表 -->
+<scroll-view scroll-y class="list-con" style="height: {{scrollHeight}}px;" bindscrolltolower="onScrolltolower">
+  <view wx:for="{{ tabList[currentTab].list }}" wx:key="_id" class="padding-tb-sm">
+    <wux-card full title="实习考评" actions="{{ item.status === 0 ? actions : [] }}" data-item="{{ item }}" bind:action="review">
+      <view class="text-gray" catchtap="toDetail" data-id="{{ item._id }}" slot="extra">
+        去评价
+        <text class="cuIcon-right"></text>
+      </view>
+      <view slot="body" catchtap="toDetail" data-id="{{ item._id }}">
+        <view>学生：{{ item.studentInfo.username }}</view>
+        <view>实习任务：{{ item.taskInfo.name }}</view>
+        <view>成绩（百分制）：{{ item.status === 0 ? '待评' : item.score }}</view>
+        <view class="text-cut">评价意见：{{ item.status === 0 ? '待评' : item.content }}</view>
+        <view>申请时间：{{ tools.DateFormat(item.createdAt, 'yyyy年MM月dd日') }}</view>
+      </view>
+    </wux-card>
+  </view>
+  <view hidden="{{ !tabList[currentTab].isLoading }}">
+    <wux-divider>
+        <view class="loadmore">
+            <view class="loading"></view>
+            <text class="text">正在加载</text>
+        </view>
+    </wux-divider>
+  </view>
+  <view hidden="{{ tabList[currentTab].scrollFlag }}">
+    <wux-divider>
+      <view class="loadmore">
+          <text class="text">没有更多了</text>
+      </view>
+    </wux-divider>
+  </view>
+</scroll-view>

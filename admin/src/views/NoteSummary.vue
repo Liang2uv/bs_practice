@@ -114,9 +114,9 @@ export default {
     },
     // 评分
     mark(row) {
-      this.$prompt('请在0-5打分（如：5）', '打分').then(async ({ value }) => {
+      this.$prompt('请在0-100打分（如：100）', '打分').then(async ({ value }) => {
         const score = parseInt(value)
-        if (isNaN(score) || score < 0 || score > 5) {
+        if (isNaN(score) || score < 0 || score > 100) {
           this.$message.error('分数不合法')
           return
         }

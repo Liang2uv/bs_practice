@@ -16,15 +16,15 @@
 		<view class="title">姓名</view>
 		<view class="text-gray">{{ userInfo.username }}</view>
 	</view>
-	<view class="cu-form-group">
+	<view class="cu-form-group" wx:if="{{ userInfo.role !== 'officer' }}">
 		<view class="title">学校</view>
 		<view class="text-gray">{{ userInfo.schoolInfo.name }}</view>
 	</view>
-	<view class="cu-form-group">
+	<view class="cu-form-group" wx:if="{{ userInfo.role !== 'officer' }}">
 		<view class="title">{{ userInfo.role === 'student' ? '学号' : '工号' }}</view>
 		<view class="text-gray">{{ userInfo.number }}</view>
 	</view>
-	<view class="cu-form-group">
+	<view class="cu-form-group" wx:if="{{ userInfo.role !== 'officer' }}">
 		<view class="title">学院</view>
 		<view class="text-gray">{{ userInfo.collegeInfo.name }}</view>
 	</view>

@@ -1,0 +1,29 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">我的好友</view>
+</cu-custom>
+<!-- 操作 -->
+<view class="cu-list menu margin-tb-xs">
+  <view class="cu-item arrow" bindtap="toFriendReview">
+    <view class="content">
+      <text class="cuIcon-wefill text-blue"></text>
+      <text class="text-grey">好友申请</text>
+    </view>
+  </view>
+  <view class="cu-item arrow" bindtap="toFriendSearch">
+    <view class="content">
+      <text class="cuIcon-service text-orange"></text>
+      <text class="text-grey">添加好友</text>
+    </view>
+  </view>
+</view>
+<!-- 列表 -->
+<view class="cu-list menu-avatar">
+  <view class="cu-item" wx:for="{{ list }}" wx:key="userInfo._id">
+    <view class="cu-avatar round lg" style="{{ 'background-image:url(' + item.userInfo.avatar + ');' }}"></view>
+    <view class="content">
+      <view class="text-grey">{{ item.userInfo.username }}</view>
+    </view>
+    <texts data-user="{{ item.userInfo }}" wx:if="{{ options.handle === 'rate' && item.userInfo.role === 'officer' }}" class="cu-tag round bg-green light" data-id="{{ item._id }}" bindtap="inviteRate">邀请评价</texts>
+  </view>
+</view>

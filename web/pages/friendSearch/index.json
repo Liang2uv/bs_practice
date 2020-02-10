@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "wux-divider": "/components/wux-weapp/divider/index",
+    "wux-dialog": "/components/wux-weapp/dialog/index"
+  }
+}

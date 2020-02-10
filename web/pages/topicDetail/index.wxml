@@ -44,7 +44,10 @@
         <view class="cu-avatar round" style="{{ 'background-image:url(' + c1.fromUserInfo.avatar + ');' }}"></view>
         <view class="content">
           <view class="flex justify-between align-center">
-            <view class="text-grey">{{ c1.fromUserInfo.username }}</view>
+            <view class="flex align-center">
+              <view class="text-grey">{{ c1.fromUserInfo.username }}</view>
+              <view class="cu-tag bg-blue light sm" wx:if="{{ c1.fromUserInfo.role === 'teacher' }}">老师</view>
+            </view>
             <view class="flex justify-between">
               <view class="text-gray text-df">{{ tools.DateFormatByNow(c1.createdAt) }}</view>
             </view>
@@ -55,7 +58,10 @@
           <!-- 二级评论 -->
           <view wx:if="{{ c1.reply && c1.reply.length !== 0 }}" class="padding-sm radius text-sm solid-top bg-grey2">
             <view data-layer="2" data-touserinfo="{{ c2.fromUserInfo }}" data-pid="{{ c1._id }}" catchtap="changeToUser" wx:for="{{ c1.reply }}" wx:key="_id" wx:for-item="c2">
-              <text class="text-grey">{{ c2.fromUserInfo.username }}</text>回复<text class="text-grey">{{ c2.toUserInfo.username }}</text>：
+              <text class="text-grey">{{ c2.fromUserInfo.username }}</text>
+              <text class="text-grey" wx:if="{{ c2.fromUserInfo.role === 'teacher' }}">（老师）</text>
+              回复
+              <text class="text-grey">{{ c2.toUserInfo.username }}</text>：
               {{ c2.content }}<text class="margin-left-xs text-xs text-gray">{{ tools.DateFormatByNow(c2.createdAt) }}</text>
             </view>
           </view>

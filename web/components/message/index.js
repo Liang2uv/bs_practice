@@ -119,6 +119,12 @@ Component({
       wx.navigateTo({
         url: `/pages/messageDetail/index?title=${title}&type=${type}`,
       })
+    },
+    // 前往我的好友页面
+    toFriend() {
+      wx.navigateTo({
+        url: `/pages/friend/index`,
+      })
     }
   }
 })

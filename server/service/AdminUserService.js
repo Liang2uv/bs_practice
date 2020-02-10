@@ -64,11 +64,13 @@ class AdminUserService extends BaseService {
     const wxApi = `https://api.weixin.qq.com/sns/jscode2session?appid=${WX_APPID}&secret=${WX_SECRECT}&js_code=${code}&grant_type=authorization_code`
     const { data } = await axios.get(wxApi)
     assert(data && data.openid, 422, 'code无效，获取信息失败')
-    // 4. 将openid与账号绑定
+    // 4. 将openid与账号一一对应，确保唯一
+    await this.model.updateMany({ openid: data.openid }, { openid: '' } )
+    // 5. 将openid与账号绑定
     await this.model.updateObj(user._id, { openid: data.openid })
-    // 5. 生成token
+    // 6. 生成token
     const token = jwt.sign({ id: user._id }, JWT_SECRECT, { expiresIn: EXPIRESIN })
-    // 5. 获取用户信息
+    // 7. 获取用户信息
     const userInfo = await this.model.findByIDAndRef(user._id, 'schoolInfo collegeInfo gradeInfo majorInfo classInfo')
     return { token, userInfo }
   }

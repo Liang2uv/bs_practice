@@ -72,5 +72,32 @@ export default {
       textColor: 'text-gray',
       textActiveColor: 'text-cyan'
     }
-  ]
+  ],
+  officer: [{
+    text: "实习考评",
+    icon: "home",
+    activeIcon: "homefill",
+    navigationBarTitleText: "实习考评",
+    isPullDownRefresh: false,
+    textColor: 'text-gray',
+    textActiveColor: 'text-cyan'
+  },
+  {
+    text: "消息",
+    icon: "comment",
+    activeIcon: "commentfill",
+    navigationBarTitleText: "消息",
+    isPullDownRefresh: false,
+    textColor: 'text-gray',
+    textActiveColor: 'text-cyan'
+  },
+  {
+    text: "我的",
+    icon: "profile",
+    activeIcon: "profilefill",
+    navigationBarTitleText: "我的",
+    isPullDownRefresh: false,
+    textColor: 'text-gray',
+    textActiveColor: 'text-cyan'
+  }]
 }

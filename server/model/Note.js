@@ -21,7 +21,7 @@ class NoteSchema extends BaseSchema {
         required: true
       },
       tags: [String], // 标签
-      score: {  // 老师评分（0-5）
+      score: {  // 老师评分（0-100）
         type: Number,
         default: 0
       },

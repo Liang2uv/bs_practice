@@ -24,10 +24,14 @@ class AdminUserSchema extends BaseSchema {
         type: String,
         required: true
       },
+      avatar: { // 头像
+        type: String,
+        default: 'https://practice-liangbb-1300060132.cos.ap-guangzhou.myqcloud.com/mp/big81005.jpg'
+      },
       role: { // 角色
         type: String,
         required: true,
-        enum: ['superadmin', 'admin', 'teacher', 'student']
+        enum: ['superadmin', 'admin', 'teacher', 'student', 'officer']
       },
       status: { // 状态0-禁用1-启用
         type: Number,
@@ -53,10 +57,6 @@ class AdminUserSchema extends BaseSchema {
       },
       class: { // 班级
         type: String
-      },
-      avatar: { // 头像
-        type: String,
-        default: 'https://practice-liangbb-1300060132.cos.ap-guangzhou.myqcloud.com/mp/big81005.jpg'
       }
     }, 'AdminUser')
     /********************该Schema特有的方法*************************/

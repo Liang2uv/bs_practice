@@ -1,6 +1,7 @@
 <wxs src="../../app.wxs" module="tools" />
-<cu-custom bgColor="bg-cyan">
+<cu-custom bgColor="bg-cyan" isBack="{{ false }}">
 	<view slot="content">消息中心</view>
+	<view slot="left" bindtap="toFriend">我的好友</view>
 </cu-custom>
 <view class="cu-list menu-avatar">
   <!-- 系统消息 -->

@@ -40,7 +40,7 @@
 				 <button data-task="{{ item._id }}" catchtap="toClockList" class="cu-btn block line-orange" style="margin:0rpx 10rpx;">签到</button>
 				 <button data-task="{{ item._id }}" data-taskname="{{ item.name }}" catchtap="selectNote" class="cu-btn block line-orange" style="margin:0rpx 10rpx;">手册</button>
 				 <button data-task="{{ item._id }}" catchtap="toDayOffList" class="cu-btn block line-orange" style="margin:0rpx 10rpx;">请假</button>
-				 <button data-task="{{ item._id }}" class="cu-btn block line-orange" style="margin:0rpx 10rpx;">变更</button>
+				 <button data-task="{{ item._id }}" catchtap="toRate" class="cu-btn block line-orange" style="margin:0rpx 10rpx;">评价</button>
 			</view>
 		</view>
 	</view>

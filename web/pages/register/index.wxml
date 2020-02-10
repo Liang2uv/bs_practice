@@ -1,0 +1,40 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">注册账号</view>
+</cu-custom>
+
+<form bindsubmit="formSubmit">
+  <view class="cu-form-group">
+    <view class="title">手机号码</view>
+    <input value="{{ model.phone }}" name="phone" placeholder="请输入手机号"></input>
+    <view class="cu-capsule radius">
+      <view class="cu-tag bg-blue">
+        +86
+      </view>
+      <view class="cu-tag line-blue">
+        中国大陆
+      </view>
+    </view>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">密码</view>
+		<input value="{{ model.password }}" name="password" type="password" placeholder="请输入密码"></input>
+	</view>
+  <view class="cu-form-group">
+		<view class="title">姓名</view>
+		<input value="{{ model.username }}" name="username" placeholder="请输入姓名"></input>
+	</view>
+  <view class="cu-form-group justify-start">
+    <view class="title">角色</view>
+    <view>{{ roleName }}</view>
+  </view>
+  <view class="cu-form-group">
+    <view class="title">验证码</view>
+    <input value="{{ model.code }}" name="code" placeholder="请填写验证码"></input>
+    <button bindtap="getCode" class="cu-btn bg-green shadow">验证码</button>
+  </view>
+  <view class="cu-form-group"></view>
+  <view class="btn-area padding">
+    <button formType="submit" class="bg-cyan" style="width:100%">注册</button>
+  </view>
+</form>

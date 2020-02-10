@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "wux-popup-select": "/components/wux-weapp/popup-select/index"
+  }
+}

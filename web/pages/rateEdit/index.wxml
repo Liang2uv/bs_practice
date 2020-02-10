@@ -1,0 +1,25 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">实习考评</view>
+</cu-custom>
+<form bindsubmit="formSubmit">
+  <view class="cu-form-group">
+		<textarea auto-height maxlength="-1" value="{{ model.content }}" name="content" placeholder="评价意见（不少于100字）"></textarea>
+	</view>
+  <view class="cu-form-group">
+		<view class="title">成绩</view>
+		<input disabled="{{ model.status === 1 }}" type="number" value="{{ model.score }}" name="score" placeholder="成绩（百分制）"></input>
+	</view>
+  <view class="cu-form-group justify-start">
+    <view class="title">学生</view>
+    <view>{{ model.studentInfo.username }}</view>
+  </view>
+  <view class="cu-form-group justify-start">
+    <view class="title">所属任务</view>
+    <view>{{ model.taskInfo.name }}</view>
+  </view>
+  <view class="btn-area padding" wx:if="{{ model.status === 0 }}">
+    <button formType="submit" class="bg-cyan" style="width:100%">提交</button>
+  </view>
+</form>
+

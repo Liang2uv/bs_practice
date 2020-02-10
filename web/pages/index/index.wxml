@@ -7,7 +7,7 @@
 		<cp-student-circle is-pull-down-refresh="{{ tabbar[1].isPullDownRefresh }}"></cp-student-circle>
 	</cp-tabbar-page>
 	<cp-tabbar-page name="2" active="{{curTab}}">
-		<cp-student-message is-pull-down-refresh="{{ tabbar[2].isPullDownRefresh }}"></cp-student-message>
+		<cp-message is-pull-down-refresh="{{ tabbar[2].isPullDownRefresh }}"></cp-message>
 	</cp-tabbar-page>
 	<cp-tabbar-page name="3" active="{{curTab}}">
 		<cp-student-profile is-pull-down-refresh="{{ tabbar[3].isPullDownRefresh }}"></cp-student-profile>
@@ -22,10 +22,22 @@
 		<cp-teacher-circle is-pull-down-refresh="{{ tabbar[1].isPullDownRefresh }}"></cp-teacher-circle>
 	</cp-tabbar-page>
 	<cp-tabbar-page name="2" active="{{curTab}}">
-		<cp-student-message is-pull-down-refresh="{{ tabbar[2].isPullDownRefresh }}"></cp-student-message>
+		<cp-message is-pull-down-refresh="{{ tabbar[2].isPullDownRefresh }}"></cp-message>
 	</cp-tabbar-page>
 	<cp-tabbar-page name="3" active="{{curTab}}">
 		<cp-teacher-profile is-pull-down-refresh="{{ tabbar[3].isPullDownRefresh }}"></cp-teacher-profile>
+	</cp-tabbar-page>
+</block>
+<!-- 实习单位负责人 -->
+<block wx:elif="{{ role === 'officer' }}">
+	<cp-tabbar-page name="0" active="{{curTab}}">
+		<cp-officer-home is-pull-down-refresh="{{ tabbar[0].isPullDownRefresh }}"></cp-officer-home>
+	</cp-tabbar-page>
+	<cp-tabbar-page name="1" active="{{curTab}}">
+		<cp-message is-pull-down-refresh="{{ tabbar[1].isPullDownRefresh }}"></cp-message>
+	</cp-tabbar-page>
+	<cp-tabbar-page name="2" active="{{curTab}}">
+		<cp-officer-profile is-pull-down-refresh="{{ tabbar[2].isPullDownRefresh }}"></cp-officer-profile>
 	</cp-tabbar-page>
 </block>
 <!-- 底部导航栏 -->

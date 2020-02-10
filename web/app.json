@@ -27,7 +27,14 @@
     "pages/circleEdit/index",
     "pages/visit/index",
     "pages/myTopic/index",
-    "pages/visitEdit/index"
+    "pages/visitEdit/index",
+    "pages/register/index",
+    "pages/trainees/index",
+    "pages/friend/index",
+    "pages/friendSearch/index",
+    "pages/friendReview/index",
+    "pages/rate/index",
+    "pages/rateEdit/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

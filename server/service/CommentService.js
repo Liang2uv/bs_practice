@@ -14,12 +14,12 @@ class CommentService extends BaseService {
   async getList(topic) {
     assert(topic, 400, '请求参数错误')
     // 获取帖子详情
-    const topicDetail = await TopicModel.findOne({ _id: topic }).populate('userInfo', 'username avatar').lean()
+    const topicDetail = await TopicModel.findOne({ _id: topic }).populate('userInfo', 'username avatar role').lean()
     // 获取一级评论列表
-    const c1 = await this.model.find({ topic, layer: '1' }).populate('fromUserInfo', 'username avatar').populate('toUserInfo', 'username avatar').lean()
+    const c1 = await this.model.find({ topic, layer: '1' }).populate('fromUserInfo', 'username avatar role').populate('toUserInfo', 'username avatar role').lean()
     // 获取二级评论列表
     for (let i = 0; i < c1.length; i++) {
-      const c2 = await this.model.find({ topic, pid: c1[i]._id.toString(), layer: '2' }).populate('fromUserInfo', 'username avatar').populate('toUserInfo', 'username avatar').lean()
+      const c2 = await this.model.find({ topic, pid: c1[i]._id.toString(), layer: '2' }).populate('fromUserInfo', 'username avatar role').populate('toUserInfo', 'username avatar role').lean()
       c1[i].reply = c2
       c1[i].replyTotal = c2.length
     }

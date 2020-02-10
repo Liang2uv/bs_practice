@@ -1,0 +1,17 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">实习评价</view>
+</cu-custom>
+<view class="cu-bar bg-white solid-bottom margin-top">
+	<view class='action'>
+		<text class='cuIcon-titles text-orange '></text>实习单位负责人评价
+	</view>
+</view>
+<view wx:if="{{ officerRate }}" class="bg-white"> 
+  <view class="padding-sm text-lg"> <text class="text-blue light">评价人：</text> {{ officerRate.raterInfo.username }}</view>
+  <view class="padding-sm text-lg"> <text class="text-blue light">成绩（百分制）：</text> {{ officerRate.score }}</view>
+  <view class="padding-sm text-lg"> <text class="text-blue light">评价意见：</text> {{ officerRate.content }}</view>
+</view>
+<view wx:else class="padding text-center">
+  <button bindtap="invite" class="cu-btn bg-green shadow">邀请单位负责人评价</button>
+</view>

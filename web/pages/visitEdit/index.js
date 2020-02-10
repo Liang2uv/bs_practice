@@ -60,7 +60,6 @@ Page({
       this.setData({
         model: res
       })
-      console.log(this.data.model)
     }, err => {
       $wuxToast().show({
         type: 'cancel',

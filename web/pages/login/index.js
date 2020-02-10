@@ -43,5 +43,11 @@ Page({
         })
       }
     })
+  },
+  // 前往注册账号页面
+  toRegister() {
+    wx.navigateTo({
+      url: '/pages/register/index',
+    })
   }
 })

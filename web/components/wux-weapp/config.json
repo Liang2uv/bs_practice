@@ -14,6 +14,7 @@
         "cell-group",
         "cell",
         "fab-button",
-        "rater"
+        "rater",
+        "popup-select"
     ]
 }

@@ -8,7 +8,7 @@ Page({
   },
   onLoad() {
     const userInfo = getGlobalData('userInfo')
-    if (!userInfo || !userInfo.role || !['student', 'teacher'].includes(userInfo.role)) {
+    if (!userInfo || !userInfo.role || !['student', 'teacher', 'officer'].includes(userInfo.role)) {
       return wx.redirectTo({
         url: '/pages/errorPage/index',
       })

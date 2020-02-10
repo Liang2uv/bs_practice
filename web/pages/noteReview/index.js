@@ -124,11 +124,11 @@ Page({
       content: '',
       fieldtype: 'number',
       defaultText: '',
-      maxlength: 1,
-      placeholder: '请在0-5打分（如：5）',
+      maxlength: 3,
+      placeholder: '请在0-100打分（如：100）',
       onConfirm: (e, value) => {
         const score = parseInt(value)
-        if (isNaN(score) || score < 0 || score > 5) {
+        if (isNaN(score) || score < 0 || score > 100) {
           wx.showToast({
             title: '分数不合法',
             icon: 'none'

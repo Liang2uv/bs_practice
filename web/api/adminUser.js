@@ -11,3 +11,7 @@ export function bind({ data }) {
 export function getUserInfoByToken() {
   return request('get', '/admin/admin_users/token')
 }
+// 注册用户
+export function addUser({ data }) {
+  return request('post', '/web/admin_users/register', data)
+}

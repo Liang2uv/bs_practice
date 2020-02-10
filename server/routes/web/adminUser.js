@@ -15,4 +15,9 @@ router.post('/bind', async (req, res, next) => {
   try { res.send(await AdminUserService.wxBind(req.body['phone'], req.body['password'], req.body['code'])) } catch (err) { next(err) }
 })
 
+// 注册账号
+router.post('/register', async (req, res, next) => {
+  try { res.send(await AdminUserService.addUser(req.body)) } catch (err) { next(err) }
+})
+
 module.exports = router

@@ -140,5 +140,14 @@ Page({
     wx.navigateTo({
       url: '/pages/dayOff/index?task=' + task
     })
+  },
+  // 前往评价列表
+  toRate(e) {
+    const {
+      task
+    } = e.currentTarget.dataset
+    wx.navigateTo({
+      url: '/pages/rate/index?task=' + task,
+    })
   }
 })
