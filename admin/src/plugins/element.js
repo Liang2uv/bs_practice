@@ -8,7 +8,7 @@ import { Button, Input, Form, FormItem, Radio, RadioGroup, Select, Option, Casca
 // 数据展示
 import { Table, TableColumn, Pagination, Tree, Image } from 'element-ui'
 // 交互
-import { Dialog, Message, Popconfirm, MessageBox, Tooltip } from 'element-ui'
+import { Dialog, Message, Popconfirm, MessageBox, Tooltip, Loading } from 'element-ui'
 // 其他
 import { Icon, Avatar, Card, Tag, TabPane, Tabs } from 'element-ui'
 
@@ -58,6 +58,7 @@ Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$alert = MessageBox.alert
 Vue.use(Tooltip)
+Vue.prototype.$loading = Loading.service
 
 // 其他
 Vue.use(Icon)

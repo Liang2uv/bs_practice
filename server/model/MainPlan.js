@@ -36,7 +36,20 @@ class MainPlanSchema extends BaseSchema {
         name: { type: String, required: true },
         filename: { type: String },
         fileurl: { type: String }
-      }]
+      }],
+      rate: {  // 考评机制
+        totalScore: { type: Number, default: 0 }, // 总分
+        noteDayNum: { type: Number, default: 0 },  // 至少实习日记篇数
+        noteWeekNum: { type: Number, default: 0 },  // 至少实习周记篇数
+        noteMonthNum: { type: Number, default: 0 },  // 至少实习月记篇数
+        noteSummaryNum: { type: Number, default: 0 },  // 至少实习总结篇数
+        clockRate: { type: Number, default: 0 },  // 签到占比
+        noteDayRate: { type: Number, default: 0 },  // 实习日记占比
+        noteWeekRate: { type: Number, default: 0 },  // 实习周记占比
+        noteMonthRate: { type: Number, default: 0 },  // 实习月记占比
+        noteSummaryRate: { type: Number, default: 0 },  // 实习总结占比
+        companyRate: { type: Number, default: 0 },  // 实习单位评价占比
+      }
     }, 'MainPlan')
     /********************该Schema特有的方法*************************/
     let special = {}

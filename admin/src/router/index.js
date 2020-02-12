@@ -179,6 +179,20 @@ const routes = [
     path: '/',
     name: 'layout',
     component: Layout,
+    meta: { title: '实习考评', icon: 'el-icon-s-data' },
+    children: [
+      {
+        path: '/score',
+        name: 'score',
+        meta: { title: '学生成绩', icon: 'icon', priv: ['teacher'] },
+        component: () => import('views/Score.vue')
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: 'layout',
+    component: Layout,
     meta: { title: '个人中心', icon: 'el-icon-user' },
     children: [
       {

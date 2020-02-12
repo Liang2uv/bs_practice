@@ -11,6 +11,8 @@ import dayOff from './modules/dayOff'
 import note from './modules/note'
 import circle from './modules/circle'
 import circleUser from './modules/circleUser'
+import mainPlan from './modules/mainPlan'
+import score from './modules/score'
 
 Vue.use(Vuex)
 
@@ -23,7 +25,9 @@ export default new Vuex.Store({
     dayOff,
     note,
     circle,
-    circleUser
+    circleUser,
+    mainPlan,
+    score
   },
   getters
 })

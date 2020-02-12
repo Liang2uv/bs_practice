@@ -59,13 +59,15 @@
       :visible.sync="dialogVisible"
       center
       :close-on-click-modal="false"
+      width="60%"
       @close="dialogClose"
     >
-      <el-form :model="model" :rules="rules" ref="el-form" label-width="100px">
+      <el-form :model="model" :rules="rules" ref="el-form" label-width="100px" inline>
         <el-tabs type="border-card" value="basic">
+          <!-- 基础信息 -->
           <el-tab-pane label="基础信息" name="basic">
             <el-form-item prop="name" label="计划名称：">
-              <el-input v-model="model.name" />
+              <el-input v-model="model.name" style="width:400px" />
             </el-form-item>
             <el-form-item prop="datespan" label="起始日期：">
               <el-date-picker
@@ -97,11 +99,14 @@
                   :value="item._id"
                 >
                   <span style="float: left">{{ item.username }}</span>
-                  <span style="float: right; color: #8492a6; font-size: 13px">{{ item.collegeInfo.name }}</span>
+                  <span
+                    style="float: right; color: #8492a6; font-size: 13px"
+                  >{{ item.collegeInfo.name }}</span>
                 </el-option>
               </el-select>
             </el-form-item>
           </el-tab-pane>
+          <!-- 实习材料 -->
           <el-tab-pane label="实习材料" name="files">
             <el-button size="small" @click="model.files.push({})">
               <i class="el-icon-plus"></i>添加材料
@@ -135,6 +140,234 @@
               </el-col>
             </el-row>
           </el-tab-pane>
+          <!-- 考评机制 -->
+          <el-tab-pane label="考评机制" name="rate">
+            <!-- 总分 -->
+            <el-form-item
+              :prop="'rate.totalScore'"
+              :rules="[
+                { required: true, message: '总分不能为空'},
+                { type: 'number', message: '总分必须为数字'}
+              ]"
+              label="总分："
+            >
+              <el-input-number
+                v-model="model.rate.totalScore"
+                controls-position="right"
+                :min="0"
+                style="width:100px;margin: 0 10px;"
+              ></el-input-number>
+              <el-tooltip class="item" effect="dark" content="如果不需要开启，请填写0" placement="top">
+                <i class="el-icon-info"></i>
+              </el-tooltip>
+            </el-form-item>
+            <!-- 签到占比 -->
+            <el-form-item
+              :prop="'rate.clockRate'"
+              :rules="[
+              { required: true, message: '签到占比不能为空'},
+              { type: 'number', message: '签到占比必须为数字'}
+            ]"
+              label="签到占比："
+              label-width="150px"
+            >
+              <el-input-number
+                v-model="model.rate.clockRate"
+                controls-position="right"
+                :min="0"
+                :max="100"
+                style="width:100px;margin: 0 10px;"
+              ></el-input-number>%
+              <el-tooltip class="item" effect="dark" content="如果不需要开启，请填写0" placement="top">
+                <i class="el-icon-info"></i>
+              </el-tooltip>
+            </el-form-item>
+            <!-- 实习日记 -->
+            <el-form-item
+              :prop="'rate.noteDayNum'"
+              :rules="[
+                { required: true, message: '实习日记篇数不能为空'},
+                { type: 'number', message: '实习日记篇数必须为数字'}
+              ]"
+              label="实习日记："
+            >
+              至少
+              <el-input-number
+                v-model="model.rate.noteDayNum"
+                controls-position="right"
+                :min="0"
+                style="width:100px;margin: 0 10px;"
+              ></el-input-number>篇
+              <el-tooltip class="item" effect="dark" content="如果不需要开启，请填写0" placement="top">
+                <i class="el-icon-info"></i>
+              </el-tooltip>
+            </el-form-item>
+            <!-- 实习日记占比 -->
+            <el-form-item
+              :prop="'rate.noteDayRate'"
+              :rules="[
+              { required: true, message: '实习日记占比不能为空'},
+              { type: 'number', message: '实习日记占比必须为数字'}
+            ]"
+              label="实习日记占比："
+              label-width="130px"
+            >
+              <el-input-number
+                v-model="model.rate.noteDayRate"
+                controls-position="right"
+                :min="0"
+                :max="100"
+                style="width:100px;margin: 0 10px;"
+              ></el-input-number>%
+              <el-tooltip class="item" effect="dark" content="如果不需要开启，请填写0" placement="top">
+                <i class="el-icon-info"></i>
+              </el-tooltip>
+            </el-form-item>
+            <!-- 实习周记 -->
+            <el-form-item
+              :prop="'rate.noteWeekNum'"
+              :rules="[
+                { required: true, message: '实习周记篇数不能为空'},
+                { type: 'number', message: '实习周记篇数必须为数字'}
+              ]"
+              label="实习周记："
+            >
+              至少
+              <el-input-number
+                v-model="model.rate.noteWeekNum"
+                controls-position="right"
+                :min="0"
+                style="width:100px;margin: 0 10px;"
+              ></el-input-number>篇
+              <el-tooltip class="item" effect="dark" content="如果不需要开启，请填写0" placement="top">
+                <i class="el-icon-info"></i>
+              </el-tooltip>
+            </el-form-item>
+            <!-- 实习周记占比 -->
+            <el-form-item
+              :prop="'rate.noteWeekRate'"
+              :rules="[
+              { required: true, message: '实习周记占比不能为空'},
+              { type: 'number', message: '实习周记占比必须为数字'}
+            ]"
+              label="实习周记占比："
+              label-width="130px"
+            >
+              <el-input-number
+                v-model="model.rate.noteWeekRate"
+                controls-position="right"
+                :min="0"
+                :max="100"
+                style="width:100px;margin: 0 10px;"
+              ></el-input-number>%
+              <el-tooltip class="item" effect="dark" content="如果不需要开启，请填写0" placement="top">
+                <i class="el-icon-info"></i>
+              </el-tooltip>
+            </el-form-item>
+            <!-- 实习月记 -->
+            <el-form-item
+              :prop="'rate.noteMonthNum'"
+              :rules="[
+              { required: true, message: '实习月记篇数不能为空'},
+              { type: 'number', message: '实习月记篇数必须为数字'}
+            ]"
+              label="实习月记："
+            >
+              至少
+              <el-input-number
+                v-model="model.rate.noteMonthNum"
+                controls-position="right"
+                :min="0"
+                style="width:100px;margin: 0 10px;"
+              ></el-input-number>篇
+              <el-tooltip class="item" effect="dark" content="如果不需要开启，请填写0" placement="top">
+                <i class="el-icon-info"></i>
+              </el-tooltip>
+            </el-form-item>
+            <!-- 实习月记占比 -->
+            <el-form-item
+              :prop="'rate.noteMonthRate'"
+              :rules="[
+              { required: true, message: '实习月记占比不能为空'},
+              { type: 'number', message: '实习月记占比必须为数字'}
+            ]"
+              label="实习月记占比："
+              label-width="130px"
+            >
+              <el-input-number
+                v-model="model.rate.noteMonthRate"
+                controls-position="right"
+                :min="0"
+                :max="100"
+                style="width:100px;margin: 0 10px;"
+              ></el-input-number>%
+              <el-tooltip class="item" effect="dark" content="如果不需要开启，请填写0" placement="top">
+                <i class="el-icon-info"></i>
+              </el-tooltip>
+            </el-form-item>
+            <!-- 实习总结 -->
+            <el-form-item
+              :prop="'rate.noteSummaryNum'"
+              :rules="[
+              { required: true, message: '实习总结篇数不能为空'},
+              { type: 'number', message: '实习总结篇数必须为数字'}
+            ]"
+              label="实习总结："
+            >
+              至少
+              <el-input-number
+                v-model="model.rate.noteSummaryNum"
+                controls-position="right"
+                :min="0"
+                style="width:100px;margin: 0 10px;"
+              ></el-input-number>篇
+              <el-tooltip class="item" effect="dark" content="如果不需要开启，请填写0" placement="top">
+                <i class="el-icon-info"></i>
+              </el-tooltip>
+            </el-form-item>
+            <!-- 实习总结占比 -->
+            <el-form-item
+              :prop="'rate.noteSummaryRate'"
+              :rules="[
+              { required: true, message: '实习总结占比不能为空'},
+              { type: 'number', message: '实习总结占比必须为数字'}
+            ]"
+              label="实习总结占比："
+              label-width="130px"
+            >
+              <el-input-number
+                v-model="model.rate.noteSummaryRate"
+                controls-position="right"
+                :min="0"
+                :max="100"
+                style="width:100px;margin: 0 10px;"
+              ></el-input-number>%
+              <el-tooltip class="item" effect="dark" content="如果不需要开启，请填写0" placement="top">
+                <i class="el-icon-info"></i>
+              </el-tooltip>
+            </el-form-item>
+            <!-- 实习单位评价占比 -->
+            <el-form-item
+              :prop="'rate.companyRate'"
+              :rules="[
+              { required: true, message: '实习单位评价占比不能为空'},
+              { type: 'number', message: '实习单位评价占比必须为数字'}
+            ]"
+              label="实习单位评价占比："
+              label-width="150px"
+            >
+              <el-input-number
+                v-model="model.rate.companyRate"
+                controls-position="right"
+                :min="0"
+                :max="100"
+                style="width:100px;margin: 0 10px;"
+              ></el-input-number>%
+              <el-tooltip class="item" effect="dark" content="如果不需要开启，请填写0" placement="top">
+                <i class="el-icon-info"></i>
+              </el-tooltip>
+            </el-form-item>
+          </el-tab-pane>
         </el-tabs>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -155,7 +388,22 @@ export default {
     return {
       resource: 'main_plans',
       tableData: { total: 0, list: [] },
-      model: { files: [] },
+      model: { 
+        files: [], 
+        rate: {
+          totalScore: 0,
+          noteDayNum: 0,
+          noteWeekNum: 0,
+          noteMonthNum: 0,
+          noteSummaryNum: 0,
+          clockRate: 0,
+          noteDayRate: 0,
+          noteWeekRate: 0,
+          noteMonthRate: 0,
+          noteSummaryRate: 0,
+          companyRate: 0
+        } 
+      },
       dialogVisible: false,
       tableHeight: 0,
       rules: {
@@ -234,7 +482,22 @@ export default {
     },
     // 添加
     onAdd() {
-      this.model = { files: [] }
+      this.model = { 
+        files: [], 
+        rate: {
+          totalScore: 0,
+          noteDayNum: 0,
+          noteWeekNum: 0,
+          noteMonthNum: 0,
+          noteSummaryNum: 0,
+          clockRate: 0,
+          noteDayRate: 0,
+          noteWeekRate: 0,
+          noteMonthRate: 0,
+          noteSummaryRate: 0,
+          companyRate: 0
+        } 
+      }
       this.dialogVisible = true
     },
     // 保存
@@ -259,6 +522,11 @@ export default {
     formValidate() {
       if (this.model.times > getDateDiff(this.model.datespan[0], this.model.datespan[1], 'days')) {
         this.$message.error('实习天数不能大于起始时间天数')
+        return false
+      }
+      const totalRate = this.model.rate.clockRate + this.model.rate.noteDayRate + this.model.rate.noteWeekRate + this.model.rate.noteMonthRate + this.model.rate.noteSummaryRate + this.model.rate.companyRate
+      if (totalRate !== 0 && totalRate !== 100) {
+        this.$message.error('占比分配不合法，请重新分配')
         return false
       }
       return true

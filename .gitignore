@@ -1,6 +1,7 @@
 #test
 .http
 uploads/
+test.js
 
 # Logs
 logs
