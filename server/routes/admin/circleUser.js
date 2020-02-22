@@ -5,7 +5,7 @@ const router = express.Router({
   mergeParams: true // 合并参数
 })
 
-// 创建圈子
+// 批量添加、删除圈子-用户
 router.put('/bulk', async (req, res, next) => {
   try { res.send(await CircleUserService.addBulk(req.body['circle'], req.body['userRole'], req.body['status'], req.body['users'])) } catch (err) { next(err) }
 })

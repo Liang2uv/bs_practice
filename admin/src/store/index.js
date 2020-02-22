@@ -13,6 +13,8 @@ import circle from './modules/circle'
 import circleUser from './modules/circleUser'
 import mainPlan from './modules/mainPlan'
 import score from './modules/score'
+import daySummary from './modules/daySummary'
+import other from './modules/other'
 
 Vue.use(Vuex)
 
@@ -27,7 +29,9 @@ export default new Vuex.Store({
     circle,
     circleUser,
     mainPlan,
-    score
+    score,
+    daySummary,
+    other
   },
   getters
 })

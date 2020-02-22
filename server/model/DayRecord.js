@@ -15,7 +15,15 @@ class DayRecordSchema extends BaseSchema {
         type: String,
         required: true
       },
+      mainPlan: { // 实习计划id
+        type: String,
+        required: true
+      },
       student: { // 学生id
+        type: String,
+        required: true
+      },
+      class: {  // 学生所在班级id
         type: String,
         required: true
       },
@@ -41,6 +49,12 @@ const schema = new DayRecordSchema()
 schema.virtual('taskInfo', {
   ref: 'Task',
   localField: 'task',
+  foreignField: '_id',
+  justOne: true
+})
+schema.virtual('mainPlanInfo', {
+  ref: 'MainPlan',
+  localField: 'mainPlan',
   foreignField: '_id',
   justOne: true
 })

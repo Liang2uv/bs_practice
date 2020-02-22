@@ -2,6 +2,7 @@ const BaseService = require('./baseService')
 const TaskModel = require('../model/Task')
 const DayRecordModel = require('../model/DayRecord')
 const MainPlanModel = require('../model/MainPlan')
+const AdminUserModel = require('../model/AdminUser')
 const { getWorkDays, dateCrossList, dateCompare, dataSetTime } = require('../utils/utils')
 const assert = require('http-assert')
 
@@ -45,13 +46,16 @@ class TaskService extends BaseService {
       assert(false, 422, '创建出错：不允许与其他任务的日期有重叠')
     }
     const result = await this.model.createObj(model)
+    const applicantInfo = await AdminUserModel.findByID(model.applicant)
     // 得到的是实际工作日
     const days = getWorkDays(model.startAt, model.endAt)
     const dayRecords = days.map(v => {
       return {
         date: v,
         task: result._id,
+        mainPlan: result.mainPlan,
         student: model.applicant,
+        class: applicantInfo.class,
         status: dateCompare(new Date(), v, true) < 2? 0 : 3
       }
     })

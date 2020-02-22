@@ -26,7 +26,7 @@ const routes = [
       {
         path: '/home',
         name: 'home',
-        meta: { title: '首页', icon: 'el-icon-s-home', priv: ['superadmin', 'admin','teacher', 'student'] },
+        meta: { title: '首页', icon: 'el-icon-s-home', priv: ['teacher'] },
         component: () => import('views/Home.vue')
       }
     ]

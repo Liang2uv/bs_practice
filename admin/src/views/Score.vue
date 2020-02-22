@@ -21,7 +21,7 @@
         <span class="px-1"></span>
         <el-button @click="onSearch" type="primary" size="mini">搜索</el-button>
       </div>
-      <el-button @click="onCalc" type="primary" size="mini">一键统计</el-button>
+      <el-button @click="onCalc" type="primary" size="mini">更新数据</el-button>
     </el-header>
     <el-main>
       <!-- 表格 -->

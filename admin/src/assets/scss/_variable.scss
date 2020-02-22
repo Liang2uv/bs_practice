@@ -10,7 +10,11 @@ $colors: ("primary": #13cc9e,
   "dark-2": #444348,
   "dark-1": #3b3a40,
   "dark": #222,
-  "black": #000);
+  "black": #000,
+  "cyan": #1cbbb4,
+  "blue": #0081ff,
+  "red": #e54d42,
+  "orange": #f37b1d);
 
 // 边框颜色
 $border-color: map-get($colors, 'light-1');

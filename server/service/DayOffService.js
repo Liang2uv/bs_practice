@@ -26,7 +26,7 @@ class DayOffService extends BaseService {
    * @param {Number} page 页码
    * @param {Number} size 分页大小
    */
-  async getList(teaId, stuSearch = "", status = { $in: [0, 1, 2] }, page = 1, size = 30) {
+  async getList(teaId, stuSearch = '', status = { $in: [0, 1, 2] }, page = 1, size = 30) {
     assert(teaId, 400, '请求参数错误')
     page = parseInt(page)
     size = parseInt(size)
