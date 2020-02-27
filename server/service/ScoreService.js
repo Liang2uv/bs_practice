@@ -8,6 +8,10 @@ const RateModel = require('../model/Rate')
 const assert = require('http-assert')
 const inflection = require('inflection')
 const mongoose = require('mongoose')
+const xlsx = require('node-xlsx')
+const fs = require('fs')
+const path = require('path')
+const { BASE_URL } = require('../conf/variable')
 class ScoreService extends BaseService {
   constructor() {
     super(ScoreModel)
@@ -19,16 +23,16 @@ class ScoreService extends BaseService {
    * @param {Number} page 页码
    * @param {Number} size 分页大小
    */
-  async getList(mainPlan, stuSearch = "", page = 1, size = 30) {
+  async getList(mainPlan, stuSearch = '', page = 1, size = 30) {
     assert(mainPlan, 400, '请求参数错误')
     page = parseInt(page)
     size = parseInt(size)
     const result = await this.model.aggregate([
       {
-        $addFields: { student: { $toObjectId: "$student" } }
+        $addFields: { student: { $toObjectId: '$student' } }
       },
       {
-        $addFields: { mainPlan: { $toObjectId: "$mainPlan" } }
+        $addFields: { mainPlan: { $toObjectId: '$mainPlan' } }
       },
       {
         $lookup: { from: 'adminusers', localField: 'student', foreignField: '_id', as: 'studentInfo' }
@@ -37,25 +41,25 @@ class ScoreService extends BaseService {
         $lookup: { from: 'mainplans', localField: 'mainPlan', foreignField: '_id', as: 'mainPlanInfo' }
       },
       {
-        $unwind: "$studentInfo"
+        $unwind: '$studentInfo'
       },
       {
-        $unwind: "$mainPlanInfo"
+        $unwind: '$mainPlanInfo'
       },
       {
-        $addFields: { 'studentInfo.school': { $toObjectId: "$studentInfo.school" } }
+        $addFields: { 'studentInfo.school': { $toObjectId: '$studentInfo.school' } }
       },
       {
-        $addFields: { 'studentInfo.college': { $toObjectId: "$studentInfo.college" } }
+        $addFields: { 'studentInfo.college': { $toObjectId: '$studentInfo.college' } }
       },
       {
-        $addFields: { 'studentInfo.major': { $toObjectId: "$studentInfo.major" } }
+        $addFields: { 'studentInfo.major': { $toObjectId: '$studentInfo.major' } }
       },
       {
-        $addFields: { 'studentInfo.grade': { $toObjectId: "$studentInfo.grade" } }
+        $addFields: { 'studentInfo.grade': { $toObjectId: '$studentInfo.grade' } }
       },
       {
-        $addFields: { 'studentInfo.class': { $toObjectId: "$studentInfo.class" } }
+        $addFields: { 'studentInfo.class': { $toObjectId: '$studentInfo.class' } }
       },
       {
         $lookup: { from: 'organizations', localField: 'studentInfo.school', foreignField: '_id', as: 'studentInfo.schoolInfo' }
@@ -65,39 +69,39 @@ class ScoreService extends BaseService {
       },
       {
         $lookup: { from: 'organizations', localField: 'studentInfo.major', foreignField: '_id', as: 'studentInfo.majorInfo' }
-      },{
+      }, {
         $lookup: { from: 'organizations', localField: 'studentInfo.grade', foreignField: '_id', as: 'studentInfo.gradeInfo' }
       },
       {
         $lookup: { from: 'organizations', localField: 'studentInfo.class', foreignField: '_id', as: 'studentInfo.classInfo' }
       },
       {
-        $unwind: "$studentInfo.schoolInfo"
+        $unwind: '$studentInfo.schoolInfo'
       },
       {
-        $unwind: "$studentInfo.collegeInfo"
+        $unwind: '$studentInfo.collegeInfo'
       },
       {
-        $unwind: "$studentInfo.majorInfo"
+        $unwind: '$studentInfo.majorInfo'
       },
       {
-        $unwind: "$studentInfo.gradeInfo"
+        $unwind: '$studentInfo.gradeInfo'
       },
       {
-        $unwind: "$studentInfo.classInfo"
+        $unwind: '$studentInfo.classInfo'
       },
       {
         $project: {
-          "studentInfo.password": 0,
-          "studentInfo.openid": 0,
-          "mainPlanInfo.files": 0
+          'studentInfo.password': 0,
+          'studentInfo.openid': 0,
+          'mainPlanInfo.files': 0
         }
       },
       {
         $match: {
           $or: [
-            { "studentInfo.username": { $regex: stuSearch } },
-            { "studentInfo.number": { $regex: stuSearch } }
+            { 'studentInfo.username': { $regex: stuSearch } },
+            { 'studentInfo.number': { $regex: stuSearch } }
           ],
           mainPlan: mongoose.Types.ObjectId(mainPlan)
         }
@@ -109,7 +113,7 @@ class ScoreService extends BaseService {
         $group: {
           _id: null,
           total: { $sum: 1 },
-          list: { $push: "$$ROOT" }
+          list: { $push: '$$ROOT' }
         }
       },
       {
@@ -204,7 +208,7 @@ class ScoreService extends BaseService {
         }
       ])
       if (cr && cr.length > 0) {
-        scoreModel.companyScore = Number(( (cr[0].score / 100) * mainPlanModel.rate.companyRate / 100 * mainPlanModel.rate.totalScore).toFixed(2))
+        scoreModel.companyScore = Number(((cr[0].score / 100) * mainPlanModel.rate.companyRate / 100 * mainPlanModel.rate.totalScore).toFixed(2))
       }
     }
     // 5. 总分数
@@ -214,6 +218,137 @@ class ScoreService extends BaseService {
     // 7. 重新写入
     await ScoreModel.createObj(scoreModel)
     return { message: '操作成功' }
+  }
+  /**
+   * 批量导出学生成绩表格
+   * @param {String} mainPlan 实习计划id
+   */
+  async exportData(mainPlan) {
+    assert(mainPlan, 400, '请求参数错误')
+    const result = await this.model.aggregate([
+      {
+        $addFields: { student: { $toObjectId: '$student' } }
+      },
+      {
+        $addFields: { mainPlan: { $toObjectId: '$mainPlan' } }
+      },
+      {
+        $lookup: { from: 'adminusers', localField: 'student', foreignField: '_id', as: 'studentInfo' }
+      },
+      {
+        $lookup: { from: 'mainplans', localField: 'mainPlan', foreignField: '_id', as: 'mainPlanInfo' }
+      },
+      {
+        $unwind: '$studentInfo'
+      },
+      {
+        $unwind: '$mainPlanInfo'
+      },
+      {
+        $addFields: { 'studentInfo.school': { $toObjectId: '$studentInfo.school' } }
+      },
+      {
+        $addFields: { 'studentInfo.college': { $toObjectId: '$studentInfo.college' } }
+      },
+      {
+        $addFields: { 'studentInfo.major': { $toObjectId: '$studentInfo.major' } }
+      },
+      {
+        $addFields: { 'studentInfo.grade': { $toObjectId: '$studentInfo.grade' } }
+      },
+      {
+        $addFields: { 'studentInfo.class': { $toObjectId: '$studentInfo.class' } }
+      },
+      {
+        $lookup: { from: 'organizations', localField: 'studentInfo.school', foreignField: '_id', as: 'studentInfo.schoolInfo' }
+      },
+      {
+        $lookup: { from: 'organizations', localField: 'studentInfo.college', foreignField: '_id', as: 'studentInfo.collegeInfo' }
+      },
+      {
+        $lookup: { from: 'organizations', localField: 'studentInfo.major', foreignField: '_id', as: 'studentInfo.majorInfo' }
+      }, {
+        $lookup: { from: 'organizations', localField: 'studentInfo.grade', foreignField: '_id', as: 'studentInfo.gradeInfo' }
+      },
+      {
+        $lookup: { from: 'organizations', localField: 'studentInfo.class', foreignField: '_id', as: 'studentInfo.classInfo' }
+      },
+      {
+        $unwind: '$studentInfo.schoolInfo'
+      },
+      {
+        $unwind: '$studentInfo.collegeInfo'
+      },
+      {
+        $unwind: '$studentInfo.majorInfo'
+      },
+      {
+        $unwind: '$studentInfo.gradeInfo'
+      },
+      {
+        $unwind: '$studentInfo.classInfo'
+      },
+      {
+        $project: {
+          'totalScore': 1,
+          'noteDayScore': 1,
+          'noteWeekScore': 1,
+          'noteMonthScore': 1,
+          'noteSummaryScore': 1,
+          'clockScore': 1,
+          'companyScore': 1,
+          'mainPlanInfo.name': 1,
+          'studentInfo.username': 1,
+          'studentInfo.number': 1,
+          'studentInfo.collegeInfo.name': 1,
+          'studentInfo.gradeInfo.name': 1,
+          'studentInfo.majorInfo.name': 1,
+          'studentInfo.classInfo.name': 1,
+        }
+      }
+    ])
+    const xlsxObj = [{
+      name: '学生成绩',
+      data: [
+        [
+          '实习计划',
+          '学生姓名',
+          '学号',
+          '学院', 
+          '年级',
+          '专业',
+          '班级',
+          '总成绩',
+          '实习日记成绩',
+          '实习周记成绩',
+          '实习月记成绩',
+          '实习总结成绩', 
+          '签到成绩',
+          '实习单位评价成绩'
+        ]
+      ]
+    }]
+    result.map(v => {
+      xlsxObj[0].data.push([
+        v.mainPlanInfo.name,
+        v.studentInfo.username,
+        v.studentInfo.number,
+        v.studentInfo.collegeInfo.name,
+        v.studentInfo.gradeInfo.name,
+        v.studentInfo.majorInfo.name,
+        v.studentInfo.classInfo.name,
+        v.totalScore,
+        v.noteDayScore,
+        v.noteWeekScore,
+        v.noteMonthScore,
+        v.noteSummaryScore,
+        v.clockScore,
+        v.companyScore
+      ])
+    })
+    const filename = `学生成绩${new Date().getTime()}.xlsx`
+    fs.writeFileSync(path.resolve(__dirname, `../tmp/${filename}`), xlsx.build(xlsxObj), 'binary')
+    return { url: `${BASE_URL}tmp/${filename}`, filename }
   }
 }
 

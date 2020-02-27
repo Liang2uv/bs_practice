@@ -11,3 +11,7 @@ export function getScoreList({ data }) {
 export function calcScoreForMainPlan({ data }) {
   return request('post', '/admin/scores/main_plan', data)
 }
+// 导出学生成绩数据
+export function exportScore({ data }) {
+  return request('get', '/admin/scores/export', data)
+}

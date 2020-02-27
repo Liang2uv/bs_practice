@@ -16,5 +16,9 @@ router.post('/main_plan', async (req, res, next) => {
 router.post('/student', async (req, res, next) => {
   try { res.send(await ScoreService.calcStudent(req.body['student'], req.body['mainPlan'])) } catch (err) { next(err) }
 })
+// 批量导出学生成绩表格
+router.get('/export', async (req, res, next) => {
+  try { res.send(await ScoreService.exportData(req.query['mainPlan'])) } catch (err) { next(err) }
+})
 
 module.exports = router

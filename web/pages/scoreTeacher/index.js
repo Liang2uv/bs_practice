@@ -1,7 +1,8 @@
 import { getGlobalData } from '../../utils/util'
 import { getMainPlanListForTeacher } from '../../api/mainPlan'
-import { getScoreList, calcScoreForMainPlan } from '../../api/score'
+import { getScoreList, calcScoreForMainPlan, exportScore } from '../../api/score'
 import { $wuxDialog } from '../../components/wux-weapp/index'
+import { downloadFile } from '../../utils/file'
 Page({
 
   /**
@@ -136,6 +137,46 @@ Page({
           })
           // 获取成绩列表
           this.getList()
+        }, err => {
+          wx.showToast({
+            title: err.message,
+            icon: 'none'
+          })
+        })
+      },
+    })
+  },
+  // 导出数据
+  exportData() {
+    $wuxDialog().alert({
+      resetOnClose: true,
+      title: '提示',
+      content: '是否导出学生成绩，此操作需要一定时间，是否继续？',
+      onConfirm: () => {
+        exportScore({ data: { mainPlan: this.data.model.mainPlan } }).then(res => {
+          console.log(res)
+          downloadFile(res.url, res.filename).then(res => {
+            $wuxDialog().confirm({
+              resetOnClose: true,
+              content: '下载成功，是否打开文档',
+              onConfirm: () => {
+                wx.openDocument({
+                  filePath: res.filePath,
+                  fail: function (res) {
+                    wx.showToast({
+                      title: '打开文档失败',
+                      icon: 'none'
+                    })
+                  }
+                })
+              }
+            })
+          }, err => {
+            wx.showToast({
+              title: err.message,
+              icon: 'none'
+            })
+          })
         }, err => {
           wx.showToast({
             title: err.message,

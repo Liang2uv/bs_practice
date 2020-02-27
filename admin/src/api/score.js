@@ -14,4 +14,7 @@ export function calcScoreForMainPlan({ data }) {
 export function calcScoreForStudent({ data }) {
   return request.post(`${uri}/student`, data)
 }
-
+// 导出学生成绩
+export function exportScore({ data }) {
+  return request.get(`${uri}/export`, { params: data })
+}

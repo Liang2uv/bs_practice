@@ -34,7 +34,7 @@ export function uploadImage(count = 1) {
           name: 'file',
           url: `${baseURL}/public/upload`,
           header: {
-            authorization: `Beare ${getToken()}`
+            authorization: `Bearer ${getToken()}`
           },
           success: res2 => {
             if (res2.data) {

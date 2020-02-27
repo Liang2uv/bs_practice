@@ -2,6 +2,7 @@
 .http
 uploads/
 test.js
+tmp/
 
 # Logs
 logs

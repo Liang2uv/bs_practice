@@ -21,7 +21,10 @@
         <span class="px-1"></span>
         <el-button @click="onSearch" type="primary" size="mini">搜索</el-button>
       </div>
-      <el-button @click="onCalc" type="primary" size="mini">更新数据</el-button>
+      <div>
+        <el-button @click="onCalc" type="primary" size="mini" :disabled="!query.mainPlan">更新数据</el-button>
+        <el-button @click="exportData" type="primary" size="mini" :disabled="!query.mainPlan">导出Excel</el-button>
+      </div>
     </el-header>
     <el-main>
       <!-- 表格 -->
@@ -64,6 +67,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { download } from '../utils/download'
 export default {
   name: 'score',
   data() {
@@ -146,6 +150,28 @@ export default {
         if (!err) {
           this.$message.success(res.message)
           this.onSearch()
+        }
+        this.$loading().close()
+      } catch (error) {
+      }
+    },
+    // 导出数据
+    async exportData() {
+      try {
+        await this.$confirm(`是否导出学生成绩，此操作需要一定时间，是否继续？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+        this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        })
+        const [err, res] = await this.$store.dispatch('ExportScore', { data: { mainPlan: this.query.mainPlan } })
+        if (!err) {
+          download(res.url, res.filename)
         }
         this.$loading().close()
       } catch (error) {
