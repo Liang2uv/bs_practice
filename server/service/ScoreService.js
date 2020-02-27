@@ -124,6 +124,14 @@ class ScoreService extends BaseService {
     return result.length === 0 ? { total: 0, list: [] } : result[0]
   }
   /**
+   * 获取某个学生的实习成绩
+   * @param {String} student 学生id
+   */
+  async getStudentScore(student) {
+    assert(student, 400, '请求参数错误')
+    return await this.model.find({ student }).populate('mainPlanInfo', 'name').lean()
+  }
+  /**
    * 统计一个实习计划的所有学生成绩
    * @param {String} mainPlan 实习计划id
    */

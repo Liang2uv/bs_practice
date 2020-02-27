@@ -99,6 +99,12 @@ Component({
       wx.navigateTo({
         url: `/pages/noteEdit/index?type=${type}&title=${title}`,
       })
+    },
+    // 前往实习成绩列表
+    toScore() {
+      wx.navigateTo({
+        url: '/pages/scoreStudent/index',
+      })
     }
   }
 })

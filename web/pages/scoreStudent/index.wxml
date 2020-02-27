@@ -1,0 +1,7 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">实习成绩</view>
+</cu-custom>
+<wux-accordion-group accordion default-current="{{ ['0'] }}">
+		<wux-accordion wx:for="{{ list }}" wx:key="_id" title="{{ item.mainPlanInfo.name }}" content="{{ item.content }}"></wux-accordion>
+</wux-accordion-group>

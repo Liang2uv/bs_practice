@@ -49,18 +49,21 @@
     <div style="width: 100%; height: 400px;">
       <v-chart theme="light" :options="lineOptions"/>
     </div>
-    <!-- 今日出勤情况 -->
-    <div style="display: inline-block; width: 50%;">
-      <div class="title">出勤情况（{{ query.date | dateformat('YYYY-MM-DD') }}）</div>
-      <div style="height: 300px;">
-        <v-chart theme="light" :options="pieOptions"/>
+    <div class="d-flex">
+      <!-- 今日出勤情况 -->
+      <div style="width: 50%;">
+        <div class="title">出勤情况（{{ query.date | dateformat('YYYY-MM-DD') }}）</div>
+        <div style="height: 300px;">
+          <v-chart theme="light" :options="pieOptions"/>
+        </div>
       </div>
-    </div>
-    <!-- 各班出勤对比 -->
-    <div style="display: inline-block; width: 50%;">
-      <div class="title">各班出勤率对比%（{{ query.date | dateformat('YYYY-MM-DD') }}）</div>
-      <div style="height: 300px;">
-        <v-chart theme="light" :options="barOptions"/>
+      <!-- 各班出勤对比 -->
+      <div style="width: 50%;">
+        <div class="title">各班出勤率对比%（{{ query.date | dateformat('YYYY-MM-DD') }}）</div>
+        <div style="height: 300px;" v-if="barOptions.xAxis.data.length !== 0">
+          <v-chart theme="light" :options="barOptions"/>
+        </div>
+        <div style="height: 300px; line-height: 300px; text-align: center;" v-else class="text-grey fs-lg">暂无数据</div>
       </div>
     </div>
   </div>

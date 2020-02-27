@@ -8,6 +8,7 @@ const messageRouter = require('./message')
 const commentRouter = require('./comment')
 const friendRouter = require('./friend')
 const rateRouter = require('./rate')
+const scoreRouter = require('./score')
 
 const webRouter = app => {
   app.use('/api/web/admin_users', adminUserRouter)
@@ -19,5 +20,6 @@ const webRouter = app => {
   app.use('/api/web/comments', middlewareAuth(), commentRouter)
   app.use('/api/web/friends', middlewareAuth(), friendRouter)
   app.use('/api/web/rates', middlewareAuth(), rateRouter)
+  app.use('/api/web/scores', middlewareAuth(), scoreRouter)
 }
 module.exports = webRouter
