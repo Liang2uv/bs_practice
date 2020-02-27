@@ -35,7 +35,8 @@
     "pages/friendReview/index",
     "pages/rate/index",
     "pages/rateEdit/index",
-    "pages/scoreStudent/index"
+    "pages/scoreStudent/index",
+    "pages/scoreTeacher/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

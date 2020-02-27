@@ -69,3 +69,15 @@
 		</navigator>
 	</view>
 </view>
+<!-- 总结评价 -->
+<view class="cu-bar bg-white solid-bottom margin-top">
+	<view class="action">
+		<text class="cuIcon-title text-red"></text> 总结评价
+	</view>
+</view>
+<view class="cu-list grid col-4 no-border">
+	<view class="cu-item" bindtap="toScore">
+		<view class="cuIcon-upstage text-red"></view>
+		<text>学生成绩</text>
+	</view>
+</view>

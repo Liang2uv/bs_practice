@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "wux-popup-select": "/components/wux-weapp/popup-select/index",
+    "wux-cell-group": "/components/wux-weapp/cell-group/index",
+    "wux-cell": "/components/wux-weapp/cell/index",
+    "wux-divider": "/components/wux-weapp/divider/index",
+    "wux-dialog": "/components/wux-weapp/dialog/index"
+  }
+}

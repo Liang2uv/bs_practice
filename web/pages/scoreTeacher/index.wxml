@@ -1,0 +1,55 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">学生成绩</view>
+</cu-custom>
+<wux-dialog id="wux-dialog" />
+<form bindsubmit="formSubmit">
+  <view class="cu-form-group">
+    <view class="title">搜索</view>
+    <input disabled="{{ model.status === 1 }}" value="{{ model.stuSearch }}" name="stuSearch" placeholder="学生姓名或学号"></input>
+  </view>
+  <wux-cell-group>
+    <wux-popup-select value="{{ model.mainPlan }}" options="{{ mainPlanList }}" bind:confirm="pickerChange">
+      <wux-cell title="请选择实习计划" is-link extra="{{ mainPlanDisplay }}"></wux-cell>
+    </wux-popup-select>
+  </wux-cell-group>
+  <view class="flex justify-around padding-tb-sm bg-white solid-bottom">
+    <button formType="submit" class="cu-btn bg-cyan">筛选</button>
+    <button bindtap="updateData" class="cu-btn bg-cyan">更新</button>
+    <button bindtap="exportData" class="cu-btn bg-cyan">导出</button>
+  </view>
+</form>
+<view class="padding-xs"></view>
+<!-- 列表 -->
+<scroll-view scroll-y style="height: {{scrollHeight}}px;" bindscrolltolower="onScrolltolower">
+  <view class="cu-list menu">
+    <view class="cu-item" wx:for="{{ list }}" wx:key="_id">
+      <view class="content">
+        <view class="text-grey">{{ item.studentInfo.username }}</view>
+        <view class="text-gray text-sm flex">
+          <text class="text-cut">
+							<text class="cuIcon-infofill text-gray  margin-right-xs"></text> 学号：{{ item.studentInfo.number }}
+          </text>
+        </view>
+      </view>
+      <view class="action">
+        <view class="cu-tag round bg-grey sm">总成绩：{{ item.totalScore }}</view>
+      </view>
+    </view>
+  </view>
+  <view hidden="{{ !isLoading }}">
+    <wux-divider>
+      <view class="loadmore">
+          <view class="loading"></view>
+          <text class="text">正在加载</text>
+      </view>
+    </wux-divider>
+  </view>
+  <view hidden="{{ scrollFlag }}">
+    <wux-divider>
+      <view class="loadmore">
+          <text class="text">没有更多了</text>
+      </view>
+    </wux-divider>
+  </view>
+</scroll-view>

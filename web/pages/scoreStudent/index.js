@@ -29,7 +29,6 @@ Page({
       this.setData({
         list: res
       })
-      console.log(this.data.list)
     }, err => {
       wx.showToast({
         title: err.message,

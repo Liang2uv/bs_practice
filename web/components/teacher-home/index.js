@@ -56,6 +56,12 @@ Component({
       wx.navigateTo({
         url: `/pages/noteReview/index?title=${title}&type=${type}`,
       })
+    },
+    // 前往学生成绩列表
+    toScore() {
+      wx.navigateTo({
+        url: '/pages/scoreTeacher/index',
+      })
     }
   }
 })
