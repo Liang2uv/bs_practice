@@ -1,0 +1,12 @@
+.container-line {
+  width: 100%;
+  height: 500rpx;
+}
+.container-pie {
+  width: 100%;
+  height: 400rpx;
+}
+.container-bar {
+  width: 100%;
+  height: 500rpx;
+}

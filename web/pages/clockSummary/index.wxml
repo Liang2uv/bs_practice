@@ -1,0 +1,55 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">签到统计</view>
+</cu-custom>
+<!-- 筛选 -->
+<wux-cell-group>
+  <wux-popup-select value="{{ query.mainPlan }}" options="{{ mainPlanList }}" bind:confirm="pickerMainPlanChange">
+    <wux-cell title="实习计划" is-link extra="{{ mainPlanDisplay }}"></wux-cell>
+  </wux-popup-select>
+  <wux-date-picker mode="date" value="{{ query.date }}" lang="zh_CN" bind:confirm="pickerDateChange">
+    <wux-cell title="日期" is-link extra="{{ dateDisplay }}"></wux-cell>
+  </wux-date-picker>
+</wux-cell-group>
+<!-- 近七日出勤率 -->
+<view class="cu-bar bg-white solid-bottom margin-top">
+  <view class="action">
+    <text class="cuIcon-titles text-orange"></text> 近七日出勤率%
+  </view>
+</view>
+<scroll-view scroll-x class="bg-white">
+  <view class="container-line" wx:if="{{ lineShow }}">
+    <ec-canvas id="mychart-dom-line" canvas-id="mychart-line" ec="{{ ecLine }}"></ec-canvas>
+  </view>
+  <view wx:else class="text-lg text-gray text-center" style="height: 500rpx; line-height: 500rpx;">
+    暂无数据
+  </view>
+</scroll-view>
+<!-- 出勤情况 -->
+<view class="cu-bar bg-white solid-bottom margin-top">
+  <view class="action">
+    <text class="cuIcon-titles text-orange"></text> 出勤情况
+  </view>
+</view>
+<scroll-view scroll-x class="bg-white">
+  <view class="container-pie" wx:if="{{ pieShow }}">
+    <ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ ecPie }}"></ec-canvas>
+  </view>
+  <view wx:else class="text-lg text-gray text-center" style="height: 400rpx; line-height: 400rpx;">
+    暂无数据
+  </view>
+</scroll-view>
+<!-- 各班出勤率对比 -->
+<view class="cu-bar bg-white solid-bottom margin-top">
+  <view class="action">
+    <text class="cuIcon-titles text-orange"></text> 各班出勤率对比%
+  </view>
+</view>
+<scroll-view scroll-x class="bg-white">
+  <view class="container-bar" wx:if="{{ barShow }}">
+    <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ecBar }}"></ec-canvas>
+  </view>
+  <view wx:else class="text-lg text-gray text-center" style="height: 500rpx; line-height: 500rpx;">
+    暂无数据
+  </view>
+</scroll-view>

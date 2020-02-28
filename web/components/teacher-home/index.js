@@ -62,6 +62,12 @@ Component({
       wx.navigateTo({
         url: '/pages/scoreTeacher/index',
       })
+    },
+    // 前往签到统计列表
+    toClockSummary() {
+      wx.navigateTo({
+        url: '/pages/clockSummary/index',
+      })
     }
   }
 })

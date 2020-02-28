@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "ec-canvas": "/components/ec-canvas/ec-canvas",
+    "wux-popup-select": "/components/wux-weapp/popup-select/index",
+    "wux-cell-group": "/components/wux-weapp/cell-group/index",
+    "wux-cell": "/components/wux-weapp/cell/index",
+    "wux-date-picker": "/components/wux-weapp/date-picker/index"
+  }
+}

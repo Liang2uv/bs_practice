@@ -17,6 +17,7 @@
         "rater",
         "popup-select",
         "accordion-group",
-        "accordion"
+        "accordion",
+        "date-picker"
     ]
 }

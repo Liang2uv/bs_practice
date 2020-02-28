@@ -154,7 +154,6 @@ Page({
       content: '是否导出学生成绩，此操作需要一定时间，是否继续？',
       onConfirm: () => {
         exportScore({ data: { mainPlan: this.data.model.mainPlan } }).then(res => {
-          console.log(res)
           downloadFile(res.url, res.filename).then(res => {
             $wuxDialog().confirm({
               resetOnClose: true,
