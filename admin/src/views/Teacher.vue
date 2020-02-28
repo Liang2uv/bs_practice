@@ -11,14 +11,18 @@
         ></el-input>
         <el-button @click="onSearch" type="primary" size="mini">搜索</el-button>
       </div>
-      <el-button @click="onAdd" type="primary" size="mini">新增</el-button>
+      <div>
+        <el-button @click="onAdd" type="primary" size="mini">新增</el-button>
+        <el-button @click="onImport" type="primary" size="mini">批量导入</el-button>
+      </div>
     </el-header>
     <el-main>
       <!-- 表格 -->
       <el-table :data="tableData.list" :height="tableHeight" border>
-        <el-table-column label="序号" type="index" align="center" width="70"/>
+        <el-table-column label="序号" type="index" align="center" width="70" />
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
         <el-table-column prop="username" label="姓名" align="center"></el-table-column>
+        <el-table-column prop="number" label="工号" align="center"></el-table-column>
         <el-table-column prop="role" label="角色" align="center"></el-table-column>
         <el-table-column prop="collegeInfo.name" label="所属学院" align="center"></el-table-column>
         <el-table-column prop="status" label="状态" align="center">
@@ -92,11 +96,28 @@
         <el-button type="primary" @click="onSave">保存</el-button>
       </span>
     </el-dialog>
+    <el-dialog title="导入数据" :visible.sync="importDialogVisible" width="30%" center>
+      <div class="d-flex jc-center">
+        <el-button class="mr-3" @click="downMoban" type="success" size="mini">下载模板</el-button>
+        <el-upload
+          class="avatar-uploader"
+          :action="getImportUrl('au_teacher')"
+          :show-file-list="false"
+          :headers="getAuthHeaders()"
+          :limit="1"
+          :on-success="() => { $message.success('导入成功'); importDialogVisible = false; onSearch() }"
+          :on-error="err => $message.error(err.message)"
+        >
+          <el-button type="primary" size="mini" style="margin-right: 20px;">导入数据</el-button>
+        </el-upload>
+      </div>
+    </el-dialog>
   </el-container>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import { download } from '../utils/download'
 export default {
   name: 'teacher',
   data() {
@@ -105,6 +126,7 @@ export default {
       tableData: { total: 0, list: [] },
       model: {},
       dialogVisible: false,
+      importDialogVisible: false,
       tableHeight: 0,
       collegeList: [],
       rules: {
@@ -247,6 +269,14 @@ export default {
         }
       } catch (error) {
       }
+    },
+    // 批量导入教师信息
+    onImport() {
+      this.importDialogVisible = true
+    },
+    // 下载模板
+    downMoban() {
+      download('/moban/教师信息模板.xlsx', '教师信息模板.xlsx')
     }
   },
   created() {

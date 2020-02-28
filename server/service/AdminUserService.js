@@ -1,5 +1,6 @@
 const BaseService = require('./BaseService')
 const AdminUserModel = require('../model/AdminUser')
+const OrganizationModel = require('../model/Organization')
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const assert = require('http-assert')
@@ -7,6 +8,7 @@ const { JWT_SECRECT, WX_APPID, WX_SECRECT } = require('../conf/secrect')
 const { EXPIRESIN } = require('../conf/variable')
 const mongoose = require('mongoose')
 const axios = require('axios')
+const xlsx = require('node-xlsx')
 
 class AdminUserService extends BaseService {
   constructor() {
@@ -65,7 +67,7 @@ class AdminUserService extends BaseService {
     const { data } = await axios.get(wxApi)
     assert(data && data.openid, 422, 'code无效，获取信息失败')
     // 4. 将openid与账号一一对应，确保唯一
-    await this.model.updateMany({ openid: data.openid }, { openid: '' } )
+    await this.model.updateMany({ openid: data.openid }, { openid: '' })
     // 5. 将openid与账号绑定
     await this.model.updateObj(user._id, { openid: data.openid })
     // 6. 生成token
@@ -94,6 +96,112 @@ class AdminUserService extends BaseService {
     assert(!exist, 422, '手机号已被注册')
     const user = await this.model.updateObj(id, model)
     return await this.model.findByIDAndRef(user._id, 'schoolInfo collegeInfo gradeInfo majorInfo classInfo')
+  }
+  /**
+   * 批量导入学生信息
+   * @param {String} school 学校id
+   * @param {String} file 文件对象
+   */
+  async importStudent(school, file) {
+    const list = xlsx.parse(file.path);
+    const insertModels = []
+    const tableHeader = ['姓名', '学号', '手机号', '学院', '年级', '专业', '班级']
+    if (list[0].data.length <= 1) {
+      assert(false, 422, '请填写数据后导入')
+    }
+    for (let index = 0; index < list[0].data.length; index++) {
+      if (index === 0) { // 表头
+        if (list[0].data[index].join(',') !== tableHeader.join(',')) {
+          assert(false, 422, '模板格式错误')
+        }
+      } else {  // 实际数据
+        // 用户模型
+        const model = {
+          phone: list[0].data[index][2],
+          password: '123456',
+          username: list[0].data[index][0],
+          role: 'student',
+          number: list[0].data[index][1],
+          school
+        }
+        // 数据校验
+        if (list[0].data[index].length < tableHeader.length) {
+          assert(false, 422, `第${index + 1}行用户数据不完整`)
+        }
+        const exist = await this.model.findOne({ phone: model.phone })
+        assert(!exist, 422, `第${index + 1}行用户的手机号已被注册`)
+
+        const collegeModel = await OrganizationModel.findOne({ name: list[0].data[index][3], pid: school, layer: 1, type: 'college' }).lean()
+        assert(collegeModel, 422, `系统不存在第${index + 1}行用户的学院信息`)
+        model.college = collegeModel._id.toString()
+
+        const gradeModel = await OrganizationModel.findOne({ name: list[0].data[index][4], pid: model.college, layer: 2, type: 'grade' }).lean()
+        assert(gradeModel, 422, `系统不存在第${index + 1}行用户的年级信息`)
+        model.grade = gradeModel._id.toString()
+
+        const majorModel = await OrganizationModel.findOne({ name: list[0].data[index][5], pid: model.grade, layer: 3, type: 'major' }).lean()
+        assert(majorModel, 422, `系统不存在第${index + 1}行用户的专业信息`)
+        model.major = majorModel._id.toString()
+
+        const classModel = await OrganizationModel.findOne({ name: list[0].data[index][6], pid: model.major, layer: 4, type: 'class' }).lean()
+        assert(classModel, 422, `系统不存在第${index + 1}行用户的班级信息`)
+        model.class = classModel._id.toString()
+
+        // 加入模型
+        insertModels.push(model)
+      }
+    }
+    await this.model.insertMany(insertModels)
+    return {
+      message: '导入成功'
+    }
+  }
+  /**
+   * 批量导入教师信息
+   * @param {String} school 学校id
+   * @param {String} file 文件对象
+   */
+  async importTeacher(school, file) {
+    const list = xlsx.parse(file.path);
+    const insertModels = []
+    const tableHeader = ['姓名', '工号', '手机号', '学院']
+    if (list[0].data.length <= 1) {
+      assert(false, 422, '请填写数据后导入')
+    }
+    for (let index = 0; index < list[0].data.length; index++) {
+      if (index === 0) { // 表头
+        if (list[0].data[index].join(',') !== tableHeader.join(',')) {
+          assert(false, 422, '模板格式错误')
+        }
+      } else {  // 实际数据
+        // 用户模型
+        const model = {
+          phone: list[0].data[index][2],
+          password: '123456',
+          username: list[0].data[index][0],
+          role: 'teacher',
+          number: list[0].data[index][1],
+          school
+        }
+        // 数据校验
+        if (list[0].data[index].length < tableHeader.length) {
+          assert(false, 422, `第${index + 1}行用户数据不完整`)
+        }
+        const exist = await this.model.findOne({ phone: model.phone })
+        assert(!exist, 422, `第${index + 1}行用户的手机号已被注册`)
+
+        const collegeModel = await OrganizationModel.findOne({ name: list[0].data[index][3], pid: school, layer: 1, type: 'college' }).lean()
+        assert(collegeModel, 422, `系统不存在第${index + 1}行用户的学院信息`)
+        model.college = collegeModel._id.toString()
+
+        // 加入模型
+        insertModels.push(model)
+      }
+    }
+    await this.model.insertMany(insertModels)
+    return {
+      message: '导入成功'
+    }
   }
 }
 

@@ -21,3 +21,4 @@ export function addUser({ data }) {
 export function updateUser({ id, data }) {
   return request.put(`${uri}/${id}`, data)
 }
+

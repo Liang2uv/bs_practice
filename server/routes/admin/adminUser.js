@@ -1,6 +1,7 @@
 const express = require('express')
 const middlewareAuth = require('../../middlewares/auth')
 const AdminUserService = require('../../service/AdminUserService')
+const upload = require('../../conf/upload')
 
 const router = express.Router()
 
@@ -23,5 +24,14 @@ router.post('/', middlewareAuth(), async (req, res, next) => {
 router.put('/:id', middlewareAuth(), async (req, res, next) => {
   try { res.send(await AdminUserService.updateUser(req.params.id, req.body)) }catch(err) { next(err) }
 })
+// 批量导入学生信息
+router.post('/import/student', middlewareAuth(), upload.single('file'), async (req, res, next) => {
+  try { res.send(await AdminUserService.importStudent(req.user.school, req.file)) }catch(err) { next(err) }
+})
+// 批量导入教师信息
+router.post('/import/teacher', middlewareAuth(), upload.single('file'), async (req, res, next) => {
+  try { res.send(await AdminUserService.importTeacher(req.user.school, req.file)) }catch(err) { next(err) }
+})
+
 
 module.exports = router

@@ -46,16 +46,18 @@
     </div>
     <!-- 近七日出勤率 -->
     <div class="title">近七日出勤率%（注：出勤率=(已签到+已请假)/总人数）</div>
-    <div style="width: 100%; height: 400px;">
+    <div style="width: 100%; height: 400px;" v-if="lineOptions.xAxis.data.length !== 0">
       <v-chart theme="light" :options="lineOptions"/>
     </div>
+    <div style="height: 400px; line-height: 400px; text-align: center;" v-else class="text-grey fs-lg">暂无数据</div>
     <div class="d-flex">
       <!-- 今日出勤情况 -->
       <div style="width: 50%;">
         <div class="title">出勤情况（{{ query.date | dateformat('YYYY-MM-DD') }}）</div>
-        <div style="height: 300px;">
+        <div style="height: 300px;" v-if="pieOptions.series[0].data.length !== 0">
           <v-chart theme="light" :options="pieOptions"/>
         </div>
+        <div style="height: 300px; line-height: 300px; text-align: center;" v-else class="text-grey fs-lg">暂无数据</div>
       </div>
       <!-- 各班出勤对比 -->
       <div style="width: 50%;">
