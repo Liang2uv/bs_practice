@@ -119,6 +119,13 @@ Component({
           }
         }
       })
+    },
+    // 编辑资料
+    toEditInfo() {
+      wx.showToast({
+        title: '暂不支持编辑',
+        icon: 'none'
+      })
     }
   }
 })

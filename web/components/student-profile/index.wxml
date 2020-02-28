@@ -12,7 +12,7 @@
 				</view>
 			</view>
 			<view class="flex">
-				<view class="flex-sub padding text-center">
+				<view class="flex-sub padding text-center" bindtap="toEditInfo">
 					<view class="text-xxl">
 						<text class=" cuIcon-edit text-orange"></text>
 					</view>

@@ -212,7 +212,7 @@ class ScoreService extends BaseService {
       }
     }
     // 5. 总分数
-    scoreModel.totalScore = scoreModel.noteDayScore + scoreModel.noteWeekScore + scoreModel.noteMonthScore + scoreModel.noteSummaryScore + scoreModel.clockScore + scoreModel.companyScore
+    scoreModel.totalScore = (scoreModel.noteDayScore + scoreModel.noteWeekScore + scoreModel.noteMonthScore + scoreModel.noteSummaryScore + scoreModel.clockScore + scoreModel.companyScore).toFixed(2)
     // 6. 先清除之前已计算过的记录
     await ScoreModel.deleteMany({ student: scoreModel.student, mainPlan: scoreModel.mainPlan })
     // 7. 重新写入

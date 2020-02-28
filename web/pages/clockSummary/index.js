@@ -144,6 +144,7 @@ Page({
    */
   onShow: function (options) {
     const now = new Date()
+    now.setTime(now.getTime() - 24 * 3600 * 1000)
     this.setData({
       userInfo: getGlobalData('userInfo') || {},
       ['query.date']: [now.getFullYear(), now.getMonth(), now.getDate()],

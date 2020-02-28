@@ -65,9 +65,11 @@ Page({
         title: res.message,
         icon: 'none'
       })
-      wx.redirectTo({
-        url: '/pages/index/index',
-      })
+      setTimeout(() => {
+        wx.redirectTo({
+          url: '/pages/index/index',
+        })
+      }, 2000)
     }, err => {
       wx.showToast({
         title: err.message,

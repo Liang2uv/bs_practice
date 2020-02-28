@@ -15,7 +15,7 @@
   <view wx:for="{{ tabList[currentTab].list }}" wx:key="_id" class="padding-tb-sm">
     <wux-card full title="实习考评" actions="{{ item.status === 0 ? actions : [] }}" data-item="{{ item }}" bind:action="review">
       <view class="text-gray" catchtap="toDetail" data-id="{{ item._id }}" slot="extra">
-        去评价
+        查看详情
         <text class="cuIcon-right"></text>
       </view>
       <view slot="body" catchtap="toDetail" data-id="{{ item._id }}">
