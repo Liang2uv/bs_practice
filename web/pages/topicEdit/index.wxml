@@ -7,7 +7,7 @@
 <!-- 表单 -->
 	<!-- 内容 -->
 <view class="cu-form-group">
-	<textarea style="height:400rpx;" disabled="{{ !isEdit }}" value="{{ model.content }}" data-key="content" maxlength="-1" bindinput="inputChange" placeholder="写点什么吧"></textarea>
+	<textarea style="height:400rpx;" disabled="{{ !isEdit }}" value="{{ model.content }}" data-key="content" maxlength="{{ -1 }}" bindinput="inputChange" placeholder="写点什么吧"></textarea>
 </view>
 <wux-cell-group>
 	<wux-popup-select value="{{ model.circles }}" options="{{ circlesList }}" multiple bind:confirm="circlesPickerChange">

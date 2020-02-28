@@ -46,9 +46,7 @@
     "navigationBarTextStyle": "white"
   },
   "usingComponents": {
-    "cu-custom": "/components/colorui/components/cu-custom",
-    "i-toast": "/components/iview/toast/index",
-    "i-spin": "/components/iview/spin/index"
+    "cu-custom": "/components/colorui/components/cu-custom"
   },
   "plugins": {
     "chooseLocation": {

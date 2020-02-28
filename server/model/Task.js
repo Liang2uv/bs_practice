@@ -29,7 +29,7 @@ class TaskSchema extends BaseSchema {
       },
       workType: { // 休假类型：double-双休，single-单休，turns-大小周
         type: String,
-        enum: ['double', 'single', 'truns'],
+        enum: ['double', 'single', 'turns'],
         required: true
       },
       workTime: { // 上下班时间：[HH:mm:ss, HH:mm:ss]

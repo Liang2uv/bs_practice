@@ -15,11 +15,9 @@
 			</view>
 			<view class="cu-form-group"></view>
 			<view class="btn-area margin-top-xs">
-				<button formType="submit" class="bg-cyan" style="width:100%">登录</button>
+				<button formType="submit" class="bg-cyan" style="width:100%">{{ loginText }}</button>
 				<button bindtap="toRegister" class="cu-btn block line-cyan margin-tb" style="width:100%">注册</button>
 			</view>
 		</form>
 	</view>
-	<i-spin size="large" fix wx:if="{{ spinShow }}"></i-spin>
-  <i-toast id="toast" />
 </view>

@@ -1,10 +1,9 @@
 import { bind } from '../../api/adminUser'
-const { $Toast } = require('../../components/iview/base/index')
 const app = getApp()
 Page({
   data: {
     title: '',
-    spinShow: false
+    loginText: '登录'
   },
   onLoad: function (options) {
     this.setData({
@@ -14,11 +13,14 @@ Page({
   // 表单提交
   formSubmit(e) {
     if (!e.detail.value.password || !e.detail.value.phone) {
-      return $Toast({
-        content: '表单信息不完整',
-        type: 'warning'
+      wx.showToast({
+        title: '表单信息不完整',
+        icon: 'none'
       })
     }
+    this.setData({
+      loginText: '登录中...'
+    })
     wx.login({
       success: res => {
         const data = { code: res.code, ...e.detail.value }
@@ -29,17 +31,26 @@ Page({
           wx.redirectTo({
             url: '/pages/index/index',
           })
+          this.setData({
+            loginText: '登录'
+          })
         }, err => {
-          $Toast({
-            content: err.message,
-            type: 'error'
+          wx.showToast({
+            title: err.message,
+            icon: 'none'
+          })
+          this.setData({
+            loginText: '登录'
           })
         })
       },
       fail: () => {
-        $Toast({
-          content: '登录失败',
-          type: 'error'
+        wx.showToast({
+          title: '登录失败',
+          icon: 'none'
+        })
+        this.setData({
+          loginText: '登录'
         })
       }
     })

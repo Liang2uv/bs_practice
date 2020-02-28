@@ -4,7 +4,7 @@
 </cu-custom>
 <form bindsubmit="formSubmit">
   <view class="cu-form-group">
-		<textarea auto-height maxlength="-1" value="{{ model.content }}" name="content" placeholder="评价意见（不少于100字）"></textarea>
+		<textarea auto-height maxlength="{{ -1 }}" value="{{ model.content }}" name="content" placeholder="评价意见（不少于100字）"></textarea>
 	</view>
   <view class="cu-form-group">
 		<view class="title">成绩</view>

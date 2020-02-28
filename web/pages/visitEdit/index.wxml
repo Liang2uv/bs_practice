@@ -8,7 +8,7 @@
 <form>
 	<!-- 走访记录 -->
   <view class="cu-form-group">
-    <textarea wx:if="{{ isEdit }}" style="height:400rpx;" value="{{ model.content }}" data-key="content" bindinput="inputChange" placeholder="请填写走访记录"></textarea>
+    <textarea wx:if="{{ isEdit }}" maxlength="{{ -1 }}" style="height:400rpx;" value="{{ model.content }}" data-key="content" bindinput="inputChange" placeholder="请填写走访记录"></textarea>
     <view wx:else style="height:400rpx;">{{ model.content }}</view>
   </view>
   <!-- 走访学生 -->
