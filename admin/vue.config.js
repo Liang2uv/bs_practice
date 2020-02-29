@@ -1,12 +1,13 @@
 const path = require('path')
+const config = require('./src/conf/config')
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/admin/'
-    : '/',
+    ? config.build.assetsPublicPath
+    : config.env.assetsPublicPath,
   chainWebpack: config => {
     config.resolve.alias
       .set('@', resolve('src'))

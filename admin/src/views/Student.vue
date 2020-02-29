@@ -122,6 +122,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { download } from '../utils/download'
+const config = require('../../src/conf/config')
 export default {
   name: 'student',
   data() {
@@ -308,7 +309,8 @@ export default {
     },
     // 下载模板
     downMoban() {
-      download('/moban/学生信息模板.xlsx', '学生信息模板.xlsx')
+      const pre = config.environment === 'production' ? config.build.assetsPublicPath : config.env.assetsPublicPath
+      download(`${pre}moban/学生信息模板.xlsx`, '学生信息模板.xlsx')
     }
   },
   created() {
