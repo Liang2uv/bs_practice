@@ -3,12 +3,6 @@
 	font-size: 30rpx;
 	margin-bottom: 20rpx;
 }
-button:not([size='mini']) {
-  min-height: auto;
-  width: auto;
-  margin-left: auto;
-  margin-right: auto;
-}
 .reply-bar {
 	position: fixed;
 	bottom: 0rpx;

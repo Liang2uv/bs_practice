@@ -9,7 +9,7 @@
     <text class='cuIcon-titles text-orange '></text> {{ title }}
   </view>
   <view class='action'>
-    <button class="cu-btn bg-cyan" catchtap="toAdd">去添加</button>
+    <button size="mini" class="cu-btn bg-cyan" catchtap="toAdd">去添加</button>
   </view>
 </view>
 <view class="padding flex text-gray">

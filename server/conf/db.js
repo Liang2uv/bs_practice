@@ -23,7 +23,7 @@ if (env === 'production') {
     host: '127.0.0.1',
     user: null,
     password: null,
-    port: '3306',
+    port: '27017',
     database: 'bs-practice'
   }
 }

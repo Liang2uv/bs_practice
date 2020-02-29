@@ -99,7 +99,7 @@ Component({
       const index = this.data.currentTab
       const currentCircleId = this.data.circleList[index]._id
       const params = {
-        resource: 'circletopics',
+        resource: 'circle_topics',
         data: {
           circle: currentCircleId,
           refs: 'userInfo|topicInfo',

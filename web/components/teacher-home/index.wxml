@@ -4,7 +4,7 @@
 </cu-custom>
 <!-- 基本信息 -->
 <view class="basis-card bg-cyan">
-	<view class="text-lg padding-tb-xs">{{ userInfo.username }}老师，您好</view>
+	<view class="text-xl padding-tb-xs">{{ userInfo.username }}老师，您好</view>
   <view class="text-df padding-tb-xs">学校：{{ userInfo.schoolInfo.name }}</view>
   <view class="text-df padding-tb-xs">学院：{{ userInfo.collegeInfo.name }}</view>
 </view>

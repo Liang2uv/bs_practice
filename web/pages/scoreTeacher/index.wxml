@@ -14,9 +14,9 @@
     </wux-popup-select>
   </wux-cell-group>
   <view class="flex justify-around padding-tb-sm bg-white solid-bottom">
-    <button formType="submit" class="cu-btn bg-cyan">筛选</button>
-    <button bindtap="updateData" class="cu-btn bg-cyan">更新</button>
-    <button bindtap="exportData" class="cu-btn bg-cyan">导出</button>
+    <button size="mini" formType="submit" class="cu-btn bg-cyan">筛选</button>
+    <button size="mini" bindtap="updateData" class="cu-btn bg-cyan">更新</button>
+    <button size="mini" bindtap="exportData" class="cu-btn bg-cyan">导出</button>
   </view>
 </form>
 <view class="padding-xs"></view>

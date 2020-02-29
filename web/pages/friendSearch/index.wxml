@@ -5,14 +5,14 @@
 </cu-custom>
 <wux-dialog id="wux-dialog" />
 <!-- 搜索栏 -->
-<form bindsubmit="searchClick" bindreset="formReset">
+<form bindsubmit="searchClick">
   <view class="cu-bar search bg-white">
     <view class="search-form round">
       <text class="cuIcon-search"></text>
-      <input type="text" placeholder="根据手机号搜索" name="search" confirm-type="搜索" value="{{ search }}"></input>
+      <input type="text" placeholder="根据手机号搜索" name="search" confirm-type="search" value="{{ search }}"></input>
     </view>
     <view class="action">
-      <button class="cu-btn bg-cyan shadow-blur round" formType="submit">搜索</button>
+      <button size="mini" class="cu-btn bg-cyan shadow-blur round" formType="submit">搜索</button>
     </view>
   </view>
 </form>

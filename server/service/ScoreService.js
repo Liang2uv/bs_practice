@@ -1,4 +1,4 @@
-const BaseService = require('./baseService')
+const BaseService = require('./BaseService')
 const ScoreModel = require('../model/Score')
 const MainPlanModel = require('../model/MainPlan')
 const TaskModel = require('../model/Task')
@@ -348,7 +348,7 @@ class ScoreService extends BaseService {
     })
     const filename = `学生成绩${new Date().getTime()}.xlsx`
     fs.writeFileSync(path.resolve(__dirname, `../tmp/${filename}`), xlsx.build(xlsxObj), 'binary')
-    return { url: `${BASE_URL}tmp/${filename}`, filename }
+    return { url: `${BASE_URL}download/${filename}`, filename }
   }
 }
 

@@ -1,4 +1,4 @@
-const BaseService = require('./baseService')
+const BaseService = require('./BaseService')
 const OrganizationModel = require('../model/Organization')
 const assert = require('http-assert')
 const getTree = require('../utils/getTree')

@@ -1,4 +1,4 @@
-export const baseURL = 'http://192.168.43.80:3002/api'
+export const baseURL = 'https://bs.liangbb.top/api'
 
 export const statusCode = {
   ok: 200,

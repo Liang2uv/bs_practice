@@ -77,6 +77,6 @@
     <input type="text" placeholder="{{ placeholder }}" confirm-type="done" bindinput="inputChange" value="{{ content }}"></input>
   </view>
   <view class="action">
-    <button bindtap="addComment" class="cu-btn bg-green shadow-blur round">回复</button>
+    <button size="mini" bindtap="addComment" class="cu-btn bg-green shadow-blur round">回复</button>
   </view>
 </view>

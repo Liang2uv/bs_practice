@@ -4,14 +4,14 @@
 	<view slot="content">搜索圈子</view>
 </cu-custom>
 <!-- 搜索栏 -->
-<form bindsubmit="searchClick" bindreset="formReset">
+<form bindsubmit="searchClick">
   <view class="cu-bar search bg-white">
     <view class="search-form round">
       <text class="cuIcon-search"></text>
-      <input type="text" placeholder="搜索圈子名称" name="search" confirm-type="搜索" value="{{ search }}"></input>
+      <input type="text" placeholder="搜索圈子名称" name="search" confirm-type="search" value="{{ search }}"></input>
     </view>
     <view class="action">
-      <button class="cu-btn bg-cyan shadow-blur round" formType="submit">搜索</button>
+      <button size="mini" class="cu-btn bg-cyan shadow-blur round" formType="submit">搜索</button>
     </view>
   </view>
 </form>

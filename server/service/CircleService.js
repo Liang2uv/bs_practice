@@ -1,4 +1,4 @@
-const BaseService = require('./baseService')
+const BaseService = require('./BaseService')
 const CircleModel = require('../model/Circle')
 const CircleUserModel = require('../model/CircleUser')
 const assert = require('http-assert')

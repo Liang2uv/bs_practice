@@ -1,4 +1,4 @@
-const BaseService = require('./baseService')
+const BaseService = require('./BaseService')
 const FriendModel = require('../model/Friend')
 const assert = require('http-assert')
 class FriendService extends BaseService {

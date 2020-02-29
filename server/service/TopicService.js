@@ -1,4 +1,4 @@
-const BaseService = require('./baseService')
+const BaseService = require('./BaseService')
 const TopicModel = require('../model/Topic')
 const CircleTopicModel = require('../model/CircleTopic')
 class TopicService extends BaseService {

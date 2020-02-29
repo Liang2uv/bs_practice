@@ -23,10 +23,10 @@
         </view>
       </view>
       <view class="action" wx:if="{{ item.status === 0 }}">
-        <button class="cu-btn round bg-green shadow" data-item="{{ item }}" bindtap="agree">同意加入</button>
+        <button size="mini" class="cu-btn round bg-green shadow" data-item="{{ item }}" bindtap="agree">同意加入</button>
       </view>
       <view class="action" wx:if="{{ item.status === 1 }}">
-        <button class="cu-btn round bg-green shadow" data-item="{{ item }}" bindtap="getOut">移除</button>
+        <button size="mini" class="cu-btn round bg-green shadow" data-item="{{ item }}" bindtap="getOut">移除</button>
       </view>
     </view>
   </view>

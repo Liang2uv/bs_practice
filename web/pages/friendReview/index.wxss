@@ -1,6 +1,0 @@
-button:not([size='mini']) {
-  min-height: auto;
-  width: auto;
-  margin-left: auto;
-  margin-right: auto;
-}

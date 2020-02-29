@@ -1,4 +1,4 @@
-const BaseService = require('./baseService')
+const BaseService = require('./BaseService')
 const MessageModel = require('../model/Message')
 const assert = require('http-assert')
 const mongoose = require('mongoose')

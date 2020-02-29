@@ -1,4 +1,4 @@
-const BaseService = require('./baseService')
+const BaseService = require('./BaseService')
 const CircleTopicModel = require('../model/CircleTopic')
 class CircleTopicService extends BaseService {
   constructor() {

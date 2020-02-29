@@ -9,7 +9,10 @@ const cors = require('cors')
 // 创建服务器
 const app = express()
 
-app.use(cors())
+// 开发环境 / 线上环境 的跨域处理
+if (process.env.NODE_ENV === 'dev') { 
+  app.use(cors())
+}
 
 // 初始化mongo数据库
 require('./db/mongo')(app)
@@ -55,5 +58,6 @@ if (ENV !== 'production') {
     stream: writeStream
   }))
 }
+
 
 module.exports = app

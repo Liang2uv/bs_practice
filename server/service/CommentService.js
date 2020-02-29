@@ -1,4 +1,4 @@
-const BaseService = require('./baseService')
+const BaseService = require('./BaseService')
 const CommentModel = require('../model/Comment')
 const TopicModel = require('../model/Topic')
 const MessageModel = require('../model/Message')

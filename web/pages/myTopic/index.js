@@ -24,7 +24,7 @@ Page({
   // 获取列表
   getList() {
     const params = {
-      resource: 'circletopics',
+      resource: 'circle_topics',
       data: {
         circle: this.data.circleId,
         user: this.data.userInfo._id,

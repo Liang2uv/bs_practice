@@ -1,4 +1,4 @@
-const BaseService = require('./baseService')
+const BaseService = require('./BaseService')
 const DayOffModel = require('../model/DayOff')
 const DayRecordModel = require('../model/DayRecord')
 const assert = require('http-assert')

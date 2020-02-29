@@ -31,7 +31,7 @@
   <view class="cu-form-group">
     <view class="title">验证码</view>
     <input value="{{ model.code }}" name="code" placeholder="请填写验证码"></input>
-    <button bindtap="getCode" class="cu-btn bg-green shadow">验证码</button>
+    <button size="mini" bindtap="getCode" class="cu-btn bg-green shadow">验证码</button>
   </view>
   <view class="cu-form-group"></view>
   <view class="btn-area padding">

@@ -1,4 +1,4 @@
-const BaseService = require('./baseService')
+const BaseService = require('./BaseService')
 const CircleUserModel = require('../model/CircleUser')
 const CircleModel = require('../model/Circle')
 const AdminUserModel = require('../model/AdminUser')

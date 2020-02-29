@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -21,7 +21,7 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.9.4",
+	"libVersion": "2.10.2",
 	"appid": "wxb35773266542fe4a",
 	"projectname": "web",
 	"debugOptions": {
@@ -128,6 +128,13 @@
 					"id": -1,
 					"name": "pages/rate/index",
 					"pathName": "pages/rate/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/friendSearch/index",
+					"pathName": "pages/friendSearch/index",
 					"scene": null
 				}
 			]

@@ -1,4 +1,4 @@
-const BaseService = require('./baseService')
+const BaseService = require('./BaseService')
 const DayRecordModel = require('../model/DayRecord')
 const assert = require('http-assert')
 class DayRecordService extends BaseService {

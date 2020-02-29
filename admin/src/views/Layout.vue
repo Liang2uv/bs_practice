@@ -86,7 +86,7 @@ export default {
 @import "../assets/scss/_variable.scss";
 .main-container {
   height: 100vh;
-  min-width: 700px;
+  min-width: 1280px;
   overflow: auto;
 }
 .el-aside {
