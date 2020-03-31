@@ -135,6 +135,13 @@
 					"id": -1,
 					"name": "pages/friendSearch/index",
 					"pathName": "pages/friendSearch/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/clockSummary/index",
+					"pathName": "pages/clockSummary/index",
 					"scene": null
 				}
 			]

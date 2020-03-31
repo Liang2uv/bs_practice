@@ -131,6 +131,7 @@ Page({
     lineShow: false,
     pieShow: false,
     barShow: false,
+    dateShow: false,
     mainPlanList: [],
     mainPlanDisplay: '请选择',
     dateDisplay: '请选择',
@@ -194,6 +195,12 @@ Page({
       dateDisplay: e.detail.label
     })
     this.getOneDayClock()
+  },
+  // 日期选择器显隐状态改变
+  pickerDateVisibleChange(e) {
+    this.setData({
+      dateShow: e.detail.visible
+    })
   },
   // 获取近七日出勤率
   getSevenDayClock() {

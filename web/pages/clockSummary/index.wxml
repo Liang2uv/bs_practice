@@ -7,7 +7,7 @@
   <wux-popup-select value="{{ query.mainPlan }}" options="{{ mainPlanList }}" bind:confirm="pickerMainPlanChange">
     <wux-cell title="实习计划" is-link extra="{{ mainPlanDisplay }}"></wux-cell>
   </wux-popup-select>
-  <wux-date-picker mode="date" value="{{ query.date }}" lang="zh_CN" bind:confirm="pickerDateChange">
+  <wux-date-picker mode="date" value="{{ query.date }}" lang="zh_CN" bind:confirm="pickerDateChange" bind:visibleChange="pickerDateVisibleChange">
     <wux-cell title="日期" is-link extra="{{ dateDisplay }}"></wux-cell>
   </wux-date-picker>
 </wux-cell-group>
@@ -18,7 +18,7 @@
   </view>
 </view>
 <scroll-view scroll-x class="bg-white">
-  <view class="container-line" wx:if="{{ lineShow }}">
+  <view class="container-line" wx:if="{{ lineShow }}" style="{{ dateShow ? 'display: none;' : 'display: block;' }}">
     <ec-canvas id="mychart-dom-line" canvas-id="mychart-line" ec="{{ ecLine }}"></ec-canvas>
   </view>
   <view wx:else class="text-lg text-gray text-center" style="height: 500rpx; line-height: 500rpx;">
@@ -32,7 +32,7 @@
   </view>
 </view>
 <scroll-view scroll-x class="bg-white">
-  <view class="container-pie" wx:if="{{ pieShow }}">
+  <view class="container-pie" wx:if="{{ pieShow }}" style="{{ dateShow ? 'display: none;' : 'display: block;' }}">
     <ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ ecPie }}"></ec-canvas>
   </view>
   <view wx:else class="text-lg text-gray text-center" style="height: 400rpx; line-height: 400rpx;">
@@ -46,7 +46,7 @@
   </view>
 </view>
 <scroll-view scroll-x class="bg-white">
-  <view class="container-bar" wx:if="{{ barShow }}">
+  <view class="container-bar" wx:if="{{ barShow }}" style="{{ dateShow ? 'display: none;' : 'display: block;' }}">
     <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ecBar }}"></ec-canvas>
   </view>
   <view wx:else class="text-lg text-gray text-center" style="height: 500rpx; line-height: 500rpx;">
