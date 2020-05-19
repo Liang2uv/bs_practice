@@ -23,7 +23,7 @@
 		</view>
 	</view>
   <!-- 预警消息 -->
-  <view data-title="预警消息" data-type="warning" bindtap="toMessageDetail" class="cu-item ">
+  <view data-title="预警消息" data-type="warning" bindtap="toMessageDetail" class="cu-item " wx:if="{{ userInfo.role === 'student' }}">
 		<view class="cu-avatar lg round margin-right bg-orange light">
 			<text>警</text>
 		</view>

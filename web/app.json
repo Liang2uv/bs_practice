@@ -29,7 +29,6 @@
     "pages/myTopic/index",
     "pages/visitEdit/index",
     "pages/register/index",
-    "pages/trainees/index",
     "pages/friend/index",
     "pages/friendSearch/index",
     "pages/friendReview/index",
@@ -37,7 +36,8 @@
     "pages/rateEdit/index",
     "pages/scoreStudent/index",
     "pages/scoreTeacher/index",
-    "pages/clockSummary/index"
+    "pages/clockSummary/index",
+    "pages/updatePwd/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

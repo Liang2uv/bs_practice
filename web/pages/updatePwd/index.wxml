@@ -1,0 +1,17 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">修改密码</view>
+</cu-custom>
+<form bindsubmit="formSubmit">
+  <view class="cu-form-group">
+		<view class="title">新密码</view>
+		<input type="password" value="{{ pass }}" name="pass"></input>
+	</view>
+  <view class="cu-form-group">
+		<view class="title">确认密码</view>
+		<input type="password" value="{{ checkPass }}" name="checkPass"></input>
+	</view>
+  <view class="btn-area padding">
+    <button formType="submit" class="bg-cyan" style="width:100%">提交</button>
+  </view>
+</form>

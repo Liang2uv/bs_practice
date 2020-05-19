@@ -32,6 +32,12 @@
 	<!-- 列表 -->
 	<view class="cu-list menu sm-border card-menu margin-top">
 		<view class="cu-item arrow">
+			<navigator class="content" hover-class="none" url="/pages/updatePwd/index">
+				<text class="cuIcon-edit text-orange"></text>
+				<text class="text-grey">修改密码</text>
+			</navigator>
+		</view>
+		<view class="cu-item arrow">
 			<navigator class="content" hover-class="none" url="/pages/errorPage/index">
 				<text class="cuIcon-text text-orange"></text>
 				<text class="text-grey">意见反馈</text>

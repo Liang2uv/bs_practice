@@ -1,6 +1,7 @@
 import { crudListByFilterAndRefs, crudOneByIdAndRefs } from '../../api/crud'
 import { getGlobalData, assert, dateCompare } from '../../utils/util'
 import { downloadFile, uploadImage } from '../../utils/file'
+import { getNowZero } from '../../utils/date'
 import { MAP_KEY, MAP_REFERER } from '../../conf/map'
 import { $wuxToast, $wuxDialog } from '../../components/wux-weapp/index'
 import { getWorkDays, addTask } from '../../api/task'
@@ -34,8 +35,8 @@ Page({
       mainPlanInfo: { name: '', times: 0 },
       teacher: '',
       teacherInfo: { username: '' },
-      startAt: "",
-      endAt: "",
+      startAt: getNowZero(),
+      endAt: getNowZero(),
       workType: '',
       workTime: ['', ''],
       workDays: 0,
@@ -301,6 +302,6 @@ Page({
     assert(this.data.model.address.name, '请选择实习地点')
     assert(this.data.model.workType, '请选择休假类型')
     assert(this.data.model.contact, '请填写实习联系人')
-    assert(this.data.model.contactPhone, '请填写联系人电话')
+    assert(this.data.model.contactPhone && /^1[3-9]\d{9}$/.test(this.data.model.contactPhone), '请填写正确的联系人电话')
   }
 })

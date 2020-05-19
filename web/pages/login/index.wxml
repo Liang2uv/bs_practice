@@ -8,7 +8,7 @@
 	<view class="padding-xl">
 		<form bindsubmit="formSubmit" class="">
 			<view class="cu-form-group">
-				<input name="phone" placeholder="输入手机号"></input>
+				<input name="phone" placeholder="输入手机号" type="number"></input>
 			</view>
 			<view class="cu-form-group">
 				<input name="password" type="password" placeholder="输入密码"></input>

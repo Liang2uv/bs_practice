@@ -16,3 +16,14 @@ export function getDateIn(date, dateArr) {
     return 1
   }
 }
+/**
+ * 获取当前日期零时的毫秒数
+ */
+export function getNowZero() {
+  const d = new Date()
+  d.setHours(0)
+  d.setMinutes(0)
+  d.setSeconds(0)
+  d.setMilliseconds(0)
+  return d.getTime()
+}

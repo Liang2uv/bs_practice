@@ -1,4 +1,5 @@
 import { crudOneByIdAndRefs, crudUpdate } from '../../api/crud'
+import { assert } from '../../utils/util'
 Page({
 
   /**
@@ -47,40 +48,36 @@ Page({
   },
   // 表单提交
   formSubmit(e) {
-    const { value } = e.detail
-    const score = parseInt(value.score)
-    if (isNaN(score) || score < 0 || score > 100) {
-      wx.showToast({
-        title: '分数不合法',
-        icon: 'none'
-      })
-    }
-    if (!value.content || value.content === '' || value.content.length < 100) {
-      wx.showToast({
-        title: '评价意见不完整',
-        icon: 'none'
-      })
-    }
-    const params = {
-      resource: 'rates',
-      id: this.data.id,
-      data: {
-        content: value.content,
-        score,
-        status: 1
+    try {
+      const { value } = e.detail
+      const score = parseInt(value.score)
+      assert(!isNaN(score) && score >= 0 && score <= 100, '分数不合法')
+      assert(value.content && value.content !== '' && value.content.length >= 100, '评价意见不完整')
+      const params = {
+        resource: 'rates',
+        id: this.data.id,
+        data: {
+          content: value.content,
+          score,
+          status: 1
+        }
       }
+      crudUpdate(params).then(() => {
+        wx.showToast({
+          title: '评价成功',
+          icon: 'none'
+        })
+      }, err => {
+        wx.showToast({
+          title: err.message,
+          icon: 'none'
+        })
+      })
+    } catch (error) {
+      wx.showToast({
+        title: error.message,
+        icon: 'none'
+      })
     }
-    crudUpdate(params).then(() => {
-      wx.showToast({
-        title: '评价成功',
-        icon: 'none'
-      })
-      wx.navigateBack()
-    }, err => {
-      wx.showToast({
-        title: err.message,
-        icon: 'none'
-      })
-    })
   }
 })

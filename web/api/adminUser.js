@@ -15,3 +15,8 @@ export function getUserInfoByToken() {
 export function addUser({ data }) {
   return request('post', '/web/admin_users/register', data)
 }
+
+// 修改用户信息
+export function updateUser({ id, data }) {
+  return request('put', `/admin/admin_users/${id}`, data)
+}

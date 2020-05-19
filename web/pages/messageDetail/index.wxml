@@ -4,7 +4,7 @@
   <view slot="content">{{ title }}</view>
 </cu-custom>
 <view class="padding-top-sm padding-lr" wx:for="{{ list }}" wx:key="_id" data-remark="{{ item.remark }}" bindtap="toRef">
-  <wux-card thumb="../../../assets/images/message.png" title="系统消息" extra="{{ item.sendInfo ? item.sendInfo.username : '' }}">
+  <wux-card thumb="../../../assets/images/message.png" title="{{ title }}" extra="{{ item.sendInfo ? item.sendInfo.username : '' }}">
     <view slot="body">{{ item.content }}</view>
     <view slot="footer">{{ tools.DateFormat(item.updatedAt, 'yyyy年MM月dd日 HH:mm:ss') }}</view>
   </wux-card>
