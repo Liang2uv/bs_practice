@@ -9,8 +9,8 @@ const router = expresss.Router({
 
 // 上传到COS
 const cos = new COS({
-  SecretId: 'AKIDRg7KHyQhgPt87IQyUklW1ZruhEW29GzT',
-  SecretKey: 'OXRHtFRO5yaw5zf4E9rLZaMzNWR7XigO'
+  SecretId: '',
+  SecretKey: ''
 })
 const uploadCos = function (req, res, next) {
   cos.sliceUploadFile({
